@@ -7,7 +7,7 @@ import { ScrollArea } from "@/components/shadcn/scroll-area";
 import { useTheme } from "@/contexts/ThemeContext";
 
 export default function Main({ children }: { children: React.ReactNode }) {
-  const { isDark, toggleTheme } = useTheme();
+  const { isDark } = useTheme();
 
   return (
     <NextUIProvider>
@@ -20,7 +20,7 @@ export default function Main({ children }: { children: React.ReactNode }) {
         <div
           className={`flex flex-row h-screen ${
             isDark ? "dark" : ""
-          } bg-background text-foreground max-h-screen min-h-screen w-[85vw]`}
+          } bg-background text-foreground max-h-screen min-h-screen w-[90vw]`}
         >
           <Sidebar />
           <ScrollArea className="w-full">{children}</ScrollArea>

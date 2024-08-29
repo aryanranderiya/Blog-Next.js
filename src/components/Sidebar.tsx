@@ -47,7 +47,7 @@ export function SidebarItem({ label, href }: { label: string; href: string }) {
 
   return (
     <div
-      className="flex justify-between py-[5px] cursor-pointer"
+      className="flex justify-between py-[6px] pr-[13px] cursor-pointer"
       onMouseOver={HandleMouseOver}
       onClick={() => router.push(href)}
       onMouseOut={HandleMouseOut}
@@ -55,7 +55,7 @@ export function SidebarItem({ label, href }: { label: string; href: string }) {
       <span
         className={`${
           isHovered || isActive ? "text-[#00bbff]" : "text-foreground-500"
-        } transition-all text-sm ${isActive ? "font-semibold" : ""}`}
+        } transition-colors text-md ${isActive ? "font-semibold" : ""}`}
       >
         {label}
       </span>
@@ -140,25 +140,13 @@ const posts: BlogPost[] = [
     key: "blog13",
     label: "Understanding JavaScript Closures",
   },
-  {
-    key: "blog14",
-    label: "Building RESTful APIs with FastAPI",
-  },
-  {
-    key: "blog15",
-    label: "Using Docker for Development",
-  },
-  {
-    key: "blog16",
-    label: "Introduction to Serverless Architecture",
-  },
 ];
 
 export default function Sidebar() {
   const { isDark } = useTheme();
 
   return (
-    <div className="flex w-[300px] pb-[90px] min-w-[300px] border-r-1 border-foreground-200 p-[1em] flex-col bg-background text-foreground ">
+    <div className="flex w-[300px] pb-[90px] min-w-[300px] border-r-1 border-foreground-200 p-[1em] flex-col bg-background text-foreground">
       <ScrollArea>
         <Accordion
           showDivider={false}
