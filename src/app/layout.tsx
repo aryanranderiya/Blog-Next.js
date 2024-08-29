@@ -5,6 +5,7 @@ import * as React from "react";
 import { NextUIProvider } from "@nextui-org/react";
 import Navbar from "@/components/Navbar";
 import Sidebar from "@/components/Sidebar";
+import { ScrollArea } from "@/components/shadcn/scroll-area";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -20,12 +21,12 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={inter.className + "h-screen overflow-y-hidden"}>
+      <body className={`${inter.className} h-screen overflow-hidden`}>
         <NextUIProvider>
           <Navbar />
-          <div className="flex flex-row dark">
+          <div className="flex flex-row dark h-screen max-h-screen min-h-screen">
             <Sidebar />
-            {children}
+            <ScrollArea>{children}</ScrollArea>
           </div>
         </NextUIProvider>
       </body>
