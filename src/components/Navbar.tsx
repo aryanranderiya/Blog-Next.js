@@ -9,10 +9,17 @@ import {
   BlogIcon,
 } from "@/components/icons";
 import { Switch } from "@nextui-org/switch";
+import { useTheme } from "@/contexts/ThemeContext";
 
 export default function Navbar() {
+  const { isDark, toggleTheme } = useTheme();
+
   return (
-    <div className="w-screen p-[1em] px-[1.5em] flex justify-between items-center border-b-1 border-foreground-700">
+    <div
+      className={`w-screen p-[1em] px-[1.5em] flex justify-between items-center border-b-1 border-foreground-200 ${
+        isDark ? "dark" : ""
+      } bg-background text-foreground `}
+    >
       <div className="font-bold flex items-center gap-3">
         <img
           src="https://github.com/aryanranderiya.png"
@@ -29,6 +36,7 @@ export default function Navbar() {
         <Switch
           defaultSelected
           color="primary"
+          onValueChange={toggleTheme}
           thumbIcon={({
             isSelected,
             className,
@@ -44,10 +52,10 @@ export default function Navbar() {
           }
         />
         <Input
-          size="sm"
-          className="dark"
+          radius="full"
+          variant="faded"
           placeholder="Search"
-          startContent={<Search01Icon color="white" width={"20"} />}
+          startContent={<Search01Icon color="foreground" width={"20"} />}
         />
       </div>
     </div>

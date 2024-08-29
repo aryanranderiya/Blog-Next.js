@@ -4,7 +4,7 @@ import { ArrowUpRight } from "@/components/icons";
 import { Chip } from "@nextui-org/react";
 import { useState } from "react";
 
-function HoveredChip({
+export function HoveredChip({
   text,
   color,
   bolded,
@@ -33,7 +33,11 @@ function HoveredChip({
         <ArrowUpRight
           width={18}
           color={
-            isHovered ? (color === "default" ? "#00bbff" : "black") : "white"
+            isHovered
+              ? color === "default"
+                ? "#00bbff"
+                : "foreground"
+              : "foreground"
           }
           className={`${
             isHovered ? "-translate-y-[3px]" : ""
@@ -50,7 +54,7 @@ function HoveredChip({
 
 export default function Home() {
   return (
-    <main className="flex min-h-screen h-fit flex-col gap-7 px-24 py-20 overflow-x-scroll">
+    <main className="flex min-h-screen h-fit flex-col gap-7 px-24 pt-20">
       <div className="font-semibold text-4xl flex gap-3 items-center flex-wrap">
         <span className="text-nowrap">Welcome to my Blog!</span>
         <img
@@ -78,11 +82,10 @@ function FeaturedPosts() {
   return (
     <div className="flex flex-col gap-2 pt-16 min-h-fit">
       <span className="font-semibold text-3xl">Featured Posts</span>
-      <div className="flex gap-3 flex-wrap">
-        <BlogCard />
-        <BlogCard />
-        <BlogCard />
-        <BlogCard />
+      <div className="flex gap-3 flex-wrap pt-4">
+        {new Array(5).fill(null).map((_, index) => (
+          <BlogCard />
+        ))}
       </div>
     </div>
   );
@@ -92,11 +95,10 @@ function LatestPosts() {
   return (
     <div className="flex flex-col gap-3 pt-8 min-h-fit">
       <span className="font-semibold text-3xl">Latest Posts</span>
-      <div className="flex gap-3 flex-wrap">
-        <BlogCard />
-        <BlogCard />
-        <BlogCard />
-        <BlogCard />
+      <div className="flex gap-3 flex-wrap pt-4">
+        {new Array(5).fill(null).map((_, index) => (
+          <BlogCard />
+        ))}
       </div>
     </div>
   );

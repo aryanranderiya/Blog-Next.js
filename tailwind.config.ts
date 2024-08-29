@@ -29,6 +29,15 @@ const config: Config = {
             focus: "#00BBFF",
           },
         },
+        light: {
+          colors: {
+            primary: {
+              DEFAULT: "#00BBFF",
+              foreground: "#000000",
+            },
+            focus: "#00BBFF",
+          },
+        },
       },
     }),
   ],
