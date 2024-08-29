@@ -18,53 +18,65 @@ export default function Navbar() {
 
   return (
     <div
-      className={`w-screen p-[1em] px-[1.5em] flex justify-between items-center border-b-1 border-foreground-200 ${
+      className={`flex justify-center w-screen ${
         isDark ? "dark" : ""
-      } bg-background text-foreground `}
+      } bg-background border-b-1 border-foreground-200`}
     >
-      <Link href={"/"} className="font-bold flex items-center gap-3">
-        <Image
-          src="https://github.com/aryanranderiya.png"
-          alt="Blog Logo"
-          className="w-[30px]"
-          width={30}
-          height={30}
-        />
-        Aryan's Blog
-      </Link>
-
-      <div className="flex gap-3 items-center">
-        <Link href={"/"}>
-          <HomeIcon color="foreground" width={35} className="cursor-pointer" />
-        </Link>
-        <Link href={"/allposts"}>
-          <BlogIcon color="foreground" width={35} className="cursor-pointer" />
+      <div
+        className={`w-[90vw] p-[1em] px-[1.5em] flex justify-between items-center bg-background text-foreground `}
+      >
+        <Link href={"/"} className="font-bold flex items-center gap-3">
+          <Image
+            src="https://github.com/aryanranderiya.png"
+            alt="Blog Logo"
+            className="w-[30px]"
+            width={30}
+            height={30}
+          />
+          Aryan's Blog
         </Link>
 
-        <Switch
-          defaultSelected
-          color="primary"
-          onValueChange={toggleTheme}
-          thumbIcon={({
-            isSelected,
-            className,
-          }: {
-            isSelected: boolean;
-            className: string;
-          }) =>
-            isSelected ? (
-              <MoonIcon className={className} width={17} />
-            ) : (
-              <SunIcon className={className} width={17} />
-            )
-          }
-        />
-        <Input
-          radius="full"
-          variant="faded"
-          placeholder="Search"
-          startContent={<Search01Icon color="foreground" width={"20"} />}
-        />
+        <div className="flex gap-3 items-center">
+          <Link href={"/"}>
+            <HomeIcon
+              color="foreground"
+              width={35}
+              className="cursor-pointer"
+            />
+          </Link>
+          <Link href={"/allposts"}>
+            <BlogIcon
+              color="foreground"
+              width={35}
+              className="cursor-pointer"
+            />
+          </Link>
+
+          <Switch
+            defaultSelected
+            color="primary"
+            onValueChange={toggleTheme}
+            thumbIcon={({
+              isSelected,
+              className,
+            }: {
+              isSelected: boolean;
+              className: string;
+            }) =>
+              isSelected ? (
+                <MoonIcon className={className} width={17} fill="foreground" />
+              ) : (
+                <SunIcon className={className} width={17} fill="foreground" />
+              )
+            }
+          />
+          <Input
+            radius="full"
+            variant="faded"
+            placeholder="Search"
+            startContent={<Search01Icon color="foreground" width={"20"} />}
+          />
+        </div>
       </div>
     </div>
   );

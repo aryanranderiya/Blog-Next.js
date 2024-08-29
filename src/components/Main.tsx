@@ -12,16 +12,20 @@ export default function Main({ children }: { children: React.ReactNode }) {
   return (
     <NextUIProvider>
       <Navbar />
-      {/* <div className="flex items-center justify-center"> */}
       <div
-        className={`flex flex-row h-screen ${
+        className={`flex items-center justify-center bg-background ${
           isDark ? "dark" : ""
-        } bg-background text-foreground max-h-screen min-h-screen`}
+        }`}
       >
-        <Sidebar />
-        <ScrollArea>{children}</ScrollArea>
+        <div
+          className={`flex flex-row h-screen ${
+            isDark ? "dark" : ""
+          } bg-background text-foreground max-h-screen min-h-screen w-[85vw]`}
+        >
+          <Sidebar />
+          <ScrollArea className="w-full">{children}</ScrollArea>
+        </div>
       </div>
-      {/* </div> */}
     </NextUIProvider>
   );
 }
