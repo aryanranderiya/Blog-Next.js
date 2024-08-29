@@ -22,7 +22,7 @@ function SelectChip({ index }: { index: any }) {
 
 export default function AllPosts() {
   return (
-    <main className="flex min-h-screen h-screen flex-col gap-7 px-24 py-20 overflow-hidden">
+    <main className="flex min-h-screen h-fit flex-col gap-7 px-24 pt-20 pb-24">
       <div className="font-semibold text-4xl flex gap-3 flex-wrap flex-col">
         <span className="text-nowrap">All Posts</span>
 
@@ -33,7 +33,7 @@ export default function AllPosts() {
         </div>
 
         <div className="flex gap-3 flex-wrap pt-4">
-          {new Array(5).fill(null).map((_, index) => (
+          {new Array(20).fill(null).map((_, index) => (
             <BlogCard />
           ))}
         </div>

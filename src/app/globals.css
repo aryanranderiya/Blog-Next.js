@@ -60,11 +60,11 @@
 }
 
 ::-moz-selection {
-  color: black;
+  color: white;
   background: #00bbff;
 }
 
 ::selection {
-  color: black;
+  color: white;
   background: #00bbff;
 }

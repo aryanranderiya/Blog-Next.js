@@ -10,6 +10,8 @@ import {
 } from "@/components/icons";
 import { Switch } from "@nextui-org/switch";
 import { useTheme } from "@/contexts/ThemeContext";
+import Image from "next/image";
+import Link from "next/link";
 
 export default function Navbar() {
   const { isDark, toggleTheme } = useTheme();
@@ -20,18 +22,24 @@ export default function Navbar() {
         isDark ? "dark" : ""
       } bg-background text-foreground `}
     >
-      <div className="font-bold flex items-center gap-3">
-        <img
+      <Link href={"/"} className="font-bold flex items-center gap-3">
+        <Image
           src="https://github.com/aryanranderiya.png"
           alt="Blog Logo"
           className="w-[30px]"
+          width={30}
+          height={30}
         />
         Aryan's Blog
-      </div>
+      </Link>
 
       <div className="flex gap-3 items-center">
-        <HomeIcon color="foreground" width={35} />
-        <BlogIcon color="foreground" width={35} />
+        <Link href={"/"}>
+          <HomeIcon color="foreground" width={35} className="cursor-pointer" />
+        </Link>
+        <Link href={"/allposts"}>
+          <BlogIcon color="foreground" width={35} className="cursor-pointer" />
+        </Link>
 
         <Switch
           defaultSelected

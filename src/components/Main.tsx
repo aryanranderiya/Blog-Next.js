@@ -12,6 +12,7 @@ export default function Main({ children }: { children: React.ReactNode }) {
   return (
     <NextUIProvider>
       <Navbar />
+      {/* <div className="flex items-center justify-center"> */}
       <div
         className={`flex flex-row h-screen ${
           isDark ? "dark" : ""
@@ -20,6 +21,7 @@ export default function Main({ children }: { children: React.ReactNode }) {
         <Sidebar />
         <ScrollArea>{children}</ScrollArea>
       </div>
+      {/* </div> */}
     </NextUIProvider>
   );
 }

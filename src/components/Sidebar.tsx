@@ -11,6 +11,9 @@ import GithubIcon from "@/components/github.webp";
 import Image from "next/image";
 import { useRouter, usePathname } from "next/navigation";
 import { ScrollArea } from "./shadcn/scroll-area";
+import { useTheme } from "@/contexts/ThemeContext";
+import Vercel from "@/components/Vercel.png";
+import Nextjs from "@/components/nextjs.svg";
 
 interface Item {
   id: number;
@@ -69,104 +72,106 @@ export function SidebarItem({ label, href }: { label: string; href: string }) {
   );
 }
 
-export default function Sidebar() {
-  const items: Item[] = [
-    {
-      id: 1,
-      key: "introduction",
-      label: "Introduction",
-      href: "/",
-    },
-    {
-      id: 2,
-      key: "allposts",
-      label: "All Posts",
-      href: "/allposts",
-    },
-  ];
+const items: Item[] = [
+  {
+    id: 1,
+    key: "introduction",
+    label: "Introduction",
+    href: "/",
+  },
+  {
+    id: 2,
+    key: "allposts",
+    label: "All Posts",
+    href: "/allposts",
+  },
+];
 
-  const posts: BlogPost[] = [
-    {
-      key: "blog1",
-      label: "Introduction to TypeScript",
-    },
-    {
-      key: "blog2",
-      label: "Understanding React Hooks",
-    },
-    {
-      key: "blog3",
-      label: "A Guide to Next.js API Routes",
-    },
-    {
-      key: "blog4",
-      label: "Best Practices for CSS-in-JS",
-    },
-    {
-      key: "blog5",
-      label: "Exploring the MERN Stack",
-    },
-    {
-      key: "blog6",
-      label: "Implementing Authentication in Express",
-    },
-    {
-      key: "blog7",
-      label: "Building Responsive Layouts with Tailwind CSS",
-    },
-    {
-      key: "blog8",
-      label: "Optimizing React Performance",
-    },
-    {
-      key: "blog9",
-      label: "Introduction to GraphQL",
-    },
-    {
-      key: "blog10",
-      label: "Deploying Your Next.js App to Vercel",
-    },
-    {
-      key: "blog11",
-      label: "Managing State with Redux",
-    },
-    {
-      key: "blog12",
-      label: "Creating Custom Hooks in React",
-    },
-    {
-      key: "blog13",
-      label: "Understanding JavaScript Closures",
-    },
-    {
-      key: "blog14",
-      label: "Building RESTful APIs with FastAPI",
-    },
-    {
-      key: "blog15",
-      label: "Using Docker for Development",
-    },
-    {
-      key: "blog16",
-      label: "Introduction to Serverless Architecture",
-    },
-    {
-      key: "blog17",
-      label: "Handling Errors in Express.js",
-    },
-    {
-      key: "blog18",
-      label: "Testing React Components with Jest",
-    },
-    {
-      key: "blog19",
-      label: "Exploring MongoDB Aggregation Framework",
-    },
-    {
-      key: "blog20",
-      label: "Creating a CI/CD Pipeline with GitHub Actions",
-    },
-  ];
+const posts: BlogPost[] = [
+  {
+    key: "blog1",
+    label: "Introduction to TypeScript",
+  },
+  {
+    key: "blog2",
+    label: "Understanding React Hooks",
+  },
+  {
+    key: "blog3",
+    label: "A Guide to Next.js API Routes",
+  },
+  {
+    key: "blog4",
+    label: "Best Practices for CSS-in-JS",
+  },
+  {
+    key: "blog5",
+    label: "Exploring the MERN Stack",
+  },
+  {
+    key: "blog6",
+    label: "Implementing Authentication in Express",
+  },
+  {
+    key: "blog7",
+    label: "Building Responsive Layouts with Tailwind CSS",
+  },
+  {
+    key: "blog8",
+    label: "Optimizing React Performance",
+  },
+  {
+    key: "blog9",
+    label: "Introduction to GraphQL",
+  },
+  {
+    key: "blog10",
+    label: "Deploying Your Next.js App to Vercel",
+  },
+  {
+    key: "blog11",
+    label: "Managing State with Redux",
+  },
+  {
+    key: "blog12",
+    label: "Creating Custom Hooks in React",
+  },
+  {
+    key: "blog13",
+    label: "Understanding JavaScript Closures",
+  },
+  {
+    key: "blog14",
+    label: "Building RESTful APIs with FastAPI",
+  },
+  {
+    key: "blog15",
+    label: "Using Docker for Development",
+  },
+  {
+    key: "blog16",
+    label: "Introduction to Serverless Architecture",
+  },
+  {
+    key: "blog17",
+    label: "Handling Errors in Express.js",
+  },
+  {
+    key: "blog18",
+    label: "Testing React Components with Jest",
+  },
+  {
+    key: "blog19",
+    label: "Exploring MongoDB Aggregation Framework",
+  },
+  {
+    key: "blog20",
+    label: "Creating a CI/CD Pipeline with GitHub Actions",
+  },
+];
+
+export default function Sidebar() {
+  const { isDark } = useTheme();
 
   return (
     <div className="flex w-[300px] pb-[90px] min-w-[300px] border-r-1 border-foreground-200 p-[1em] flex-col bg-background text-foreground ">
@@ -203,7 +208,7 @@ export default function Sidebar() {
           </AccordionItem>
         </Accordion>
 
-        <div className="flex w-full justify-center mt-6">
+        <div className="flex w-full gap-1 items-center mt-6 flex-col">
           <Chip
             className=""
             variant="flat"
@@ -213,13 +218,39 @@ export default function Sidebar() {
                 src={GithubIcon}
                 width={20}
                 height={20}
-                className="invert"
+                className={(isDark ? "invert" : "") + " transition-all"}
                 alt="Picture of the author"
               />
             }
           >
-            Built by Aryan R. using Next.js
+            Built by Aryan Randeriya
           </Chip>
+          <Chip
+            className=""
+            variant="flat"
+            color="default"
+            startContent={
+              <Image
+                src={Nextjs}
+                width={17}
+                height={17}
+                className={(isDark ? "invert" : "") + " transition-all"}
+                alt="Picture of the author"
+              />
+            }
+            endContent={
+              <Image
+                src={Vercel}
+                width={17}
+                height={17}
+                className={(isDark ? "invert" : "") + " transition-all"}
+                alt="Picture of the author"
+              />
+            }
+          >
+            Next.js | Vercel
+          </Chip>
+          {/*  using Next.js */}
         </div>
       </ScrollArea>
     </div>

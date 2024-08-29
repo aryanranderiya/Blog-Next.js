@@ -2,6 +2,7 @@ import { Chip } from "@nextui-org/react";
 import { useState } from "react";
 import { ArrowUpRight } from "./icons";
 import { ScrollArea } from "./shadcn/scroll-area";
+import Image from "next/image";
 
 export default function BlogCard() {
   const [isHovered, setIsHovered] = useState(false);
@@ -16,14 +17,17 @@ export default function BlogCard() {
 
   return (
     <div
-      className="flex w-[300px] h-[350px] bg-foreground-50 rounded-xl p-[10px] relative flex-col cursor-pointer hover:-translate-y-2 hover:bg-foreground-100 transition-all"
+      className="flex w-[300px] h-[350px] bg-foreground-100 rounded-xl p-[10px] relative flex-col cursor-pointer hover:-translate-y-2 hover:bg-foreground-200 transition-all"
       onMouseOut={HandleMouseOut}
       onMouseOver={HandleMouseOver}
     >
-      <img
-        src={`https://picsum.photos/seed/${Math.random()}/200/300`}
+      <Image
+        // src={`https://picsum.photos/seed/${Math.random()}/240/135`}
+        src=""
         alt=""
-        className="w-full h-[150px] object-cover rounded-xl bg-zinc-800"
+        height={150}
+        width={500}
+        className="w-full h-[150px] object-cover rounded-xl bg-foreground-300"
       />
 
       <Chip
