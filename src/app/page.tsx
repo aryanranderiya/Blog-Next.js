@@ -99,7 +99,7 @@ function FeaturedPosts() {
     <div className="flex flex-col gap-2 pt-16 min-h-fit">
       <span className="font-semibold text-3xl">Featured Posts</span>
       <div className="flex gap-3 flex-wrap pt-4">
-        {new Array(4).fill(null).map((_, index) => (
+        {new Array(3).fill(null).map((_, index) => (
           <BlogCard />
         ))}
       </div>
@@ -112,7 +112,7 @@ function LatestPosts() {
     <div className="flex flex-col gap-3 pt-8 min-h-fit">
       <span className="font-semibold text-3xl">Latest Posts</span>
       <div className="flex gap-3 flex-wrap pt-4">
-        {new Array(4).fill(null).map((_, index) => (
+        {new Array(3).fill(null).map((_, index) => (
           <BlogCard />
         ))}
       </div>

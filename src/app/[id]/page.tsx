@@ -29,7 +29,7 @@ export default function BlogPage() {
   return (
     <div className="flex flex-row px-24 pt-20 pb-24 justify-between">
       <main className="flex h-fit flex-col gap-7 relative">
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-3">
           <Image
             src="https://github.com/aryanranderiya.png"
             alt="Profile Picture"
@@ -38,13 +38,13 @@ export default function BlogPage() {
           />
 
           <div className="flex flex-col">
-            <span className="text-sm font-semibold">Aryan Randeriya</span>
+            <span className="text-md font-semibold">Aryan Randeriya</span>
             <div className="flex gap-2">
-              <span className="text-foreground-500 text-xs">
+              <span className="text-foreground-500 text-sm">
                 31st January 2024
               </span>
-              <span className="text-foreground text-xs">/</span>
-              <span className="text-foreground-400 text-xs">
+              <span className="text-foreground text-sm">/</span>
+              <span className="text-foreground-400 text-sm">
                 10 minute read
               </span>
             </div>

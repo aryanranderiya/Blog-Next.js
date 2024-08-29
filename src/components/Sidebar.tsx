@@ -152,22 +152,6 @@ const posts: BlogPost[] = [
     key: "blog16",
     label: "Introduction to Serverless Architecture",
   },
-  {
-    key: "blog17",
-    label: "Handling Errors in Express.js",
-  },
-  {
-    key: "blog18",
-    label: "Testing React Components with Jest",
-  },
-  {
-    key: "blog19",
-    label: "Exploring MongoDB Aggregation Framework",
-  },
-  {
-    key: "blog20",
-    label: "Creating a CI/CD Pipeline with GitHub Actions",
-  },
 ];
 
 export default function Sidebar() {
@@ -199,9 +183,6 @@ export default function Sidebar() {
             title={<span className="font-semibold">Posts</span>}
             startContent={<FeatherIcon color="#00bbff" width={18} />}
           >
-            {posts.map((item) => (
-              <SidebarItem label={item.label} href={"/" + item.key} />
-            ))}
             {posts.map((item) => (
               <SidebarItem label={item.label} href={"/" + item.key} />
             ))}

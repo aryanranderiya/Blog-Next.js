@@ -22,8 +22,8 @@ export default function BlogCard() {
       onMouseOver={HandleMouseOver}
     >
       <Image
-        // src={`https://picsum.photos/seed/${Math.random()}/240/135`}
-        src=""
+        src={`https://picsum.photos/seed/${Math.random()}/240/135`}
+        // src=""
         alt=""
         height={150}
         width={500}

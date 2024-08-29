@@ -23,8 +23,8 @@ function SelectChip({ index }: { index: any }) {
 export default function AllPosts() {
   return (
     <main className="flex min-h-screen h-fit flex-col gap-7 px-24 pt-20 pb-24">
-      <div className="font-semibold text-4xl flex gap-3 flex-wrap flex-col">
-        <span className="text-nowrap">All Posts</span>
+      <div className="flex gap-3 flex-wrap flex-col">
+        <span className="text-nowrap font-semibold text-4xl">All Posts</span>
 
         <div className="flex gap-1 flex-wrap">
           {new Array(10).fill(null).map((_, index) => (
