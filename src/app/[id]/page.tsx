@@ -57,7 +57,8 @@ export default function BlogPage({ params }: BlogPageProps) {
 
     fetchPost();
   }, [id]);
-  const markdown = "## Hi, **Pluto**!";
+  const markdown =
+    "# Heading 1 \n ## Heading 2 \n### Heading 3\n#### Heading 4";
 
   return (
     <div className="flex flex-row px-24 pt-20 pb-24 justify-between">
@@ -73,7 +74,7 @@ export default function BlogPage({ params }: BlogPageProps) {
           <div className="flex flex-col">
             <span className="text-md font-semibold">Aryan Randeriya</span>
             <div className="flex gap-2">
-              <span className="text-foreground-500 text-sm">{post.date}</span>
+              <span className="text-foreground-500 text-sm">{post?.date}</span>
               <span className="text-foreground text-sm">/</span>
               <span className="text-foreground-400 text-sm">
                 10 minute read
@@ -83,13 +84,12 @@ export default function BlogPage({ params }: BlogPageProps) {
         </div>
 
         <div className="flex flex-col gap-1">
-          <span className="font-semibold text-2xl ">{post.title}</span>
-          <span className="text-sm text-foreground-500">{post.excerpt}</span>
+          <span className="font-semibold text-2xl ">{post?.title}</span>
+          <span className="text-sm text-foreground-500">{post?.excerpt}</span>
         </div>
-        <Markdown>
-          {/* {post.content} */}
-          {markdown}
-        </Markdown>
+        <div className="flex flex-col">
+          <Markdown>{post?.content}</Markdown>
+        </div>
       </main>
       <ContentsSidebar />
     </div>

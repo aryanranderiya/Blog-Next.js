@@ -5,6 +5,7 @@ import { Chip } from "@nextui-org/react";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import axios from "axios";
+import { Post } from "@/components/BlogCard";
 
 export function HoveredChip({
   text,
@@ -96,7 +97,7 @@ export default function Home() {
 }
 
 function FeaturedPosts() {
-  const [posts, setPosts] = useState([]);
+  const [posts, setPosts] = useState<Post[]>([]);
 
   useEffect(() => {
     axios
@@ -113,16 +114,18 @@ function FeaturedPosts() {
     <div className="flex flex-col gap-2 pt-16 min-h-fit">
       <span className="font-semibold text-3xl">Featured Posts</span>
       <div className="flex gap-3 flex-wrap pt-4">
-        {posts.map((post, index) => (
-          <BlogCard post={post} key={index} />
-        ))}
+        {posts.length > 0 ? (
+          posts.map((post, index) => <BlogCard post={post} key={index} />)
+        ) : (
+          <span className="text-foreground-400">No Posts Found</span>
+        )}
       </div>
     </div>
   );
 }
 
 function LatestPosts() {
-  const [posts, setPosts] = useState([]);
+  const [posts, setPosts] = useState<Post[]>([]);
 
   useEffect(() => {
     axios
@@ -139,9 +142,11 @@ function LatestPosts() {
     <div className="flex flex-col gap-3 pt-8 min-h-fit">
       <span className="font-semibold text-3xl">Latest Posts</span>
       <div className="flex gap-3 flex-wrap pt-4">
-        {posts.map((post, index) => (
-          <BlogCard post={post} key={index} />
-        ))}
+        {posts.length > 0 ? (
+          posts.map((post, index) => <BlogCard post={post} key={index} />)
+        ) : (
+          <span className="text-foreground-400">No Posts Found</span>
+        )}
       </div>
     </div>
   );
