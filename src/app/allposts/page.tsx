@@ -2,7 +2,8 @@
 import BlogCard from "@/components/BlogCard";
 // import { HoveredChip } from "../page";
 import { Chip } from "@nextui-org/react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import axios from "axios";
 
 function SelectChip({ index }: { index: any }) {
   const [active, setActive] = useState(false);
@@ -21,6 +22,19 @@ function SelectChip({ index }: { index: any }) {
 }
 
 export default function AllPosts() {
+  const [posts, setPosts] = useState([]);
+
+  useEffect(() => {
+    axios
+      .get("/api/posts")
+      .then((response) => {
+        setPosts(response.data);
+      })
+      .catch((error) => {
+        console.error("Error fetching posts:", error);
+      });
+  }, []);
+
   return (
     <main className="flex min-h-screen h-fit flex-col gap-7 px-24 pt-20 pb-24">
       <div className="flex gap-3 flex-wrap flex-col">
@@ -33,8 +47,8 @@ export default function AllPosts() {
         </div>
 
         <div className="flex gap-3 flex-wrap pt-4">
-          {new Array(20).fill(null).map((_, index) => (
-            <BlogCard />
+          {posts.map((post, index) => (
+            <BlogCard post={post} key={index} />
           ))}
         </div>
       </div>

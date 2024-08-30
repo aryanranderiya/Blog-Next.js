@@ -3,7 +3,8 @@ import BlogCard from "@/components/BlogCard";
 import { ArrowUpRight } from "@/components/icons";
 import { Chip } from "@nextui-org/react";
 import Image from "next/image";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import axios from "axios";
 
 export function HoveredChip({
   text,
@@ -95,12 +96,25 @@ export default function Home() {
 }
 
 function FeaturedPosts() {
+  const [posts, setPosts] = useState([]);
+
+  useEffect(() => {
+    axios
+      .get("/api/posts")
+      .then((response) => {
+        setPosts(response.data);
+      })
+      .catch((error) => {
+        console.error("Error fetching posts:", error);
+      });
+  }, []);
+
   return (
     <div className="flex flex-col gap-2 pt-16 min-h-fit">
       <span className="font-semibold text-3xl">Featured Posts</span>
       <div className="flex gap-3 flex-wrap pt-4">
-        {new Array(3).fill(null).map((_, index) => (
-          <BlogCard />
+        {posts.map((post, index) => (
+          <BlogCard post={post} key={index} />
         ))}
       </div>
     </div>
@@ -108,12 +122,25 @@ function FeaturedPosts() {
 }
 
 function LatestPosts() {
+  const [posts, setPosts] = useState([]);
+
+  useEffect(() => {
+    axios
+      .get("/api/posts")
+      .then((response) => {
+        setPosts(response.data);
+      })
+      .catch((error) => {
+        console.error("Error fetching posts:", error);
+      });
+  }, []);
+
   return (
     <div className="flex flex-col gap-3 pt-8 min-h-fit">
       <span className="font-semibold text-3xl">Latest Posts</span>
       <div className="flex gap-3 flex-wrap pt-4">
-        {new Array(3).fill(null).map((_, index) => (
-          <BlogCard />
+        {posts.map((post, index) => (
+          <BlogCard post={post} key={index} />
         ))}
       </div>
     </div>

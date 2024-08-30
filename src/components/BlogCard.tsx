@@ -4,27 +4,35 @@ import { ArrowUpRight } from "./icons";
 import { ScrollArea } from "./shadcn/scroll-area";
 import Image from "next/image";
 
-export default function BlogCard() {
+export interface Post {
+  id: number;
+  title: string;
+  date: string;
+  excerpt: string;
+  tags: string[];
+  image: string;
+}
+
+export default function BlogCard({ post }: { post: Post }) {
   const [isHovered, setIsHovered] = useState(false);
 
-  const HandleMouseOver = () => {
+  const handleMouseOver = () => {
     setIsHovered(true);
   };
 
-  const HandleMouseOut = () => {
+  const handleMouseOut = () => {
     setIsHovered(false);
   };
 
   return (
     <div
-      className="flex w-[300px] h-[350px] bg-foreground-100 rounded-xl p-[10px] relative flex-col cursor-pointer hover:-translate-y-2 hover:bg-foreground-200 transition-all"
-      onMouseOut={HandleMouseOut}
-      onMouseOver={HandleMouseOver}
+      className="flex w-[300px] h-[375px] bg-foreground-100 rounded-xl p-[10px] relative flex-col cursor-pointer hover:-translate-y-2 hover:bg-foreground-200 transition-all"
+      onMouseOut={handleMouseOut}
+      onMouseOver={handleMouseOver}
     >
       <Image
-        src={`https://picsum.photos/seed/${Math.random()}/240/135`}
-        // src=""
-        alt=""
+        src={post.image}
+        alt={post.title}
         height={150}
         width={500}
         className="w-full h-[150px] object-cover rounded-xl bg-foreground-300"
@@ -46,32 +54,18 @@ export default function BlogCard() {
       </Chip>
 
       <div className="py-[0.5em] px-[0.3em] flex flex-col gap-1 overflow-hidden">
-        <span className="text-xs text-foreground-500 pt-1">27/07/25</span>
+        <span className="text-xs text-foreground-500 pt-1">{post.date}</span>
         <div className="flex flex-wrap py-1 gap-1">
-          <Chip size="sm" variant="flat" color="primary">
-            lorem
-          </Chip>
-
-          <Chip size="sm" variant="flat" color="primary">
-            lorem
-          </Chip>
-
-          <Chip size="sm" variant="flat" color="primary">
-            lorem
-          </Chip>
-
-          <Chip size="sm" variant="flat" color="primary">
-            lorem
-          </Chip>
-
-          <Chip size="sm" variant="flat" color="primary">
-            lorem
-          </Chip>
+          {post.tags.map((tag) => (
+            <Chip key={tag} size="sm" variant="flat" color="primary">
+              {tag}
+            </Chip>
+          ))}
         </div>
-        <span className="text-xl font-semibold pt-1">Title</span>
+        <span className="text-xl font-semibold pt-1">{post.title}</span>
         <ScrollArea>
-          <span className="text-xs text-foreground-500 flex flex-wrap">
-            Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+          <span className="text-sm text-foreground-500 flex flex-wrap">
+            {post.excerpt}
           </span>
         </ScrollArea>
       </div>

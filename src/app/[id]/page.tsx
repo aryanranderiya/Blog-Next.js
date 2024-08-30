@@ -2,6 +2,9 @@
 
 import Image from "next/image";
 import { Listbox, ListboxSection, ListboxItem } from "@nextui-org/react";
+import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
+import { Post } from "@/components/BlogCard";
 
 function ContentsSidebar() {
   return (
@@ -25,13 +28,40 @@ function ContentsSidebar() {
   );
 }
 
-export default function BlogPage() {
+interface BlogPageProps {
+  params: {
+    id: string;
+  };
+}
+
+export default function BlogPage({ params }: BlogPageProps) {
+  const { id } = params;
+  const [post, setPost] = useState<Post>({
+    id: 1,
+    title: "",
+    date: "01/01/80",
+    excerpt: "",
+    tags: [],
+    image: "",
+  });
+
+  useEffect(() => {
+    async function fetchPost() {
+      const response = await fetch(`/api/posts`);
+      const data = await response.json();
+      const foundPost = data.find((post: any) => post.id.toString() === id);
+      setPost(foundPost);
+    }
+
+    fetchPost();
+  }, [id]);
+
   return (
     <div className="flex flex-row px-24 pt-20 pb-24 justify-between">
       <main className="flex h-fit flex-col gap-7 relative">
         <div className="flex items-center gap-3">
           <Image
-            src="https://github.com/aryanranderiya.png"
+            src={"https://github.com/aryanranderiya.png"}
             alt="Profile Picture"
             width={40}
             height={40}
@@ -40,9 +70,7 @@ export default function BlogPage() {
           <div className="flex flex-col">
             <span className="text-md font-semibold">Aryan Randeriya</span>
             <div className="flex gap-2">
-              <span className="text-foreground-500 text-sm">
-                31st January 2024
-              </span>
+              <span className="text-foreground-500 text-sm">{post.date}</span>
               <span className="text-foreground text-sm">/</span>
               <span className="text-foreground-400 text-sm">
                 10 minute read
@@ -52,13 +80,8 @@ export default function BlogPage() {
         </div>
 
         <div className="flex flex-col gap-1">
-          <span className="font-semibold text-2xl ">
-            Title Lorem ipsum dolor, sit amet consectetur adipisicing.
-          </span>
-          <span className="text-sm text-foreground-500">
-            subtitle Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-            Eaque, cupiditate!
-          </span>
+          <span className="font-semibold text-2xl ">{post.title}</span>
+          <span className="text-sm text-foreground-500">{post.excerpt}</span>
         </div>
       </main>
       <ContentsSidebar />

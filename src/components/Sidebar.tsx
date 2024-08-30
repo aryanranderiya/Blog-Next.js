@@ -14,6 +14,7 @@ import { ScrollArea } from "./shadcn/scroll-area";
 import { useTheme } from "@/contexts/ThemeContext";
 import Vercel from "@/components/Vercel.png";
 import Nextjs from "@/components/nextjs.svg";
+import axios from "axios";
 
 interface Item {
   id: number;
@@ -87,62 +88,22 @@ const items: Item[] = [
   },
 ];
 
-const posts: BlogPost[] = [
-  {
-    key: "blog1",
-    label: "Introduction to TypeScript",
-  },
-  {
-    key: "blog2",
-    label: "Understanding React Hooks",
-  },
-  {
-    key: "blog3",
-    label: "A Guide to Next.js API Routes",
-  },
-  {
-    key: "blog4",
-    label: "Best Practices for CSS-in-JS",
-  },
-  {
-    key: "blog5",
-    label: "Exploring the MERN Stack",
-  },
-  {
-    key: "blog6",
-    label: "Implementing Authentication in Express",
-  },
-  {
-    key: "blog7",
-    label: "Building Responsive Layouts with Tailwind CSS",
-  },
-  {
-    key: "blog8",
-    label: "Optimizing React Performance",
-  },
-  {
-    key: "blog9",
-    label: "Introduction to GraphQL",
-  },
-  {
-    key: "blog10",
-    label: "Deploying Your Next.js App to Vercel",
-  },
-  {
-    key: "blog11",
-    label: "Managing State with Redux",
-  },
-  {
-    key: "blog12",
-    label: "Creating Custom Hooks in React",
-  },
-  {
-    key: "blog13",
-    label: "Understanding JavaScript Closures",
-  },
-];
-
 export default function Sidebar() {
+  const [postTitles, setPostTitles] = useState<{ id: string; title: string }[]>(
+    []
+  );
+
+  useEffect(() => {
+    axios
+      .get("/api/posts/titles")
+      .then((response) => {
+        setPostTitles(response.data);
+      })
+      .catch((error) => {
+        console.error("Error fetching posts:", error);
+      });
+  }, []);
+
   const { isDark } = useTheme();
 
   return (
@@ -171,8 +132,8 @@ export default function Sidebar() {
             title={<span className="font-semibold">Posts</span>}
             startContent={<FeatherIcon color="#00bbff" width={18} />}
           >
-            {posts.map((item) => (
-              <SidebarItem label={item.label} href={"/" + item.key} />
+            {postTitles.map((item) => (
+              <SidebarItem label={item.title} href={"/" + item.id} />
             ))}
           </AccordionItem>
         </Accordion>
