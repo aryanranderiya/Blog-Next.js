@@ -11,6 +11,7 @@ export interface Post {
   excerpt: string;
   tags: string[];
   image: string;
+  content: string;
 }
 
 export default function BlogCard({ post }: { post: Post }) {
@@ -26,7 +27,7 @@ export default function BlogCard({ post }: { post: Post }) {
 
   return (
     <div
-      className="flex w-[300px] h-[375px] bg-foreground-100 rounded-xl p-[10px] relative flex-col cursor-pointer hover:-translate-y-2 hover:bg-foreground-200 transition-all"
+      className="flex w-[300px] h-[375px] bg-foreground-100 rounded-xl p-[10px] relative flex-col cursor-pointer hover:-tran  ate-y-2 hover:bg-foreground-200 transition-all"
       onMouseOut={handleMouseOut}
       onMouseOver={handleMouseOver}
     >
@@ -56,11 +57,13 @@ export default function BlogCard({ post }: { post: Post }) {
       <div className="py-[0.5em] px-[0.3em] flex flex-col gap-1 overflow-hidden">
         <span className="text-xs text-foreground-500 pt-1">{post.date}</span>
         <div className="flex flex-wrap py-1 gap-1">
-          {post.tags.map((tag) => (
-            <Chip key={tag} size="sm" variant="flat" color="primary">
-              {tag}
-            </Chip>
-          ))}
+          {Array.isArray(post.tags)
+            ? post.tags
+            : JSON.parse(post.tags).map((tag: string) => (
+                <Chip key={tag} size="sm" variant="flat" color="primary">
+                  {tag}
+                </Chip>
+              ))}
         </div>
         <span className="text-xl font-semibold pt-1">{post.title}</span>
         <ScrollArea>

@@ -1,6 +1,18 @@
+// /src/app/api/posts/route.ts
+
 import { NextResponse } from "next/server";
-import { posts } from "../posts";
+import { apiGet } from "../database";
 
 export async function GET() {
-  return NextResponse.json(posts);
+  try {
+    const query = "SELECT * FROM blogposts";
+    const posts = await apiGet(query);
+    return NextResponse.json(posts);
+  } catch (error) {
+    console.error("Failed to fetch posts:", error);
+    return NextResponse.json(
+      { error: "Failed to fetch posts" },
+      { status: 500 }
+    );
+  }
 }

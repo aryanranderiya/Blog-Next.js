@@ -5,6 +5,7 @@ import { Listbox, ListboxSection, ListboxItem } from "@nextui-org/react";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { Post } from "@/components/BlogCard";
+import Markdown from "react-markdown";
 
 function ContentsSidebar() {
   return (
@@ -43,6 +44,7 @@ export default function BlogPage({ params }: BlogPageProps) {
     excerpt: "",
     tags: [],
     image: "",
+    content: "",
   });
 
   useEffect(() => {
@@ -55,6 +57,7 @@ export default function BlogPage({ params }: BlogPageProps) {
 
     fetchPost();
   }, [id]);
+  const markdown = "## Hi, **Pluto**!";
 
   return (
     <div className="flex flex-row px-24 pt-20 pb-24 justify-between">
@@ -83,6 +86,10 @@ export default function BlogPage({ params }: BlogPageProps) {
           <span className="font-semibold text-2xl ">{post.title}</span>
           <span className="text-sm text-foreground-500">{post.excerpt}</span>
         </div>
+        <Markdown>
+          {/* {post.content} */}
+          {markdown}
+        </Markdown>
       </main>
       <ContentsSidebar />
     </div>
