@@ -1,59 +1,10 @@
 "use client";
 import BlogCard from "@/components/BlogCard";
-import { ArrowUpRight } from "@/components/icons";
-import { Chip } from "@nextui-org/react";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { Post } from "@/components/BlogCard";
-
-export function HoveredChip({
-  text,
-  color,
-  bolded,
-}: {
-  text: string;
-  color: "primary" | "default";
-  bolded: boolean;
-}): JSX.Element {
-  const [isHovered, setIsHovered] = useState(false);
-
-  const HandleMouseOver = () => {
-    setIsHovered(true);
-  };
-
-  const HandleMouseOut = () => {
-    setIsHovered(false);
-  };
-
-  return (
-    <Chip
-      variant={isHovered ? "shadow" : "flat"}
-      color={color}
-      size="lg"
-      className="cursor-pointer transition-all"
-      endContent={
-        <ArrowUpRight
-          width={18}
-          color={
-            isHovered
-              ? color === "default"
-                ? "#00bbff"
-                : "foreground"
-              : "foreground"
-          }
-          className={`${
-            isHovered ? "-translate-y-[3px]" : ""
-          } transition-transform`}
-        />
-      }
-      onMouseOut={HandleMouseOut}
-      onMouseOver={HandleMouseOver}
-    >
-      <div className={bolded ? "font-semibold" : ""}>{text}</div>
-    </Chip>
-  );
-}
+import HoveredChip from "@/components/HoveredChip";
 
 export default function Home() {
   return (

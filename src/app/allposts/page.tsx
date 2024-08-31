@@ -4,36 +4,52 @@ import BlogCard from "@/components/BlogCard";
 import { Chip } from "@nextui-org/react";
 import { useEffect, useState } from "react";
 import axios from "axios";
+import { Post } from "@/components/BlogCard";
 
-function SelectChip({ index }: { index: any }) {
+function SelectChip({ title }: { title: string }) {
   const [active, setActive] = useState(false);
 
   return (
     <Chip
-      key={index}
       variant={active ? "faded" : "bordered"}
       color="primary"
       className="cursor-pointer"
       onClick={() => setActive((prev) => !prev)}
     >
-      Tag {index + 1}
+      {title}
     </Chip>
   );
 }
 
 export default function AllPosts() {
-  const [posts, setPosts] = useState([]);
+  const [posts, setPosts] = useState<Post[]>([]);
+  const [tags, setTags] = useState<Set<string>>(new Set());
+
+  const addTag = (tag: string) => {
+    setTags((prevTags) => new Set(prevTags).add(tag));
+  };
 
   useEffect(() => {
     axios
       .get("/api/posts")
       .then((response) => {
         setPosts(response.data);
+        console.log("data", response.data);
       })
       .catch((error) => {
         console.error("Error fetching posts:", error);
       });
   }, []);
+
+  useEffect(() => {
+    posts.forEach((post) => {
+      Array.isArray(post.tags)
+        ? post.tags
+        : JSON.parse(post.tags).forEach((tag: string) => {
+            addTag(tag);
+          });
+    });
+  }, [posts]);
 
   return (
     <main className="flex min-h-screen h-fit flex-col gap-7 px-24 pt-20 pb-24">
@@ -41,8 +57,8 @@ export default function AllPosts() {
         <span className="text-nowrap font-semibold text-4xl">All Posts</span>
 
         <div className="flex gap-1 flex-wrap">
-          {new Array(10).fill(null).map((_, index) => (
-            <SelectChip index={index} />
+          {Array.from(tags).map((tag: string) => (
+            <SelectChip title={tag} />
           ))}
         </div>
 
