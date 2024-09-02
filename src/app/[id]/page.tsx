@@ -2,6 +2,7 @@ import Image from "next/image";
 import { Post } from "@/components/BlogCard";
 import Markdown from "react-markdown";
 import ContentsSidebar from "@/components/ContentsSidebar";
+import { notFound } from "next/navigation";
 
 export const revalidate = 60;
 export const dynamicParams = true;
@@ -16,10 +17,24 @@ export async function generateStaticParams() {
   }));
 }
 
+interface ErrorResponse {
+  data: {
+    error: string;
+  };
+}
+
 export default async function BlogPage({ params }: { params: { id: string } }) {
-  const data = await fetch(`https://api.vercel.app/blog/${params.id}`).then(
-    (res) => res.json()
+  const response = await fetch(
+    `${process.env.NEXT_PUBLIC_BASE_URL}/api/post/${params.id}`
   );
+
+  const data: Post | ErrorResponse = await response.json().catch(() => ({
+    data: { error: "An unknown error occurred" },
+  }));
+
+  if ("data" in data && "error" in data.data) notFound();
+
+  const post = data as Post;
 
   return (
     <div className="flex flex-row px-24 pt-20 pb-24 justify-between">
@@ -35,7 +50,7 @@ export default async function BlogPage({ params }: { params: { id: string } }) {
           <div className="flex flex-col">
             <span className="text-md font-semibold">Aryan Randeriya</span>
             <div className="flex gap-2">
-              <span className="text-foreground-500 text-sm">{data?.date}</span>
+              <span className="text-foreground-500 text-sm">{post.date}</span>
               <span className="text-foreground text-sm">/</span>
               <span className="text-foreground-400 text-sm">
                 10 minute read
@@ -45,11 +60,11 @@ export default async function BlogPage({ params }: { params: { id: string } }) {
         </div>
 
         <div className="flex flex-col gap-1">
-          <span className="font-semibold text-2xl ">{data?.title}</span>
-          <span className="text-sm text-foreground-500">{data?.excerpt}</span>
+          <span className="font-semibold text-2xl ">{post.title}</span>
+          <span className="text-sm text-foreground-500">{post.excerpt}</span>
         </div>
         <div className="flex flex-col">
-          <Markdown>{data?.content}</Markdown>
+          <Markdown>{post.content}</Markdown>
         </div>
       </main>
       {/* <ContentsSidebar /> */}
