@@ -1,4 +1,4 @@
-import { apiDelete } from "@/app/api/database";
+import { apiDelete, apiGet } from "@/app/api/database";
 import { NextResponse } from "next/server";
 
 export async function DELETE(request) {
@@ -24,6 +24,25 @@ export async function DELETE(request) {
     console.error("Failed to delete post:", error);
     return NextResponse.json(
       { error: "Failed to delete post" },
+      { status: 500 }
+    );
+  }
+}
+
+export async function GET(request) {
+  try {
+    const { searchParams } = new URL(request.url);
+    const id = searchParams.get("id");
+
+    let query = `SELECT * FROM blogposts WHERE id = '${id}`;
+
+    const post = await apiGet(query);
+    console.log("hey", post);
+    return NextResponse.json(post);
+  } catch (error) {
+    console.error("Failed to fetch post:", error);
+    return NextResponse.json(
+      { error: "Failed to fetch post" },
       { status: 500 }
     );
   }

@@ -21,35 +21,15 @@ function SelectChip({ title, posts }: { title: string; posts: Post[] }) {
   );
 }
 
-export default function AllPosts() {
-  const [posts, setPosts] = useState<Post[]>([]);
+export default async function AllPosts() {
   const [tags, setTags] = useState<Set<string>>(new Set());
 
   const addTag = (tag: string) => {
     setTags((prevTags) => new Set(prevTags).add(tag));
   };
 
-  useEffect(() => {
-    axios
-      .get("/api/posts")
-      .then((response) => {
-        setPosts(response.data);
-        console.log("data", response.data);
-      })
-      .catch((error) => {
-        console.error("Error fetching posts:", error);
-      });
-  }, []);
-
-  useEffect(() => {
-    posts.forEach((post) => {
-      Array.isArray(post.tags)
-        ? post.tags
-        : JSON.parse(post.tags).forEach((tag: string) => {
-            addTag(tag);
-          });
-    });
-  }, [posts]);
+  const req = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/posts`);
+  const posts = await req.json();
 
   return (
     <main className="flex min-h-screen h-fit flex-col gap-7 px-24 pt-20 pb-24">
@@ -63,7 +43,7 @@ export default function AllPosts() {
         </div>
 
         <div className="flex gap-3 flex-wrap pt-4">
-          {posts.map((post, index) => (
+          {posts.map((post: Post, index: number) => (
             <BlogCard post={post} key={index} />
           ))}
         </div>
