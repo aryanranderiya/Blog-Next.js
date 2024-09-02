@@ -23,11 +23,6 @@ interface Item {
   href: string;
 }
 
-interface BlogPost {
-  key: string;
-  label: string;
-}
-
 export function SidebarItem({ label, href }: { label: string; href: string }) {
   const [isHovered, setIsHovered] = useState(false);
   const [isActive, setIsActive] = useState(false);
@@ -36,7 +31,7 @@ export function SidebarItem({ label, href }: { label: string; href: string }) {
 
   useEffect(() => {
     setIsActive(pathname === href);
-  }, [pathname]);
+  }, [pathname, href]);
 
   const HandleMouseOver = () => {
     setIsHovered(true);
@@ -121,8 +116,8 @@ export default function Sidebar() {
             title={<span className="font-semibold">Getting Started</span>}
             startContent={<AnnouncementIcon color="#00bbff" width={18} />}
           >
-            {items.map((item) => (
-              <SidebarItem label={item.label} href={item.href} />
+            {items.map((item, index) => (
+              <SidebarItem label={item.label} href={item.href} key={index} />
             ))}
           </AccordionItem>
 
@@ -132,8 +127,12 @@ export default function Sidebar() {
             title={<span className="font-semibold">Posts</span>}
             startContent={<FeatherIcon color="#00bbff" width={18} />}
           >
-            {postTitles.map((item) => (
-              <SidebarItem label={item.title} href={"/" + item.id} />
+            {postTitles.map((item, index) => (
+              <SidebarItem
+                label={item.title}
+                href={"/" + item.id}
+                key={index}
+              />
             ))}
           </AccordionItem>
         </Accordion>

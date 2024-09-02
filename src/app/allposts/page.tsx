@@ -6,7 +6,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { Post } from "@/components/BlogCard";
 
-function SelectChip({ title }: { title: string }) {
+function SelectChip({ title, posts }: { title: string; posts: Post[] }) {
   const [active, setActive] = useState(false);
 
   return (
@@ -57,8 +57,8 @@ export default function AllPosts() {
         <span className="text-nowrap font-semibold text-4xl">All Posts</span>
 
         <div className="flex gap-1 flex-wrap">
-          {Array.from(tags).map((tag: string) => (
-            <SelectChip title={tag} />
+          {Array.from(tags).map((tag: string, index: number) => (
+            <SelectChip title={tag} posts={posts} key={index} />
           ))}
         </div>
 

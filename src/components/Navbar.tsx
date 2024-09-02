@@ -33,7 +33,7 @@ export default function Navbar() {
             width={30}
             height={30}
           />
-          Aryan's Blog
+          Aryan&apos;s Blog
         </Link>
 
         <div className="flex gap-3 items-center">

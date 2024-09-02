@@ -18,7 +18,7 @@ export default function Home() {
           width={32}
           height={32}
         />
-        <span className="text-nowrap">I'm Aryan Randeriya,</span>
+        <span className="text-nowrap">I&apos;m Aryan Randeriya,</span>
         <span className="text-nowrap">
           a Software Developer & Designer from India.
         </span>
