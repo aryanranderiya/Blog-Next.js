@@ -5,6 +5,7 @@ import {
   ArrowUpRight,
   AnnouncementIcon,
   FeatherIcon,
+  CloseIcon,
 } from "@/components/icons";
 import { useEffect, useState } from "react";
 import GithubIcon from "@/components/github.webp";
@@ -110,6 +111,7 @@ export default function Sidebar() {
           isCompact
           selectionMode="multiple"
           defaultExpandedKeys={["1", "2"]}
+          disallowEmptySelection
         >
           <AccordionItem
             key="1"
@@ -128,13 +130,20 @@ export default function Sidebar() {
             title={<span className="font-semibold">Posts</span>}
             startContent={<FeatherIcon color="#00bbff" width={18} />}
           >
-            {postTitles.map((item, index) => (
-              <SidebarItem
-                label={item.title}
-                href={"/" + item.id}
-                key={index}
-              />
-            ))}
+            {postTitles.length !== 0 ? (
+              postTitles.map((item, index) => (
+                <SidebarItem
+                  label={item.title}
+                  href={"/" + item.id}
+                  key={index}
+                />
+              ))
+            ) : (
+              <div className="flex gap-1">
+                <CloseIcon color="#A1AECE" width={19} />
+                <span className="text-foreground-500">No Posts found</span>
+              </div>
+            )}
           </AccordionItem>
         </Accordion>
 

@@ -47,8 +47,8 @@ export default async function BlogPage({ params }: { params: { id: string } }) {
         </div>
 
         <div className="flex flex-col gap-1">
-          <span className="font-semibold text-2xl ">{post.title}</span>
-          <span className="text-sm text-foreground-500">{post.excerpt}</span>
+          <h1>{post.title}</h1>
+          <span className="text-lg text-foreground-600">{post.excerpt}</span>
         </div>
         <div className="flex flex-col">
           <Markdown>{post.content}</Markdown>

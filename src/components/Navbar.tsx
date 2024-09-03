@@ -14,6 +14,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
+import { EnterIcon } from "@/components/icons";
 
 export default function Navbar() {
   const { isDark, toggleTheme } = useTheme();
@@ -27,9 +28,9 @@ export default function Navbar() {
       const searchParams = new URLSearchParams({
         query: searchQuery,
       }).toString();
-      
+
       router.push(`/search?${searchParams}`);
-    }
+    } else if (searchQuery.trim().length === 0) router.push(`/allposts`);
   };
 
   return (
@@ -94,6 +95,7 @@ export default function Navbar() {
             onValueChange={setSearchQuery}
             startContent={<Search01Icon color="foreground" width={"20"} />}
             onKeyDown={handleKeyDown}
+            isClearable
           />
         </div>
       </div>

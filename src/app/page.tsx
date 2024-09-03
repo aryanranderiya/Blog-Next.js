@@ -2,6 +2,7 @@ import BlogCard from "@/components/BlogCard";
 import Image from "next/image";
 import { Post } from "@/components/BlogCard";
 import HoveredChip from "@/components/HoveredChip";
+import { CloseIcon } from "@/components/icons";
 
 export const revalidate = 60;
 export const dynamicParams = true;
@@ -70,7 +71,10 @@ async function FeaturedPosts() {
         {posts.length > 0 ? (
           posts.map((post, index) => <BlogCard post={post} key={index} />)
         ) : (
-          <span className="text-foreground-400">No Posts Found</span>
+          <div className="flex gap-1">
+            <CloseIcon color="#A1AECE" width={19} />
+            <span className="text-foreground-500">No Posts found</span>
+          </div>
         )}
       </div>
     </div>
@@ -91,7 +95,10 @@ async function LatestPosts() {
         {posts.length > 0 ? (
           posts.map((post, index) => <BlogCard post={post} key={index} />)
         ) : (
-          <span className="text-foreground-400">No Posts Found</span>
+          <div className="flex gap-1">
+            <CloseIcon color="#A1AECE" width={19} />
+            <span className="text-foreground-500">No Posts found</span>
+          </div>
         )}
       </div>
     </div>
