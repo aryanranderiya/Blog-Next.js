@@ -1,8 +1,8 @@
-import BlogCard from "@/components/BlogCard";
 import { Post } from "@/components/BlogCard";
-import { Tags } from "./tags";
+import { Tags } from "../../allposts/tags";
+import { SearchedPosts } from "./searchedPosts";
 
-export default async function AllPosts() {
+export default async function SearchPosts() {
   const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/posts`);
 
   const posts: Post[] = await response.json().catch(() => ({
@@ -15,13 +15,9 @@ export default async function AllPosts() {
         <span className="text-nowrap font-semibold text-4xl">All Posts</span>
         <Tags posts={posts} />
         <div className="flex gap-3 flex-wrap pt-4">
-          {posts.map((post: Post, index: number) => (
-            <BlogCard post={post} key={index} />
-          ))}
+          <SearchedPosts posts={posts} />
         </div>
       </div>
     </main>
   );
 }
-
-

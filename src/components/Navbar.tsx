@@ -12,9 +12,25 @@ import { Switch } from "@nextui-org/switch";
 import { useTheme } from "@/contexts/ThemeContext";
 import Image from "next/image";
 import Link from "next/link";
+import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 
 export default function Navbar() {
   const { isDark, toggleTheme } = useTheme();
+  const [searchQuery, setSearchQuery] = useState("");
+  const router = useRouter();
+
+  const handleKeyDown = (event: any) => {
+    if (event.key === "Enter" && searchQuery.trim().length !== 0) {
+      event.preventDefault();
+
+      const searchParams = new URLSearchParams({
+        query: searchQuery,
+      }).toString();
+      
+      router.push(`/search?${searchParams}`);
+    }
+  };
 
   return (
     <div
@@ -74,7 +90,10 @@ export default function Navbar() {
             radius="full"
             variant="faded"
             placeholder="Search"
+            value={searchQuery}
+            onValueChange={setSearchQuery}
             startContent={<Search01Icon color="foreground" width={"20"} />}
+            onKeyDown={handleKeyDown}
           />
         </div>
       </div>

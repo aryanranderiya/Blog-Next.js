@@ -4,19 +4,6 @@ import Markdown from "react-markdown";
 import ContentsSidebar from "@/components/ContentsSidebar";
 import { notFound } from "next/navigation";
 
-export const revalidate = 60;
-export const dynamicParams = true;
-
-export async function generateStaticParams() {
-  let posts: Post[] = await fetch(
-    `${process.env.NEXT_PUBLIC_BASE_URL}/api/posts`
-  ).then((res) => res.json());
-
-  return posts.map((post) => ({
-    id: post.id.toString(),
-  }));
-}
-
 interface ErrorResponse {
   data: {
     error: string;

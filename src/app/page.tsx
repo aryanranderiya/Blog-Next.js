@@ -1,10 +1,19 @@
-"use client";
 import BlogCard from "@/components/BlogCard";
 import Image from "next/image";
-import { useEffect, useState } from "react";
-import axios from "axios";
 import { Post } from "@/components/BlogCard";
 import HoveredChip from "@/components/HoveredChip";
+
+export const revalidate = 60;
+export const dynamicParams = true;
+export async function generateStaticParams() {
+  let posts: Post[] = await fetch(
+    `${process.env.NEXT_PUBLIC_BASE_URL}/api/posts`
+  ).then((res) => res.json());
+
+  return posts.map((post) => ({
+    id: post.id.toString(),
+  }));
+}
 
 export default function Home() {
   return (
@@ -47,19 +56,12 @@ export default function Home() {
   );
 }
 
-function FeaturedPosts() {
-  const [posts, setPosts] = useState<Post[]>([]);
+async function FeaturedPosts() {
+  const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/posts`);
 
-  useEffect(() => {
-    axios
-      .get("/api/posts")
-      .then((response) => {
-        setPosts(response.data);
-      })
-      .catch((error) => {
-        console.error("Error fetching posts:", error);
-      });
-  }, []);
+  const posts: Post[] = await response.json().catch(() => ({
+    data: { error: "An unknown error occurred" },
+  }));
 
   return (
     <div className="flex flex-col gap-2 pt-16 min-h-fit">
@@ -75,19 +77,12 @@ function FeaturedPosts() {
   );
 }
 
-function LatestPosts() {
-  const [posts, setPosts] = useState<Post[]>([]);
+async function LatestPosts() {
+  const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/posts`);
 
-  useEffect(() => {
-    axios
-      .get("/api/posts")
-      .then((response) => {
-        setPosts(response.data);
-      })
-      .catch((error) => {
-        console.error("Error fetching posts:", error);
-      });
-  }, []);
+  const posts: Post[] = await response.json().catch(() => ({
+    data: { error: "An unknown error occurred" },
+  }));
 
   return (
     <div className="flex flex-col gap-3 pt-8 min-h-fit">

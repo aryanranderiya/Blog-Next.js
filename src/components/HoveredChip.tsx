@@ -1,3 +1,5 @@
+"use client";
+
 import { ArrowUpRight } from "@/components/icons";
 import { Chip } from "@nextui-org/react";
 import { useState } from "react";

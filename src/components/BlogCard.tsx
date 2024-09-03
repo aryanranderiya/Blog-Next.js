@@ -1,8 +1,11 @@
+"use client";
+
 import { Chip } from "@nextui-org/react";
 import { useState } from "react";
 import { ArrowUpRight } from "./icons";
 import { ScrollArea } from "./shadcn/scroll-area";
 import Image from "next/image";
+import Link from "next/link";
 
 export interface Post {
   id: number;
@@ -26,9 +29,10 @@ export default function BlogCard({ post }: { post: Post }) {
   };
 
   return (
-    <div
+    <Link
       className="flex w-[300px] h-[375px] bg-foreground-100 rounded-xl p-[10px] relative flex-col cursor-pointer hover:-tran  ate-y-2 hover:bg-foreground-200 transition-all"
       onMouseOut={handleMouseOut}
+      href={post.id.toString()}
       onMouseOver={handleMouseOver}
     >
       <Image
@@ -72,6 +76,6 @@ export default function BlogCard({ post }: { post: Post }) {
           </span>
         </ScrollArea>
       </div>
-    </div>
+    </Link>
   );
 }

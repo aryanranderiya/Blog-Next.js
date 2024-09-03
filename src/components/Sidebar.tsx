@@ -15,6 +15,7 @@ import { useTheme } from "@/contexts/ThemeContext";
 import Vercel from "@/components/Vercel.png";
 import Nextjs from "@/components/nextjs.svg";
 import axios from "axios";
+import Link from "next/link";
 
 interface Item {
   id: number;
@@ -42,10 +43,10 @@ export function SidebarItem({ label, href }: { label: string; href: string }) {
   };
 
   return (
-    <div
+    <Link
       className="flex justify-between py-[6px] pr-[13px] cursor-pointer"
       onMouseOver={HandleMouseOver}
-      onClick={() => router.push(href)}
+      href={href}
       onMouseOut={HandleMouseOut}
     >
       <span
@@ -64,7 +65,7 @@ export function SidebarItem({ label, href }: { label: string; href: string }) {
             : "opacity-0 -translate-x-4"
         }`}
       />
-    </div>
+    </Link>
   );
 }
 
