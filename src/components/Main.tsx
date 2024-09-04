@@ -5,6 +5,7 @@ import Navbar from "@/components/Navbar";
 import Sidebar from "@/components/Sidebar";
 import { ScrollArea } from "@/components/shadcn/scroll-area";
 import { useTheme } from "@/contexts/ThemeContext";
+import { Toaster } from "@/components/shadcn/toaster";
 
 export default function Main({ children }: { children: React.ReactNode }) {
   const { isDark } = useTheme();
@@ -26,6 +27,7 @@ export default function Main({ children }: { children: React.ReactNode }) {
           <ScrollArea className="w-full">{children}</ScrollArea>
         </div>
       </div>
+      <Toaster />
     </NextUIProvider>
   );
 }

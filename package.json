@@ -9,8 +9,10 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@internationalized/date": "^3.5.5",
     "@nextui-org/react": "^2.4.6",
     "@radix-ui/react-scroll-area": "^1.1.0",
+    "@radix-ui/react-toast": "^1.2.1",
     "@tiptap/core": "^2.6.6",
     "@tiptap/extension-code-block-lowlight": "^2.6.6",
     "@tiptap/extension-color": "^2.6.6",
@@ -30,6 +32,7 @@
     "clsx": "^2.1.1",
     "cmdk": "^1.0.0",
     "framer-motion": "^11.3.31",
+    "lodash": "^4.17.21",
     "lucide-react": "^0.436.0",
     "next": "14.2.7",
     "react": "^18",

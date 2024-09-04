@@ -4,10 +4,21 @@ import { apiPost } from "@/app/api/database";
 export async function POST(request: Request) {
   try {
     const body = await request.json();
-    const { title, date, excerpt, tags, image, content, estimated_read_time } =
-      body;
+    const {
+      postID,
+      title,
+      date,
+      excerpt,
+      tags,
+      image,
+      content,
+      estimated_read_time,
+    } = body;
+
+    console.log(body);
 
     if (
+      !postID ||
       !title ||
       !date ||
       !excerpt ||
@@ -23,11 +34,12 @@ export async function POST(request: Request) {
     }
 
     const query = `
-      INSERT INTO blogposts (title, date, excerpt, tags, image, content, estimated_read_time)
-      VALUES (?, ?, ?, ?, ?, ?, ?)
+      INSERT INTO blogposts (postID, title, date, excerpt, tags, image, content, estimated_read_time)
+      VALUES (?, ?, ?, ?, ?, ?, ?, ?)
     `;
 
     await apiPost(query, [
+      postID,
       title,
       date,
       excerpt,

@@ -8,14 +8,15 @@ export const migrate = () => {
       `
       CREATE TABLE IF NOT EXISTS blogposts (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
+        postID TEXT NOT NULL UNIQUE,
         title TEXT NOT NULL,
         date TEXT NOT NULL,
         excerpt TEXT NOT NULL,
         tags TEXT NOT NULL, -- Storing tags as a JSON string
         image TEXT NOT NULL,
         content TEXT NOT NULL,
-        estimated_read_time INTEGER -- Estimated time to read in minutes
-      );
+        estimated_read_time TEXT NOT NULL
+      )
     `,
       (err: Error) => {
         if (err) {

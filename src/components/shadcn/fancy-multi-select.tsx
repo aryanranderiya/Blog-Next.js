@@ -2,7 +2,6 @@
 
 import * as React from "react";
 import { X } from "lucide-react";
-
 import { Badge } from "@/components/shadcn/badge";
 import {
   Command,
@@ -11,53 +10,27 @@ import {
   CommandList,
 } from "@/components/shadcn/command";
 import { Command as CommandPrimitive } from "cmdk";
+export type Tag = Record<"value" | "label", string>;
 
-type Framework = Record<"value" | "label", string>;
-
-const FRAMEWORKS = [
-  {
-    value: "next.js",
-    label: "Next.js",
-  },
-  {
-    value: "sveltekit",
-    label: "SvelteKit",
-  },
-  {
-    value: "nuxt.js",
-    label: "Nuxt.js",
-  },
-  {
-    value: "remix",
-    label: "Remix",
-  },
-  {
-    value: "astro",
-    label: "Astro",
-  },
-  {
-    value: "wordpress",
-    label: "WordPress",
-  },
-  {
-    value: "express.js",
-    label: "Express.js",
-  },
-  {
-    value: "nest.js",
-    label: "Nest.js",
-  },
-] satisfies Framework[];
-
-export function FancyMultiSelect() {
+export function FancyMultiSelect({
+  tags,
+  selected,
+  setSelected,
+}: {
+  tags: Tag[];
+  selected: Tag[];
+  setSelected: React.Dispatch<React.SetStateAction<Tag[]>>;
+}): React.JSX.Element {
   const inputRef = React.useRef<HTMLInputElement>(null);
   const [open, setOpen] = React.useState(false);
-  const [selected, setSelected] = React.useState<Framework[]>([FRAMEWORKS[1]]);
   const [inputValue, setInputValue] = React.useState("");
 
-  const handleUnselect = React.useCallback((framework: Framework) => {
-    setSelected((prev) => prev.filter((s) => s.value !== framework.value));
-  }, []);
+  const handleUnselect = React.useCallback(
+    (framework: Tag) => {
+      setSelected((prev) => prev.filter((s) => s.value !== framework.value));
+    },
+    [setSelected]
+  );
 
   const handleKeyDown = React.useCallback(
     (e: React.KeyboardEvent<HTMLDivElement>) => {
@@ -72,20 +45,15 @@ export function FancyMultiSelect() {
             });
           }
         }
-        // This is not a default behaviour of the <input /> field
         if (e.key === "Escape") {
           input.blur();
         }
       }
     },
-    []
+    [setSelected]
   );
 
-  const selectables = FRAMEWORKS.filter(
-    (framework) => !selected.includes(framework)
-  );
-
-  console.log(selectables, selected, inputValue);
+  const selectables = tags.filter((framework) => !selected.includes(framework));
 
   return (
     <Command
@@ -94,72 +62,67 @@ export function FancyMultiSelect() {
     >
       <div className="group rounded-xl border-2 border-input px-3 py-[14px] text-sm ring-offset-background focus-within:ring-2 focus-within:ring-foreground-400 focus-within:ring-ring focus-within:ring-offset-2 bg-foreground-100">
         <div className="flex flex-wrap gap-1">
-          {selected.map((framework) => {
-            return (
-              <Badge
-                key={framework.value}
-                variant="secondary"
-                className="bg-foreground-300 py-1 hover:bg-foreground-400"
+          {selected.map((framework) => (
+            <Badge
+              key={framework.value}
+              variant="secondary"
+              className="bg-foreground-300 py-1 hover:bg-foreground-400"
+            >
+              {framework.label}
+              <button
+                className="ml-1 rounded-full outline-none ring-offset-background focus:ring-2 focus:ring-ring focus:ring-offset-2"
+                onKeyDown={(e) => {
+                  if (e.key === "Enter") {
+                    handleUnselect(framework);
+                  }
+                }}
+                onMouseDown={(e) => {
+                  e.preventDefault();
+                  e.stopPropagation();
+                }}
+                onClick={() => handleUnselect(framework)}
               >
-                {framework.label}
-                <button
-                  className="ml-1 rounded-full outline-none ring-offset-background focus:ring-2 focus:ring-ring focus:ring-offset-2"
-                  onKeyDown={(e) => {
-                    if (e.key === "Enter") {
-                      handleUnselect(framework);
-                    }
-                  }}
-                  onMouseDown={(e) => {
-                    e.preventDefault();
-                    e.stopPropagation();
-                  }}
-                  onClick={() => handleUnselect(framework)}
-                >
-                  <X className="h-3 w-3 text-muted-foreground hover:text-foreground" />
-                </button>
-              </Badge>
-            );
-          })}
-          {/* Avoid having the "Search" Icon */}
+                <X className="h-3 w-3 text-muted-foreground hover:text-foreground" />
+              </button>
+            </Badge>
+          ))}
           <CommandPrimitive.Input
             ref={inputRef}
             value={inputValue}
             onValueChange={setInputValue}
             onBlur={() => setOpen(false)}
             onFocus={() => setOpen(true)}
-            placeholder="Select frameworks..."
+            placeholder="Select tags..."
             className="ml-2 flex-1 bg-transparent outline-none placeholder:text-muted-foreground"
           />
         </div>
       </div>
-      <div className="relative mt-2">
-        <CommandList>
-          {open && selectables.length > 0 ? (
-            <div className="absolute top-0 z-10 w-full rounded-xl border bg-popover text-popover-foreground shadow-md outline-none animate-in">
+      {open && selectables.length > 0 && (
+        <div className="relative mt-2">
+          <div className="absolute top-0 z-10 w-full rounded-xl border bg-popover text-popover-foreground shadow-md outline-none animate-in">
+            <CommandList>
               <CommandGroup className="h-full overflow-auto">
-                {selectables.map((framework) => {
-                  return (
-                    <CommandItem
-                      key={framework.value}
-                      onMouseDown={(e) => {
-                        e.preventDefault();
-                        e.stopPropagation();
-                      }}
-                      onSelect={(value) => {
-                        setInputValue("");
-                        setSelected((prev) => [...prev, framework]);
-                      }}
-                      className={"cursor-pointer"}
-                    >
-                      {framework.label}
-                    </CommandItem>
-                  );
-                })}
+                {selectables.map((framework) => (
+                  <CommandItem
+                    key={framework.value}
+                    onMouseDown={(e) => {
+                      e.preventDefault();
+                      e.stopPropagation();
+                    }}
+                    onSelect={() => {
+                      setInputValue("");
+                      setSelected((prev) => [...prev, framework]);
+                    }}
+                    className="cursor-pointer"
+                  >
+                    {framework.label}
+                  </CommandItem>
+                ))}
               </CommandGroup>
-            </div>
-          ) : null}
-        </CommandList>
-      </div>
+            </CommandList>
+          </div>
+        </div>
+      )}
     </Command>
   );
 }

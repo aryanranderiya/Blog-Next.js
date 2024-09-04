@@ -12,9 +12,10 @@ export interface Post {
   title: string;
   date: string;
   excerpt: string;
-  tags: string[];
+  tags: string;
   image: string;
   content: string;
+  estimated_read_time: string;
 }
 
 export default function BlogCard({ post }: { post: Post }) {
@@ -35,13 +36,17 @@ export default function BlogCard({ post }: { post: Post }) {
       href={post.id.toString()}
       onMouseOver={handleMouseOver}
     >
-      <Image
-        src={post.image}
-        alt={post.title}
-        height={150}
-        width={500}
-        className="w-full h-[150px] object-cover rounded-xl bg-foreground-300"
-      />
+      <div className="h-[150px] overflow-hidden  rounded-xl bg-foreground-300 ">
+        <Image
+          src={post.image}
+          alt={post.title}
+          height={150}
+          width={500}
+          className={`w-full h-[150px] object-cover transition-all ${
+            isHovered ? "scale-125" : ""
+          }`}
+        />
+      </div>
 
       <Chip
         className={`absolute right-3 top-[130px] transition-all ${

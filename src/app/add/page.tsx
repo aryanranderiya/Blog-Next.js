@@ -1,49 +1,256 @@
 "use client";
 
+import { FancyMultiSelect, Tag } from "@/components/shadcn/fancy-multi-select";
+import { useToast } from "@/components/shadcn/use-toast";
+import { getLocalTimeZone, today } from "@internationalized/date";
+import { useDateFormatter } from "@react-aria/i18n";
+
+import {
+  Button,
+  DatePicker,
+  DateValue,
+  Input,
+  Textarea,
+} from "@nextui-org/react";
 import { Editable, useEditor } from "@wysimark/react";
-import { useState } from "react";
-import { Button, DatePicker, Input } from "@nextui-org/react";
 import * as React from "react";
-import { FancyMultiSelect } from "@/components/shadcn/fancy-multi-select";
+import { useState, useEffect } from "react";
+import { debounce } from "lodash";
+
+const tags = [
+  {
+    value: "next.js",
+    label: "Next.js",
+  },
+  {
+    value: "sveltekit",
+    label: "SvelteKit",
+  },
+  {
+    value: "nuxt.js",
+    label: "Nuxt.js",
+  },
+  {
+    value: "remix",
+    label: "Remix",
+  },
+  {
+    value: "astro",
+    label: "Astro",
+  },
+  {
+    value: "wordpress",
+    label: "WordPress",
+  },
+  {
+    value: "express.js",
+    label: "Express.js",
+  },
+  {
+    value: "nest.js",
+    label: "Nest.js",
+  },
+];
+
+const password = process.env.NEXT_PUBLIC_PASSWORD;
 
 export default function AddPost() {
-  const [markdown, setMarkdown] = useState("# Hello World");
+  const [postID, setPostID] = useState("");
+  const [title, setTitle] = useState("");
+  const [userPassword, setUserPassword] = useState<string>("");
+  const [passwordCorrect, setPasswordCorrect] = useState<boolean>(false);
+  const [excerpt, setExcerpt] = useState("");
+  const [postDate, setPostDate] = useState<DateValue>(
+    today(getLocalTimeZone())
+  );
+  const [estimatedTime, setEstimatedTime] = useState<string>();
+  const [markdown, setMarkdown] = useState("This is the body");
+  const [selectedTags, setSelectedTags] = useState<Tag[]>([]);
+  const { toast } = useToast();
   const editor = useEditor({});
+  let formatter = useDateFormatter({
+    day: "numeric",
+    month: "long",
+    year: "numeric",
+  });
+
+  const handleSubmitPassword = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setPasswordCorrect(userPassword === password);
+  };
+
+  const calculateEstimatedTime = React.useCallback(
+    debounce((text: string) => {
+      const wordCount = text
+        .replace(/[^\w\s]|nbsp+/g, "")
+        .split(/\s+|\n+/).length;
+
+      setEstimatedTime(
+        `${(wordCount / 238).toFixed(wordCount / 238 <= 1 ? 2 : 1)} Minutes`
+      );
+    }, 300),
+    []
+  );
+
+  useEffect(() => {
+    calculateEstimatedTime(markdown);
+  }, [markdown, calculateEstimatedTime]);
+
+  useEffect(() => {
+    setPostID(title.replace(/\s+/g, "_").replace(/[^\w]/g, "").slice(0, 25));
+  }, [title]);
+
+  const handleSubmit = async () => {
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_BASE_URL}/api/post/add`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          postID,
+          title,
+          date: !!postDate
+            ? formatter.format(postDate.toDate(getLocalTimeZone())).toString()
+            : null,
+          excerpt,
+          tags: selectedTags.map((tag) => tag.label),
+          image: "https://github.com/aryanranderiya.png",
+          content: markdown,
+          estimated_read_time: estimatedTime,
+        }),
+      }
+    );
+
+    if (!response.ok) {
+      const result = await response.json();
+
+      toast({
+        title: "Failed to add Post." + result?.error,
+      });
+    } else
+      toast({
+        title: "Post successfully added.",
+      });
+  };
 
   return (
     <main className="flex min-h-screen h-fit flex-col gap-3 px-24 pt-20 pb-24">
-      <span className="text-nowrap font-semibold text-4xl">Add Post</span>
-      <Input
-        placeholder="Lorem ipsum"
-        label="Enter Post Title"
-        variant="faded"
-      />
-      <Input
-        placeholder="Lorem ipsum, dolor sit amet consectetur adipisicing."
-        label="Enter Post Subtitle"
-        variant="faded"
-      />
-      <div className="flex gap-3">
-        <DatePicker
-          label="Post Date"
-          className="max-w-[284px]"
-          variant="faded"
-        />
-        <FancyMultiSelect />
-      </div>
+      {passwordCorrect ? (
+        <>
+          <span className="text-nowrap font-semibold text-4xl">Add Post</span>
 
-      <div className="rounded-2xl overflow-hidden outline outline-3 outline-foreground-200">
-        <Editable
-          editor={editor}
-          value={markdown}
-          onChange={setMarkdown}
-          className="min-h-[50vh] border-none"
-        />
-      </div>
+          <div className="flex gap-3">
+            <Input
+              placeholder="thisisapost"
+              label="Enter Post ID"
+              description={`Max Characters: 25 | ${postID.length}`}
+              variant="faded"
+              value={postID}
+              onValueChange={(e) => {
+                setPostID(
+                  e.replace(/\s+/g, "_").replace(/[^\w]/g, "").slice(0, 25)
+                );
+              }}
+            />
 
-      <Button variant="shadow" color="primary" className="font-semibold">
-        Create new post
-      </Button>
+            <Input
+              placeholder="Lorem ipsum"
+              label="Enter Post Title"
+              variant="faded"
+              value={title}
+              onValueChange={(e) => setTitle(e)}
+            />
+          </div>
+
+          <Textarea
+            placeholder="Lorem ipsum, dolor sit amet consectetur adipisicing."
+            label="Enter Post Excerpt"
+            variant="faded"
+            description={`Max Words: 200 | Current: ${
+              excerpt
+                .trim()
+                .replace(/[^\w\s]|nbsp+/g, "")
+                .split(/\s+|\n+/).length
+            } words`}
+            value={excerpt}
+            onValueChange={(string) => {
+              const wordCount = string
+                .replace(/[^\w\s]|nbsp+/g, "")
+                .split(/\s+|\n+/).length;
+
+              if (wordCount <= 200) setExcerpt(string);
+            }}
+          />
+          <div className="flex gap-3">
+            <DatePicker
+              label="Post Date"
+              variant="faded"
+              value={postDate}
+              maxValue={today(getLocalTimeZone())}
+              defaultValue={today(getLocalTimeZone())}
+              showMonthAndYearPickers
+              onChange={(e) => setPostDate(e)}
+            />
+
+            <Input
+              placeholder="10 Minutes"
+              label="Estimated Read Time"
+              variant="faded"
+              value={estimatedTime}
+              onValueChange={(e) => setEstimatedTime(e)}
+            />
+          </div>
+
+          <FancyMultiSelect
+            tags={tags}
+            selected={selectedTags}
+            setSelected={setSelectedTags}
+          />
+
+          <div className="rounded-2xl overflow-hidden outline outline-3 outline-foreground-200">
+            <Editable
+              editor={editor}
+              value={markdown}
+              onChange={setMarkdown}
+              className="min-h-[40vh] max-h-[1000px] overflow-scroll border-none"
+            />
+          </div>
+
+          <Button
+            variant="shadow"
+            color="primary"
+            className="font-semibold"
+            onClick={handleSubmit}
+          >
+            Create new post
+          </Button>
+        </>
+      ) : (
+        <form
+          className="flex h-full w-full flex-1 mt-[-10%] flex-col items-center gap-2 justify-center"
+          onSubmit={handleSubmitPassword}
+        >
+          <span className="font-semibold text-lg">Enter Password:</span>
+          <Input
+            placeholder="Enter Password"
+            variant="faded"
+            type="password"
+            onValueChange={setUserPassword}
+            value={userPassword}
+            className="max-w-sm"
+          />
+          <Button
+            type="submit"
+            color="primary"
+            className="font-semibold"
+            variant="flat"
+          >
+            Submit
+          </Button>
+        </form>
+      )}
     </main>
   );
 }

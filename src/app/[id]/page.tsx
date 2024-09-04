@@ -3,6 +3,7 @@ import { Post } from "@/components/BlogCard";
 import Markdown from "react-markdown";
 import ContentsSidebar from "@/components/ContentsSidebar";
 import { notFound } from "next/navigation";
+import { Chip } from "@nextui-org/react";
 
 interface ErrorResponse {
   data: {
@@ -23,26 +24,38 @@ export default async function BlogPage({ params }: { params: { id: string } }) {
 
   const post = data as Post;
 
+  console.log(typeof post.tags);
+
   return (
     <div className="flex flex-row px-24 pt-20 pb-24 justify-between">
       <main className="flex h-fit flex-col gap-7 relative">
-        <div className="flex items-center gap-3">
-          <Image
-            src={"https://github.com/aryanranderiya.png"}
-            alt="Profile Picture"
-            width={40}
-            height={40}
-          />
+        <div className="flex flex-col gap-3">
+          <div className="flex items-center gap-3">
+            <Image
+              src={"https://github.com/aryanranderiya.png"}
+              alt="Profile Picture"
+              width={40}
+              height={40}
+            />
 
-          <div className="flex flex-col">
-            <span className="text-md font-semibold">Aryan Randeriya</span>
-            <div className="flex gap-2">
-              <span className="text-foreground-500 text-sm">{post.date}</span>
-              <span className="text-foreground text-sm">/</span>
-              <span className="text-foreground-400 text-sm">
-                10 minute read
-              </span>
+            <div className="flex flex-col">
+              <span className="text-md font-semibold">Aryan Randeriya</span>
+              <div className="flex gap-2">
+                <span className="text-foreground-500 text-sm">{post.date}</span>
+                <span className="text-foreground text-sm">/</span>
+                <span className="text-foreground-400 text-sm">
+                  {post.estimated_read_time}
+                </span>
+              </div>
             </div>
+          </div>
+
+          <div className="flex gap-1 flex-wrap">
+            {JSON.parse(post.tags).map((tag: string) => (
+              <Chip size="sm" color="primary" variant="flat">
+                {tag}
+              </Chip>
+            ))}
           </div>
         </div>
 
@@ -50,6 +63,7 @@ export default async function BlogPage({ params }: { params: { id: string } }) {
           <h1>{post.title}</h1>
           <span className="text-lg text-foreground-600">{post.excerpt}</span>
         </div>
+
         <div className="flex flex-col">
           <Markdown>{post.content}</Markdown>
         </div>
