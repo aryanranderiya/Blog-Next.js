@@ -1,73 +1,22 @@
 "use client";
 
-import { Accordion, AccordionItem, Chip } from "@nextui-org/react";
-import {
-  ArrowUpRight,
-  AnnouncementIcon,
-  FeatherIcon,
-  CloseIcon,
-} from "@/components/icons";
-import { useEffect, useState } from "react";
-import GithubIcon from "@/components/github.webp";
-import Image from "next/image";
-import { useRouter, usePathname } from "next/navigation";
-import { ScrollArea } from "./shadcn/scroll-area";
-import { useTheme } from "@/contexts/ThemeContext";
 import Vercel from "@/components/Vercel.png";
+import GithubIcon from "@/components/github.webp";
+import { AnnouncementIcon, CloseIcon, FeatherIcon } from "@/components/icons";
 import Nextjs from "@/components/nextjs.svg";
-import axios from "axios";
-import Link from "next/link";
+import { useTheme } from "@/contexts/ThemeContext";
+import { Accordion, AccordionItem, Chip } from "@nextui-org/react";
+import Image from "next/image";
+import { ScrollArea } from "./shadcn/scroll-area";
+import { SidebarItem } from "./SidebarItem";
+// import { useTheme } from "@/contexts/ThemeContext";
+import useSWR from "swr";
 
 interface Item {
   id: number;
   key: string;
   label: string;
   href: string;
-}
-
-export function SidebarItem({ label, href }: { label: string; href: string }) {
-  const [isHovered, setIsHovered] = useState(false);
-  const [isActive, setIsActive] = useState(false);
-  const router = useRouter();
-  const pathname = usePathname();
-
-  useEffect(() => {
-    setIsActive(pathname === href);
-  }, [pathname, href]);
-
-  const HandleMouseOver = () => {
-    setIsHovered(true);
-  };
-
-  const HandleMouseOut = () => {
-    setIsHovered(false);
-  };
-
-  return (
-    <Link
-      className="flex justify-between py-[6px] pr-[13px] cursor-pointer"
-      onMouseOver={HandleMouseOver}
-      href={href}
-      onMouseOut={HandleMouseOut}
-    >
-      <span
-        className={`${
-          isHovered || isActive ? "text-[#00bbff]" : "text-foreground-500"
-        } transition-colors text-md ${isActive ? "font-semibold" : ""}`}
-      >
-        {label}
-      </span>
-      <ArrowUpRight
-        color={isHovered || isActive ? "#00bbff" : "foreground"}
-        width={18}
-        className={`transition-all ${
-          isHovered || isActive
-            ? "opacity-100 translate-x-0"
-            : "opacity-0 -translate-x-4"
-        }`}
-      />
-    </Link>
-  );
 }
 
 const items: Item[] = [
@@ -85,21 +34,28 @@ const items: Item[] = [
   },
 ];
 
-export default function Sidebar() {
-  const [postTitles, setPostTitles] = useState<{ id: string; title: string }[]>(
-    []
-  );
+const fetcher = (...args: [RequestInfo, RequestInit?]): Promise<any> =>
+  fetch(...args).then((res) => res.json());
 
-  useEffect(() => {
-    axios
-      .get("/api/posts/titles")
-      .then((response) => {
-        setPostTitles(response.data);
-      })
-      .catch((error) => {
-        console.error("Error fetching posts:", error);
-      });
-  }, []);
+export default function Sidebar() {
+  // const response = await fetch(
+  //   `${process.env.NEXT_PUBLIC_BASE_URL}/api/posts/titles`
+  // );
+
+  // const postTitles: { id: string; title: string }[] = await response
+  //   .json()
+  //   .catch(() => ({
+  //     data: { error: "An unknown error occurred" },
+  //   }));
+  const { data, error } = useSWR("/api/posts/titles", fetcher);
+
+  if (!data)
+    return (
+      <div className="flex w-[300px] pb-[90px] min-w-[300px] border-r-1 border-foreground-200 p-[1em] flex-col bg-background text-foreground">
+        Loading...
+      </div>
+    );
+  if (error) return <div>Failed to load</div>;
 
   const { isDark } = useTheme();
 
@@ -130,14 +86,16 @@ export default function Sidebar() {
             title={<span className="font-semibold">Posts</span>}
             startContent={<FeatherIcon color="#00bbff" width={18} />}
           >
-            {postTitles.length !== 0 ? (
-              postTitles.map((item, index) => (
-                <SidebarItem
-                  label={item.title}
-                  href={"/" + item.id}
-                  key={index}
-                />
-              ))
+            {data.length !== 0 ? (
+              data.map(
+                (item: { title: string; postID: string }, index: number) => (
+                  <SidebarItem
+                    label={item.title}
+                    href={"/" + item.postID}
+                    key={index}
+                  />
+                )
+              )
             ) : (
               <div className="flex gap-1">
                 <CloseIcon color="#A1AECE" width={19} />
@@ -149,8 +107,8 @@ export default function Sidebar() {
 
         <div className="flex w-full gap-1 items-center mt-6 flex-col">
           <Chip
-            className=""
             variant="flat"
+            className="cursor-default"
             color="primary"
             startContent={
               <Image
@@ -165,7 +123,7 @@ export default function Sidebar() {
             Built by Aryan Randeriya
           </Chip>
           <Chip
-            className=""
+            className="cursor-default"
             variant="flat"
             color="default"
             startContent={

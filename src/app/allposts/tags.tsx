@@ -11,7 +11,7 @@ function SelectChip({ title, posts }: { title: string; posts: Post[] }) {
     <Chip
       variant={active ? "faded" : "bordered"}
       color="primary"
-      className="cursor-pointer"
+      className="cursor-pointer select-none"
       onClick={() => setActive((prev) => !prev)}
     >
       {title}

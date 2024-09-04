@@ -3,6 +3,7 @@ import Image from "next/image";
 import { Post } from "@/components/BlogCard";
 import HoveredChip from "@/components/HoveredChip";
 import { CloseIcon } from "@/components/icons";
+import { migrate } from "./api/migrations";
 
 export const revalidate = 60;
 export const dynamicParams = true;
@@ -12,11 +13,12 @@ export async function generateStaticParams() {
   ).then((res) => res.json());
 
   return posts.map((post) => ({
-    id: post.id.toString(),
+    id: post.postID.toString(),
   }));
 }
 
 export default function Home() {
+  migrate();
   return (
     <main className="flex min-h-screen h-fit flex-col gap-7 px-24 pt-20 pb-24">
       <div className="font-semibold text-4xl flex gap-3 items-center flex-wrap">

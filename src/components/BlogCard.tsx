@@ -9,6 +9,7 @@ import Link from "next/link";
 
 export interface Post {
   id: number;
+  postID: number;
   title: string;
   date: string;
   excerpt: string;
@@ -33,7 +34,7 @@ export default function BlogCard({ post }: { post: Post }) {
     <Link
       className="flex w-[300px] h-[375px] bg-foreground-100 rounded-xl p-[10px] relative flex-col cursor-pointer hover:-tran  ate-y-2 hover:bg-foreground-200 transition-all"
       onMouseOut={handleMouseOut}
-      href={post.id.toString()}
+      href={post.postID.toString()}
       onMouseOver={handleMouseOver}
     >
       <div className="h-[150px] overflow-hidden  rounded-xl bg-foreground-300 ">
@@ -49,7 +50,7 @@ export default function BlogCard({ post }: { post: Post }) {
       </div>
 
       <Chip
-        className={`absolute right-3 top-[130px] transition-all ${
+        className={`absolute right-3 cursor-default top-[130px] transition-all ${
           isHovered ? "opacity-100" : "opacity-0"
         } `}
         color="primary"
