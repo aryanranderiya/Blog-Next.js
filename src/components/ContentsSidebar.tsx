@@ -1,14 +1,13 @@
 "use client";
 
+import * as cheerio from "cheerio";
 import { useEffect, useState } from "react";
-import { Post } from "./BlogCard";
-import { unified } from "unified";
+import rehypeSlug from "rehype-slug";
+import rehypeStringify from "rehype-stringify";
 import remarkParse from "remark-parse";
 import remarkRehype from "remark-rehype";
-import rehypeStringify from "rehype-stringify";
-import rehypeSlug from "rehype-slug";
-import * as cheerio from "cheerio";
-import { Eye, Heart } from "lucide-react";
+import { unified } from "unified";
+import { Post } from "./BlogCard";
 
 async function convertMarkdownToHtml(markdown: string) {
   const file = await unified()
@@ -53,23 +52,11 @@ export default function ContentsSidebar({ post }: { post: Post }) {
   }, [post.content]);
 
   return (
-    <div className="flex h-full flex-col p-4 gap-4">
-      <div className="flex gap-4">
-        <div className="flex gap-1 text-lg items-center">
-          <Eye />
-          <span className="text-gray-500">100</span>
-        </div>
-
-        <div className="flex gap-1 text-lg items-center">
-          <Heart fill="red" color="red" />
-          <span className="text-gray-500">100</span>
-        </div>
-      </div>
-
+    <div className="flex h-full flex-col p-4 gap-4  min-w-[250px]">
       {headings.length !== 0 && (
-        <div className="w-full min-w-[200px] max-w-[300px] border px-1 py-2 rounded-lg border-foreground-400 sticky top-0 bg-foreground-100">
+        <div className="w-[240px] border px-1 py-2 rounded-lg border-foreground-400 absolute right-7 top-[30px] bg-foreground-50">
           <div className="flex flex-col gap-2 p-4">
-            <span className="text-xs text-muted-foreground">
+            <span className="text-xs text-muted-foreground font-bold pb-3">
               Table of Contents
             </span>
 
@@ -77,7 +64,7 @@ export default function ContentsSidebar({ post }: { post: Post }) {
               <a
                 key={heading.id}
                 href={`#${heading.id}`}
-                className="text-foreground text-sm hover:underline"
+                className="text-foreground text-sm hover:text-gray-400 transition-all"
               >
                 {heading.text}
               </a>

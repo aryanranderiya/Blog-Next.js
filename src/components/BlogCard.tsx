@@ -8,6 +8,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { Button } from "@nextui-org/react";
 import { useRouter } from "next/navigation";
+import { ScrollShadow } from "@nextui-org/react";
 
 export interface Post {
   id: number;
@@ -35,18 +36,18 @@ export default function BlogCard({ post }: { post: Post }) {
 
   return (
     <Link
-      className="flex w-[300px] h-[375px] bg-foreground-100 rounded-xl p-[10px] relative flex-col cursor-pointer hover:-tran  ate-y-2 hover:bg-foreground-200 transition-all"
+      className="flex w-[300px] min-h-[390px] max-h-[390px] bg-foreground-100 rounded-xl p-[10px] relative flex-col cursor-pointer hover:-tran  ate-y-2 hover:bg-foreground-200 transition-all"
       onMouseOut={handleMouseOut}
       href={post.postID.toString()}
       onMouseOver={handleMouseOver}
     >
-      <div className="h-[150px] overflow-hidden  rounded-xl bg-foreground-300 ">
+      <div className="min-h-[130px] max-h-[130px] overflow-hidden  rounded-xl bg-foreground-300 ">
         <Image
           src={post.image}
           alt={post.title}
           height={150}
           width={500}
-          className={`w-full h-[150px] object-cover transition-all ${
+          className={`w-full min-h-[130px] max-h-[130px] object-cover transition-all ${
             isHovered ? "scale-125" : ""
           }`}
         />
@@ -79,11 +80,17 @@ export default function BlogCard({ post }: { post: Post }) {
               ))}
         </div>
         <span className="text-xl font-semibold pt-1">{post.title}</span>
-        <ScrollArea>
+        <ScrollShadow
+          hideScrollBar
+          className="min-h-[65px] max-h-[65px]"
+          size={25}
+        >
+          {/* <ScrollArea > */}
           <span className="text-sm text-foreground-500 flex flex-wrap">
             {post.excerpt}
           </span>
-        </ScrollArea>
+          {/* </ScrollArea> */}
+        </ScrollShadow>
       </div>
       {/* <div
         className="mt-auto font-bold text-background
@@ -92,7 +99,7 @@ export default function BlogCard({ post }: { post: Post }) {
         Read Post
       </div> */}
       <div
-        className="flex w-full justify-center text-xs font-semibold h-8 items-center bg-primary rounded-small text-background
+        className="flex w-full justify-center text-xs font-semibold min-h-8 max-h-8 items-center bg-primary rounded-small text-background
       mt-auto hover:bg-[#63d6ff] transition-all hover:-translate-y-1
       "
       >
