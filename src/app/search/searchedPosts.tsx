@@ -3,6 +3,7 @@ import { Post } from "@/components/BlogCard";
 import BlogCard from "@/components/BlogCard";
 import { useSearchParams } from "next/navigation";
 import { CloseIcon } from "@/components/icons";
+import { Tags } from "../allposts/tags";
 
 export function SearchedPosts({ posts }: { posts: Post[] }) {
   const searchParams = useSearchParams();
@@ -22,9 +23,12 @@ export function SearchedPosts({ posts }: { posts: Post[] }) {
   return (
     <>
       {result.length > 0 ? (
-        result.map((post: Post, index: number) => (
-          <BlogCard post={post} key={index} />
-        ))
+        <>
+          <Tags posts={posts} isSearch={true} />
+          {result.map((post: Post, index: number) => (
+            <BlogCard post={post} key={index} />
+          ))}
+        </>
       ) : (
         <div className="flex gap-1">
           <CloseIcon color="#A1AECE" width={19} />

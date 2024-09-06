@@ -15,18 +15,6 @@ export default async function AllPosts() {
       <div className="flex gap-3 flex-wrap flex-col">
         <span className="text-nowrap font-semibold text-4xl">All Posts</span>
         <Tags posts={posts} />
-        <div className="flex gap-3 flex-wrap pt-4">
-          {posts.length === 0 ? (
-            <div className="flex gap-1">
-              <CloseIcon color="#A1AECE" width={19} />
-              <span className="text-foreground-500">No Posts found</span>
-            </div>
-          ) : (
-            posts.map((post: Post, index: number) => (
-              <BlogCard post={post} key={index} />
-            ))
-          )}
-        </div>
       </div>
     </main>
   );

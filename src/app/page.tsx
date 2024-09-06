@@ -5,8 +5,6 @@ import HoveredChip from "@/components/HoveredChip";
 import { CloseIcon } from "@/components/icons";
 import { migrate } from "./api/migrations";
 
-export const revalidate = 60;
-export const dynamicParams = true;
 export async function generateStaticParams() {
   let posts: Post[] = await fetch(
     `${process.env.NEXT_PUBLIC_BASE_URL}/api/posts`

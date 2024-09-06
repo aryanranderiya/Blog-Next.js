@@ -6,6 +6,8 @@ import { ArrowUpRight } from "./icons";
 import { ScrollArea } from "./shadcn/scroll-area";
 import Image from "next/image";
 import Link from "next/link";
+import { Button } from "@nextui-org/react";
+import { useRouter } from "next/navigation";
 
 export interface Post {
   id: number;
@@ -21,6 +23,7 @@ export interface Post {
 
 export default function BlogCard({ post }: { post: Post }) {
   const [isHovered, setIsHovered] = useState(false);
+  const router = useRouter();
 
   const handleMouseOver = () => {
     setIsHovered(true);
@@ -60,7 +63,7 @@ export default function BlogCard({ post }: { post: Post }) {
           <span className="font-semibold text-[1.1em] text-background">
             View Post
           </span>
-          <ArrowUpRight color="foreground" width={17} />
+          <ArrowUpRight color="background" width={17} />
         </div>
       </Chip>
 
@@ -81,6 +84,19 @@ export default function BlogCard({ post }: { post: Post }) {
             {post.excerpt}
           </span>
         </ScrollArea>
+      </div>
+      {/* <div
+        className="mt-auto font-bold text-background
+      z-0 group relative inline-flex items-center justify-center box-border appearance-none select-none whitespace-nowrap subpixel-antialiased overflow-hidden tap-highlight-transparent data-[pressed=true]:scale-[0.97] outline-none data-[focus-visible=true]:z-10 data-[focus-visible=true]:outline-2 data-[focus-visible=true]:outline-focus data-[focus-visible=true]:outline-offset-2 px-3 min-w-16 h-8 text-tiny gap-2 rounded-small [&>svg]:max-w-[theme(spacing.8)] transition-transform-colors-opacity motion-reduce:transition-none bg-primary data-[hover=true]:opacity-hover"
+      >
+        Read Post
+      </div> */}
+      <div
+        className="flex w-full justify-center text-xs font-semibold h-8 items-center bg-primary rounded-small text-background
+      mt-auto hover:bg-[#63d6ff] transition-all hover:-translate-y-1
+      "
+      >
+        Read Post
       </div>
     </Link>
   );

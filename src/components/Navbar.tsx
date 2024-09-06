@@ -12,7 +12,7 @@ import { Switch } from "@nextui-org/switch";
 import { useTheme } from "@/contexts/ThemeContext";
 import Image from "next/image";
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { EnterIcon } from "@/components/icons";
 
@@ -32,6 +32,10 @@ export default function Navbar() {
       router.push(`/search?${searchParams}`);
     } else if (searchQuery.trim().length === 0) router.push(`/allposts`);
   };
+
+  React.useEffect(() => {
+    if (searchQuery.trim().length === 0) router.push(`/allposts`);
+  }, [searchQuery]);
 
   return (
     <div
