@@ -1,10 +1,11 @@
-import Image from "next/image";
 import { Post } from "@/components/BlogCard";
-import Markdown from "react-markdown";
 import ContentsSidebar from "@/components/ContentsSidebar";
-import { notFound } from "next/navigation";
 import { Chip } from "@nextui-org/react";
-import { Eye, Heart } from "lucide-react";
+import Image from "next/image";
+import { notFound } from "next/navigation";
+import Markdown from "react-markdown";
+import rehypeSlug from "rehype-slug";
+import "../globals.css";
 
 interface ErrorResponse {
   data: {
@@ -39,7 +40,7 @@ export default async function BlogPage({ params }: { params: { id: string } }) {
   const post = data as Post;
 
   return (
-    <div className="flex flex-row px-24 pt-20 pb-24 justify-between">
+    <div className="flex flex-row px-24 pt-10 pb-24 justify-between">
       <main className="flex h-fit flex-col gap-7 relative w-full">
         <div className="flex flex-col gap-3">
           <div className="flex items-center w-full justify-between">
@@ -65,18 +66,6 @@ export default async function BlogPage({ params }: { params: { id: string } }) {
                 </div>
               </div>
             </div>
-
-            <div className="flex gap-4">
-              <div className="flex gap-1 text-lg items-center">
-                <Eye />
-                <span className="text-[grey]">100</span>
-              </div>
-
-              <div className="flex gap-1 text-lg items-center">
-                <Heart fill="red" color="red" />
-                <span className="text-[grey]">100</span>
-              </div>
-            </div>
           </div>
 
           <div className="flex gap-1 flex-wrap">
@@ -99,11 +88,11 @@ export default async function BlogPage({ params }: { params: { id: string } }) {
           <span className="text-lg text-foreground-600">{post.excerpt}</span>
         </div>
 
-        <div className="flex flex-col">
-          <Markdown>{post.content}</Markdown>
+        <div className="flex flex-col markdown-container">
+          <Markdown rehypePlugins={[rehypeSlug]}>{post.content}</Markdown>
         </div>
       </main>
-      {/* <ContentsSidebar /> */}
+      <ContentsSidebar post={post} />
     </div>
   );
 }

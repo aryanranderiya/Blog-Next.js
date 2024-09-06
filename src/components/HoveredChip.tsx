@@ -28,7 +28,9 @@ export default function HoveredChip({
       variant={isHovered ? "shadow" : "flat"}
       color={color}
       size="lg"
-      className="cursor-pointer transition-all"
+      className={`cursor-pointer transition-all  ${
+        isHovered && color === "primary" ? "text-background" : ""
+      }`}
       endContent={
         <ArrowUpRight
           width={18}

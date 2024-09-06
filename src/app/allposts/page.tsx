@@ -11,10 +11,10 @@ export default async function AllPosts() {
   }));
 
   return (
-    <main className="flex min-h-screen h-fit flex-col gap-7 px-24 pt-20 pb-24">
+    <main className="flex flex-col gap-7 px-24 pt-20 pb-24">
       <div className="flex gap-3 flex-wrap flex-col">
         <span className="text-nowrap font-semibold text-4xl">All Posts</span>
-        <Tags posts={posts} />
+        <Tags posts={posts} isSearch={false} />
       </div>
     </main>
   );

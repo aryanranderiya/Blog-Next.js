@@ -97,7 +97,7 @@ export default function AddPost() {
   }, [markdown, calculateEstimatedTime]);
 
   useEffect(() => {
-    setPostID(title.replace(/\s+/g, "_").replace(/[^\w]/g, "").slice(0, 25));
+    setPostID(title.replace(/\s+/g, "_").replace(/[^\w]/g, "").slice(0, 35));
   }, [title]);
 
   const handleSubmit = async () => {
@@ -133,6 +133,13 @@ export default function AddPost() {
       toast({
         title: "Post successfully added.",
       });
+    setPostID("");
+    setTitle("");
+    setExcerpt("");
+    setPostDate(today(getLocalTimeZone()));
+    setEstimatedTime("");
+    setMarkdown("This is the body");
+    setSelectedTags([]);
   };
 
   return (
@@ -145,12 +152,12 @@ export default function AddPost() {
             <Input
               placeholder="thisisapost"
               label="Enter Post ID"
-              description={`Max Characters: 25 | ${postID.length}`}
+              description={`Max Characters: 35 | ${postID.length}`}
               variant="faded"
               value={postID}
               onValueChange={(e) => {
                 setPostID(
-                  e.replace(/\s+/g, "_").replace(/[^\w]/g, "").slice(0, 25)
+                  e.replace(/\s+/g, "_").replace(/[^\w]/g, "").slice(0, 35)
                 );
               }}
             />

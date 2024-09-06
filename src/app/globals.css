@@ -156,3 +156,12 @@ h6 {
   font-weight: bold;
   font-size: 0.67em;
 }
+
+.markdown-container h1,
+.markdown-container h2,
+.markdown-container h3,
+.markdown-container h4,
+.markdown-container h5,
+.markdown-container h6 {
+  margin-top: 20px !important;
+}

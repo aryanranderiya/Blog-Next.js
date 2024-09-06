@@ -12,13 +12,14 @@ import { Switch } from "@nextui-org/switch";
 import { useTheme } from "@/contexts/ThemeContext";
 import Image from "next/image";
 import Link from "next/link";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { EnterIcon } from "@/components/icons";
 
 export default function Navbar() {
   const { isDark, toggleTheme } = useTheme();
   const [searchQuery, setSearchQuery] = useState("");
+  const prevQueryRef = useRef("");
   const router = useRouter();
 
   const handleKeyDown = (event: any) => {
@@ -33,9 +34,15 @@ export default function Navbar() {
     } else if (searchQuery.trim().length === 0) router.push(`/allposts`);
   };
 
-  React.useEffect(() => {
-    if (searchQuery.trim().length === 0) router.push(`/allposts`);
-  }, [searchQuery]);
+  useEffect(() => {
+    if (
+      prevQueryRef.current.trim().length > 0 &&
+      searchQuery.trim().length === 0
+    ) {
+      router.push(`/allposts`);
+    }
+    prevQueryRef.current = searchQuery;
+  }, [searchQuery, router]);
 
   return (
     <div
@@ -44,7 +51,7 @@ export default function Navbar() {
       } bg-background border-b-1 border-foreground-200`}
     >
       <div
-        className={`w-[90vw] p-[1em] px-[1.5em] flex justify-between items-center bg-background text-foreground `}
+        className={`w-[90vw] py-[1em] px-[1.5em] flex justify-between items-center bg-background text-foreground `}
       >
         <Link href={"/"} className="font-bold flex items-center gap-3">
           <Image
@@ -57,7 +64,7 @@ export default function Navbar() {
           Aryan&apos;s Blog
         </Link>
 
-        <div className="flex gap-3 items-center">
+        <div className="flex gap-2 items-center">
           <Link href={"/"}>
             <HomeIcon
               color="foreground"

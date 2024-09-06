@@ -12,16 +12,16 @@ export default function Main({ children }: { children: React.ReactNode }) {
 
   return (
     <NextUIProvider>
-      <Navbar />
       <div
-        className={`flex items-center justify-center bg-background ${
+        className={`flex flex-col items-center  max-h-screen min-h-screen overflow-hidden text-foreground bg-background ${
           isDark ? "dark" : ""
         }`}
       >
+        <Navbar />
         <div
-          className={`flex flex-row h-screen ${
+          className={`flex flex-row h-[calc(100vh-80px)] ${
             isDark ? "dark" : ""
-          } bg-background text-foreground max-h-screen min-h-screen w-[90vw]`}
+          } w-[90vw]`}
         >
           <Sidebar />
           <ScrollArea className="w-full">{children}</ScrollArea>

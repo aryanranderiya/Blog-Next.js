@@ -145,7 +145,7 @@ export default function Sidebar() {
               />
             }
           >
-            Next.js | Vercel
+            Built using Next.js | Vercel
           </Chip>
           {/*  using Next.js */}
         </div>
