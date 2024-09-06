@@ -91,10 +91,14 @@ export default function AddPost() {
     }, 300),
     []
   );
+useEffect(() => {
+  calculateEstimatedTime(markdown);
 
-  useEffect(() => {
-    calculateEstimatedTime(markdown);
-  }, [markdown, calculateEstimatedTime]);
+  return () => {
+    calculateEstimatedTime.cancel();
+  };
+}, [markdown, calculateEstimatedTime]);
+
 
   useEffect(() => {
     setPostID(title.replace(/\s+/g, "_").replace(/[^\w]/g, "").slice(0, 35));

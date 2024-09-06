@@ -9,7 +9,6 @@ import { Accordion, AccordionItem, Chip } from "@nextui-org/react";
 import Image from "next/image";
 import { ScrollArea } from "./shadcn/scroll-area";
 import { SidebarItem } from "./SidebarItem";
-// import { useTheme } from "@/contexts/ThemeContext";
 import useSWR from "swr";
 
 interface Item {
@@ -37,16 +36,7 @@ const items: Item[] = [
 const fetcher = (...args: [RequestInfo, RequestInit?]): Promise<any> =>
   fetch(...args).then((res) => res.json());
 
-export default function Sidebar() {
-  // const response = await fetch(
-  //   `${process.env.NEXT_PUBLIC_BASE_URL}/api/posts/titles`
-  // );
-
-  // const postTitles: { id: string; title: string }[] = await response
-  //   .json()
-  //   .catch(() => ({
-  //     data: { error: "An unknown error occurred" },
-  //   }));
+export default function Sidebar({ isDark }: { isDark: any }) {
   const { data, error } = useSWR("/api/posts/titles", fetcher);
 
   if (!data)
@@ -56,8 +46,6 @@ export default function Sidebar() {
       </div>
     );
   if (error) return <div>Failed to load</div>;
-
-  const { isDark } = useTheme();
 
   return (
     <div className="flex w-[300px] pb-[90px] min-w-[300px] border-r-1 border-foreground-200 p-[1em] flex-col bg-background text-foreground">
@@ -105,7 +93,7 @@ export default function Sidebar() {
           </AccordionItem>
         </Accordion>
 
-        <div className="flex w-full gap-1 items-center mt-6 flex-col">
+        <div className="flex w-full gap-2 items-center mt-6 flex-col">
           <Chip
             variant="flat"
             className="cursor-default"

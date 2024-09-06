@@ -33,7 +33,7 @@ export function SearchedPosts({ posts }: { posts: Post[] }) {
         <div className="flex gap-1">
           <CloseIcon color="#A1AECE" width={19} />
           <span className="text-foreground-500">
-            No Posts found for search query "{query}"
+            No Posts found for search query &ldquo;{query}&ldquo;
           </span>
         </div>
       )}

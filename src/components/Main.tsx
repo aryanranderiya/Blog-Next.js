@@ -23,7 +23,7 @@ export default function Main({ children }: { children: React.ReactNode }) {
             isDark ? "dark" : ""
           } w-[90vw]`}
         >
-          <Sidebar />
+          <Sidebar isDark={isDark} />
           <ScrollArea className="w-full">{children}</ScrollArea>
         </div>
       </div>

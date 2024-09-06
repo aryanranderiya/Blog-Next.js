@@ -58,8 +58,9 @@ export default function BlogPageInfo({ post }: { post: Post }) {
 
           <div className="flex gap-1 flex-wrap">
             {!!post.tags &&
-              JSON.parse(post.tags).map((tag: string) => (
+              JSON.parse(post.tags).map((tag: string, index: number) => (
                 <Chip
+                  key={index}
                   size="sm"
                   color="primary"
                   variant="flat"
