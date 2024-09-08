@@ -6,9 +6,9 @@ import { CloseIcon } from "@/components/icons";
 import { migrate } from "@/app/api/migrations";
 
 export async function generateStaticParams() {
-  const posts = (await (
-    await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/posts`)
-  ).json()) as Post[];
+  const posts: Post[] = await fetch(
+    `${process.env.NEXT_PUBLIC_BASE_URL}/api/posts`
+  ).then((res) => res.json());
 
   return posts.map((post) => ({ id: post.postID.toString() }));
 }

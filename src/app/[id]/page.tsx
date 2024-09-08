@@ -2,31 +2,26 @@ import { Post } from "@/components/BlogCard";
 import BlogPageInfo from "@/components/BlogPageInfo";
 import { notFound } from "next/navigation";
 import "../globals.css";
-
-interface ErrorResponse {
-  data: {
-    error: string;
-  };
-}
+import NotFoundPage from "../not-found";
 
 export async function generateStaticParams() {
-  const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/posts`);
-  const posts: Post[] = await response.json();
+  const posts: Post[] = await fetch(
+    `${process.env.NEXT_PUBLIC_BASE_URL}/api/posts`
+  ).then((res) => res.json());
+
   return posts.map((post) => ({ id: post.postID.toString() }));
 }
 
 export default async function BlogPage({ params }: { params: { id: string } }) {
-  const response = await fetch(
-    `${process.env.NEXT_PUBLIC_BASE_URL}/api/post/${params.id}`
-  );
+  try {
+    const data: Post | { error: string } = await fetch(
+      `${process.env.NEXT_PUBLIC_BASE_URL}/api/post/${params.id}`
+    ).then((res) => res.json());
 
-  const data: Post | ErrorResponse = await response.json().catch(() => ({
-    data: { error: "An unknown error occurred" },
-  }));
+    if ("error" in data) notFound();
 
-  if ("data" in data && "error" in data.data) notFound();
-
-  const post = data as Post;
-
-  return <BlogPageInfo post={post} />;
+    return <BlogPageInfo post={data as Post} />;
+  } catch {
+    return <NotFoundPage />;
+  }
 }

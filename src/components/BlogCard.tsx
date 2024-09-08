@@ -40,6 +40,7 @@ export default function BlogCard({ post }: { post: Post }) {
       onMouseOut={handleMouseOut}
       href={post?.postID?.toString() || "/allposts"}
       onMouseOver={handleMouseOver}
+      prefetch={true}
     >
       <div className="min-h-[130px] max-h-[130px] overflow-hidden  rounded-xl bg-foreground-300 ">
         <Image
