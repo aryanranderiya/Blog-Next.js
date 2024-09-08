@@ -8,7 +8,7 @@ import remarkParse from "remark-parse";
 import remarkRehype from "remark-rehype";
 import { unified } from "unified";
 import { Post } from "./BlogCard";
-import { CrossIcon, TableOfContents, X } from "lucide-react";
+import { TableOfContents, X } from "lucide-react";
 
 async function convertMarkdownToHtml(markdown: string) {
   const file = await unified()
@@ -34,9 +34,16 @@ function extractHeadings(html: string) {
   return headings;
 }
 
-export default function ContentsSidebar({ post }: { post: Post }) {
+export default function ContentsSidebar({
+  post,
+  setContentsOpen,
+  contentsOpen,
+}: {
+  post: Post;
+  contentsOpen: boolean;
+  setContentsOpen: any;
+}) {
   const [headings, setHeadings] = useState<{ id: string; text: string }[]>([]);
-  const [contentsOpen, setContentsOpen] = useState(false);
 
   useEffect(() => {
     async function fetchData() {
@@ -54,11 +61,11 @@ export default function ContentsSidebar({ post }: { post: Post }) {
   }, [post.content]);
 
   const toggleSidebar = () => {
-    setContentsOpen((prev) => !prev);
+    setContentsOpen((prev: boolean) => !prev);
   };
 
   return (
-    <div className="flex h-full flex-col p-4 gap-4 min-w-[250px] max-w-[250px]">
+    <div className="flex h-full flex-col p-4 gap-4 sm:min-w-[250px] sm:max-w-[250px] w-0">
       <div
         className="rounded-full w-[45px] h-[45px] absolute right-6 sm:hidden bottom-1 bg-foreground-50 flex border-foreground-400 border items-center justify-center z-10"
         onClick={toggleSidebar}

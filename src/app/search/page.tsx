@@ -1,7 +1,6 @@
 import { Post } from "@/components/BlogCard";
-import { Tags } from "../allposts/tags";
+import { Suspense } from "react";
 import { SearchedPosts } from "./searchedPosts";
-
 export default async function SearchPosts() {
   const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/posts`);
 
@@ -15,9 +14,11 @@ export default async function SearchPosts() {
         <span className="text-nowrap font-semibold text-4xl">
           Search Result
         </span>
-        <div className="flex gap-3 flex-wrap pt-4">
-          <SearchedPosts posts={posts} />
-        </div>
+        <Suspense>
+          <div className="flex gap-3 flex-wrap pt-4">
+            <SearchedPosts posts={posts} />
+          </div>
+        </Suspense>
       </div>
     </main>
   );

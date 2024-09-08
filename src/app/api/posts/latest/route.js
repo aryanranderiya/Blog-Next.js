@@ -1,10 +1,15 @@
 import { NextResponse } from "next/server";
 import { apiGet } from "@/app/api/database";
 
+function parseDate(dateString) {
+  return new Date(dateString);
+}
+
 export async function GET() {
   try {
     const query = "SELECT * FROM blogposts";
     const posts = await apiGet(query);
+
     const sortedPosts = posts
       .map((post) => ({
         ...post,
