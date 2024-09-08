@@ -19,9 +19,9 @@ export default function ScrollToTop({
     <div onClick={handleOnClick}>
       <Chip
         className="cursor-pointer gap-1 select-none"
-        size="lg"
+        size="md"
         color="primary"
-        variant="shadow"
+        variant="bordered"
         onClick={() => window.scrollTo(0, 0)}
       >
         <div className="flex items-center gap-1">

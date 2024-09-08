@@ -1,6 +1,6 @@
 "use client";
 
-import { FancyMultiSelect, Tag } from "@/components/shadcn/fancy-multi-select";
+import MultiChipSelect from "@/components/shadcn/fancy-multi-select";
 import { useToast } from "@/components/shadcn/use-toast";
 import { getLocalTimeZone, today } from "@internationalized/date";
 import { useDateFormatter } from "@react-aria/i18n";
@@ -17,40 +17,9 @@ import * as React from "react";
 import { useState, useEffect } from "react";
 import { debounce } from "lodash";
 
-const tags = [
-  {
-    value: "next.js",
-    label: "Next.js",
-  },
-  {
-    value: "sveltekit",
-    label: "SvelteKit",
-  },
-  {
-    value: "nuxt.js",
-    label: "Nuxt.js",
-  },
-  {
-    value: "remix",
-    label: "Remix",
-  },
-  {
-    value: "astro",
-    label: "Astro",
-  },
-  {
-    value: "wordpress",
-    label: "WordPress",
-  },
-  {
-    value: "express.js",
-    label: "Express.js",
-  },
-  {
-    value: "nest.js",
-    label: "Nest.js",
-  },
-];
+type ChipType = {
+  label: string;
+};
 
 const password = process.env.NEXT_PUBLIC_PASSWORD;
 
@@ -65,7 +34,11 @@ export default function AddPost() {
   );
   const [estimatedTime, setEstimatedTime] = useState<string>();
   const [markdown, setMarkdown] = useState("This is the body");
-  const [selectedTags, setSelectedTags] = useState<Tag[]>([]);
+  const [selectedTags, setSelectedTags] = useState<ChipType[]>([]);
+  const [imageUrl, setImageUrl] = useState(
+    "https://github.com/aryanranderiya.png"
+  );
+
   const { toast } = useToast();
   const editor = useEditor({});
   let formatter = useDateFormatter({
@@ -91,9 +64,9 @@ export default function AddPost() {
     }, 300),
     []
   );
+
   useEffect(() => {
     calculateEstimatedTime(markdown);
-
     return () => {
       calculateEstimatedTime.cancel();
     };
@@ -119,9 +92,9 @@ export default function AddPost() {
             : null,
           excerpt,
           tags: selectedTags.map((tag) => tag.label),
-          image: "https://github.com/aryanranderiya.png",
           content: markdown,
           estimated_read_time: estimatedTime,
+          image: imageUrl,
         }),
       }
     );
@@ -213,11 +186,26 @@ export default function AddPost() {
             />
           </div>
 
-          <FancyMultiSelect
-            tags={tags}
-            selected={selectedTags}
-            setSelected={setSelectedTags}
-          />
+          <div className="flex items-center gap-3">
+            <Input
+              type="url"
+              onValueChange={setImageUrl}
+              value={imageUrl}
+              variant="faded"
+              placeholder="https://github.com/aryanranderiya.png"
+              isClearable
+              label="Enter URL for Post Banner image"
+            />
+
+            <MultiChipSelect
+              selectedTags={selectedTags}
+              setSelectedTags={setSelectedTags}
+            />
+          </div>
+
+          {/* // tags={tags}
+          // 
+          /> */}
 
           <div className="rounded-2xl overflow-hidden outline outline-3 outline-foreground-200">
             <Editable

@@ -1,128 +1,138 @@
-"use client";
+import React, { useState, useRef, useEffect } from "react";
+import { Chip, Input } from "@nextui-org/react";
+import { ScrollArea } from "@/components/shadcn/scroll-area";
 
-import * as React from "react";
-import { X } from "lucide-react";
-import { Badge } from "@/components/shadcn/badge";
-import {
-  Command,
-  CommandGroup,
-  CommandItem,
-  CommandList,
-} from "@/components/shadcn/command";
-import { Command as CommandPrimitive } from "cmdk";
-export type Tag = Record<"value" | "label", string>;
+type ChipType = {
+  label: string;
+};
 
-export function FancyMultiSelect({
-  tags,
-  selected,
-  setSelected,
+const predefinedChips: ChipType[] = [
+  { label: "React" },
+  { label: "TypeScript" },
+  { label: "JavaScript" },
+  { label: "Node.js" },
+  { label: "Next.js" },
+];
+
+export default function MultiChipSelect({
+  selectedTags,
+  setSelectedTags,
 }: {
-  tags: Tag[];
-  selected: Tag[];
-  setSelected: React.Dispatch<React.SetStateAction<Tag[]>>;
-}): React.JSX.Element {
-  const inputRef = React.useRef<HTMLInputElement>(null);
-  const [open, setOpen] = React.useState(false);
-  const [inputValue, setInputValue] = React.useState("");
+  selectedTags: ChipType[];
+  setSelectedTags: React.Dispatch<React.SetStateAction<ChipType[]>>;
+}) {
+  const [inputValue, setInputValue] = useState("");
+  const [filteredChips, setFilteredChips] =
+    useState<ChipType[]>(predefinedChips);
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const inputRef = useRef<HTMLInputElement>(null);
+  const dropdownRef = useRef<HTMLDivElement>(null);
 
-  const handleUnselect = React.useCallback(
-    (framework: Tag) => {
-      setSelected((prev) => prev.filter((s) => s.value !== framework.value));
-    },
-    [setSelected]
-  );
-
-  const handleKeyDown = React.useCallback(
-    (e: React.KeyboardEvent<HTMLDivElement>) => {
-      const input = inputRef.current;
-      if (input) {
-        if (e.key === "Delete" || e.key === "Backspace") {
-          if (input.value === "") {
-            setSelected((prev) => {
-              const newSelected = [...prev];
-              newSelected.pop();
-              return newSelected;
-            });
-          }
-        }
-        if (e.key === "Escape") {
-          input.blur();
-        }
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        dropdownRef.current &&
+        !dropdownRef.current.contains(event.target as Node) &&
+        !inputRef.current?.contains(event.target as Node)
+      ) {
+        setIsDropdownOpen(false);
       }
-    },
-    [setSelected]
-  );
+    };
 
-  const selectables = tags.filter((framework) => !selected.includes(framework));
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    setInputValue(value);
+    setIsDropdownOpen(true);
+
+    const filtered = predefinedChips.filter(
+      (chip) =>
+        chip.label.toLowerCase().includes(value.toLowerCase()) &&
+        !selectedTags.some((selected) => selected.label === chip.label)
+    );
+    setFilteredChips(filtered);
+  };
+
+  const addChip = (chip: ChipType) => {
+    if (!selectedTags.some((selected) => selected.label === chip.label)) {
+      setSelectedTags([...selectedTags, chip]);
+      setInputValue("");
+      setFilteredChips(predefinedChips.filter((c) => c.label !== chip.label));
+      inputRef.current?.focus();
+    }
+  };
+
+  const removeChip = (chipToRemove: ChipType) => {
+    setSelectedTags(
+      selectedTags.filter((chip) => chip.label !== chipToRemove.label)
+    );
+    setFilteredChips([...filteredChips, chipToRemove]);
+  };
+
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Enter" && inputValue.trim() !== "") {
+      e.preventDefault();
+      const newChip: ChipType = {
+        label: inputValue.trim(),
+      };
+      if (!selectedTags.some((selected) => selected.label === newChip.label)) {
+        addChip(newChip);
+      }
+    }
+  };
 
   return (
-    <Command
-      onKeyDown={handleKeyDown}
-      className="overflow-visible bg-transparent"
-    >
-      <div className="group rounded-xl border-2 border-input px-3 py-[14px] text-sm ring-offset-background focus-within:ring-2 focus-within:ring-foreground-400 focus-within:ring-ring focus-within:ring-offset-2 bg-foreground-100">
-        <div className="flex flex-wrap gap-1">
-          {selected.map((framework) => (
-            <Badge
-              key={framework.value}
-              variant="secondary"
-              className="bg-foreground-300 py-1 hover:bg-foreground-400"
+    <div className="w-full max-w-md mx-auto">
+      <div className="relative">
+        <div className="flex flex-wrap items-center border-2 bg-foreground-50 border-foreground-200 rounded-2xl p-1 gap-1">
+          {selectedTags.map((chip) => (
+            <Chip
+              variant="flat"
+              key={chip.label}
+              size="md"
+              color="primary"
+              className="ml-1 select-none"
+              onClose={() => removeChip(chip)}
             >
-              {framework.label}
-              <button
-                className="ml-1 rounded-full outline-none ring-offset-background focus:ring-2 focus:ring-ring focus:ring-offset-2"
-                onKeyDown={(e) => {
-                  if (e.key === "Enter") {
-                    handleUnselect(framework);
-                  }
-                }}
-                onMouseDown={(e) => {
-                  e.preventDefault();
-                  e.stopPropagation();
-                }}
-                onClick={() => handleUnselect(framework)}
-              >
-                <X className="h-3 w-3 text-muted-foreground hover:text-foreground" />
-              </button>
-            </Badge>
+              {chip.label}
+            </Chip>
           ))}
-          <CommandPrimitive.Input
+          <Input
             ref={inputRef}
+            type="text"
+            variant="faded"
             value={inputValue}
-            onValueChange={setInputValue}
-            onBlur={() => setOpen(false)}
-            onFocus={() => setOpen(true)}
-            placeholder="Select tags..."
-            className="ml-2 flex-1 bg-transparent outline-none placeholder:text-muted-foreground"
+            onChange={handleInputChange}
+            onKeyDown={handleKeyDown}
+            onFocus={() => setIsDropdownOpen(true)}
+            className="flex-grow border-none focus-visible:ring-0 focus-visible:ring-offset-0"
+            placeholder="Type to add or select chips..."
           />
         </div>
-      </div>
-      {open && selectables.length > 0 && (
-        <div className="relative mt-2">
-          <div className="absolute top-0 z-10 w-full rounded-xl border bg-popover text-popover-foreground shadow-md outline-none animate-in">
-            <CommandList>
-              <CommandGroup className="h-full overflow-auto">
-                {selectables.map((framework) => (
-                  <CommandItem
-                    key={framework.value}
-                    onMouseDown={(e) => {
-                      e.preventDefault();
-                      e.stopPropagation();
-                    }}
-                    onSelect={() => {
-                      setInputValue("");
-                      setSelected((prev) => [...prev, framework]);
-                    }}
-                    className="cursor-pointer"
-                  >
-                    {framework.label}
-                  </CommandItem>
-                ))}
-              </CommandGroup>
-            </CommandList>
+        {isDropdownOpen && filteredChips.length > 0 && (
+          <div
+            ref={dropdownRef}
+            className="absolute z-10 w-full mt-1 bg-popover text-popover-foreground rounded-xl shadow-md bg-foreground-50"
+          >
+            <ScrollArea className="h-[200px]">
+              {filteredChips.map((chip) => (
+                <div
+                  key={chip.label}
+                  className="px-4 py-2 cursor-pointer hover:bg-accent hover:text-accent-foreground text-sm"
+                  onClick={() => addChip(chip)}
+                >
+                  {chip.label}
+                </div>
+              ))}
+            </ScrollArea>
           </div>
-        </div>
-      )}
-    </Command>
+        )}
+      </div>
+    </div>
   );
 }

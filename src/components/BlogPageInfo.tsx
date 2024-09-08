@@ -111,6 +111,32 @@ export default function BlogPageInfo({ post }: { post: Post }) {
     fetchPostData();
   }, [post.postID]);
 
+  function formatDate(dateString: string) {
+    const date: any = new Date(dateString);
+    const now: any = new Date();
+    const diffInSeconds = Math.floor((now - date) / 1000);
+
+    const secondsInMinute = 60;
+    const secondsInHour = 3600;
+    const secondsInDay = 86400;
+
+    if (isNaN(date.getTime())) return "";
+
+    if (diffInSeconds < secondsInMinute) return "Just Now";
+    else if (diffInSeconds < secondsInHour) {
+      const minutes = Math.floor(diffInSeconds / secondsInMinute);
+      return `${minutes} Minute${minutes > 1 ? "s" : ""} ago`;
+    } else if (diffInSeconds < secondsInDay) {
+      const hours = Math.floor(diffInSeconds / secondsInHour);
+      return `${hours} Hour${hours > 1 ? "s" : ""} ago`;
+    } else {
+      const days = Math.floor(diffInSeconds / secondsInDay);
+      if (days === 0) return "Today";
+      else if (days === 1) return "Uesterday";
+      else return `${days} Day${days > 1 ? "s" : ""} ago`;
+    }
+  }
+
   return (
     <div
       className="flex min-h-screen h-fit sm:w-[calc(86vw-280px)] w-screen sm:gap-7 sm:px-24 sm:pr-0 sm:pt-20 sm:pb-24 p-[2em] flex-row"
@@ -137,7 +163,7 @@ export default function BlogPageInfo({ post }: { post: Post }) {
                 <div className="flex sm:gap-2 sm:flex-row flex-col sm:items-center items-start">
                   <span className="text-foreground-500 text-sm flex items-center gap-1">
                     <Calendar width={17} />
-                    {post?.date}
+                    {formatDate(post?.date)}
                   </span>
                   <span className="text-foreground text-sm sm:flex hidden">
                     /
@@ -192,9 +218,6 @@ export default function BlogPageInfo({ post }: { post: Post }) {
         <div className="flex flex-col markdown-container">
           <Markdown rehypePlugins={[rehypeSlug]}>{post?.content}</Markdown>
         </div>
-        <div className="pt-10 pb-7 flex justify-end w-full">
-          <ScrollToTop scrollTriggerRef={startComponentRef} />
-        </div>
       </main>
 
       <div className="sm:min-w-[280px] w-0">
@@ -202,6 +225,7 @@ export default function BlogPageInfo({ post }: { post: Post }) {
           post={post}
           contentsOpen={contentsOpen}
           setContentsOpen={setContentsOpen}
+          startComponentRef={startComponentRef}
         />
       </div>
     </div>
