@@ -8,6 +8,7 @@ import remarkParse from "remark-parse";
 import remarkRehype from "remark-rehype";
 import { unified } from "unified";
 import { Post } from "./BlogCard";
+import { CrossIcon, TableOfContents, X } from "lucide-react";
 
 async function convertMarkdownToHtml(markdown: string) {
   const file = await unified()
@@ -35,6 +36,7 @@ function extractHeadings(html: string) {
 
 export default function ContentsSidebar({ post }: { post: Post }) {
   const [headings, setHeadings] = useState<{ id: string; text: string }[]>([]);
+  const [contentsOpen, setContentsOpen] = useState(false);
 
   useEffect(() => {
     async function fetchData() {
@@ -51,12 +53,34 @@ export default function ContentsSidebar({ post }: { post: Post }) {
     fetchData();
   }, [post.content]);
 
+  const toggleSidebar = () => {
+    setContentsOpen((prev) => !prev);
+  };
+
   return (
-    <div className="flex h-full flex-col p-4 gap-4  min-w-[250px]">
+    <div className="flex h-full flex-col p-4 gap-4 min-w-[250px] max-w-[250px]">
+      <div
+        className="rounded-full w-[45px] h-[45px] absolute right-6 sm:hidden bottom-1 bg-foreground-50 flex border-foreground-400 border items-center justify-center z-10"
+        onClick={toggleSidebar}
+      >
+        {contentsOpen ? (
+          <X width={30} color="gray" />
+        ) : (
+          <TableOfContents width={30} color="gray" />
+        )}
+      </div>
+
       {headings.length !== 0 && (
-        <div className="w-[240px] border px-1 py-2 rounded-lg border-foreground-400 absolute right-7 top-[30px] bg-foreground-50">
+        <div
+          className={`w-[240px] border px-1 py-2 rounded-lg border-foreground-400 absolute right-7 sm:top-20 sm:bottom-auto bottom-2 bg-foreground-50 transition-all origin-bottom-right sm:opacity-100 sm:pointer-events-auto overflow-hidden ${
+            contentsOpen
+              ? "opacity-100 h-fit pointer-events-auto"
+              : "opacity-0 pointer-events-none"
+          }`}
+        >
           <div className="flex flex-col gap-2 p-4">
-            <span className="text-xs text-muted-foreground font-bold pb-3">
+            <span className="text-xs text-muted-foreground font-bold pb-3 flex items-center gap-2">
+              <TableOfContents width={18} />
               Table of Contents
             </span>
 

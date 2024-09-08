@@ -54,7 +54,7 @@ export default function BlogCard({ post }: { post: Post }) {
       </div>
 
       <Chip
-        className={`absolute right-3 cursor-default top-[130px] transition-all ${
+        className={`absolute right-[12px] cursor-default top-[113px] transition-all ${
           isHovered ? "opacity-100" : "opacity-0"
         } `}
         color="primary"

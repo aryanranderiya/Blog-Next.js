@@ -18,10 +18,9 @@ export async function generateStaticParams() {
 export default function Home() {
   migrate();
   return (
-    <main className="flex min-h-screen h-fit flex-col gap-7 px-24 pt-20 pb-24">
-      <div className="font-semibold text-4xl flex gap-3 items-center flex-wrap">
+    <main className="flex w-screen min-h-screen h-fit flex-col gap-7 sm:px-24 sm:pt-20 sm:pb-24 p-[2em]">
+      <div className="font-semibold sm:text-4xl text-2xl flex sm:gap-3 gap-1 items-center flex-wrap">
         <span className="text-nowrap">Welcome to my Blog!</span>
-
         <Image
           src="https://github.com/aryanranderiya.png"
           alt="Aryan randeriya image"
@@ -29,12 +28,12 @@ export default function Home() {
           height={32}
         />
         <span className="text-nowrap">I&apos;m Aryan Randeriya,</span>
-        <span className="text-nowrap">
+        <span className="text-wrap">
           a Software Developer & Designer from India.
         </span>
       </div>
 
-      <div className="flex gap-2">
+      <div className="flex gap-2 flex-wrap">
         <a href="https://aryanranderiya.com" target="_blank">
           <HoveredChip
             text={"View my Portfolio"}
@@ -67,7 +66,7 @@ async function FeaturedPosts() {
   return (
     <div className="flex flex-col gap-2 pt-16 min-h-fit">
       <span className="font-semibold text-3xl">Featured Posts</span>
-      <div className="flex gap-3 flex-wrap pt-4">
+      <div className="flex gap-3 flex-wrap pt-4 sm:items-start items-center">
         {posts.length > 0 ? (
           posts.map((post, index) => <BlogCard post={post} key={index} />)
         ) : (
@@ -91,7 +90,7 @@ async function LatestPosts() {
   return (
     <div className="flex flex-col gap-3 pt-8 min-h-fit">
       <span className="font-semibold text-3xl">Latest Posts</span>
-      <div className="flex gap-3 flex-wrap pt-4">
+      <div className="flex gap-3 flex-wrap pt-4 sm:items-start items-center">
         {posts.length > 0 ? (
           posts.map((post, index) => <BlogCard post={post} key={index} />)
         ) : (

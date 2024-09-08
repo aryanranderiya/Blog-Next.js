@@ -5,11 +5,13 @@ import GithubIcon from "@/components/github.webp";
 import { AnnouncementIcon, CloseIcon, FeatherIcon } from "@/components/icons";
 import Nextjs from "@/components/nextjs.svg";
 import { useTheme } from "@/contexts/ThemeContext";
-import { Accordion, AccordionItem, Chip } from "@nextui-org/react";
+import { Accordion, AccordionItem, Button, Chip } from "@nextui-org/react";
 import Image from "next/image";
 import { ScrollArea } from "./shadcn/scroll-area";
 import { SidebarItem } from "./SidebarItem";
 import useSWR from "swr";
+import { Menu } from "lucide-react";
+import { useState } from "react";
 
 interface Item {
   id: number;
@@ -36,7 +38,15 @@ const items: Item[] = [
 const fetcher = (...args: [RequestInfo, RequestInit?]): Promise<any> =>
   fetch(...args).then((res) => res.json());
 
-export default function Sidebar({ isDark }: { isDark: any }) {
+export default function Sidebar({
+  isDark,
+  setIsSidebarOpen,
+  isSidebarOpen,
+}: {
+  isDark: any;
+  setIsSidebarOpen: any;
+  isSidebarOpen: boolean;
+}) {
   const { data, error } = useSWR("/api/posts/titles", fetcher);
 
   if (!data)
@@ -48,7 +58,17 @@ export default function Sidebar({ isDark }: { isDark: any }) {
   if (error) return <div>Failed to load</div>;
 
   return (
-    <div className="flex w-[300px] pb-[90px] min-w-[300px] border-r-1 border-foreground-200 p-[1em] flex-col bg-background text-foreground">
+    <div
+      className={`flex overflow-hidden pb-[90px] border-r-1 border-foreground-200 flex-col text-foreground 
+
+      ${isSidebarOpen ? "w-0 p-0" : "min-w-[300px] w-[300px] p-[1em] "}`}
+    >
+      <div className="w-full justify-end flex pb-4">
+        <Button isIconOnly size="sm" variant="bordered">
+          <Menu color="gray" width={18} />
+        </Button>
+      </div>
+
       <ScrollArea>
         <Accordion
           showDivider={false}

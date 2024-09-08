@@ -9,6 +9,7 @@ import { Toaster } from "@/components/shadcn/toaster";
 
 export default function Main({ children }: { children: React.ReactNode }) {
   const { isDark } = useTheme();
+  const [isSidebarOpen, setIsSidebarOpen] = React.useState(true);
 
   return (
     <NextUIProvider>
@@ -17,13 +18,20 @@ export default function Main({ children }: { children: React.ReactNode }) {
           isDark ? "dark" : ""
         }`}
       >
-        <Navbar />
+        <Navbar
+          setIsSidebarOpen={setIsSidebarOpen}
+          isSidebarOpen={isSidebarOpen}
+        />
         <div
           className={`flex flex-row h-[calc(100vh-80px)] ${
             isDark ? "dark" : ""
-          } w-[90vw]`}
+          } sm:w-[90vw] w-screen`}
         >
-          <Sidebar isDark={isDark} />
+          <Sidebar
+            isDark={isDark}
+            setIsSidebarOpen={setIsSidebarOpen}
+            isSidebarOpen={isSidebarOpen}
+          />
           <ScrollArea className="w-full">{children}</ScrollArea>
         </div>
       </div>

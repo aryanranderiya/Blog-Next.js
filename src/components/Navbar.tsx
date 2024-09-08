@@ -16,7 +16,13 @@ import React, { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { EnterIcon } from "@/components/icons";
 
-export default function Navbar() {
+export default function Navbar({
+  setIsSidebarOpen,
+  isSidebarOpen,
+}: {
+  setIsSidebarOpen: any;
+  isSidebarOpen: boolean;
+}) {
   const { isDark, toggleTheme } = useTheme();
   const [searchQuery, setSearchQuery] = useState("");
   const prevQueryRef = useRef("");
@@ -51,7 +57,7 @@ export default function Navbar() {
       } bg-background border-b-1 border-foreground-200`}
     >
       <div
-        className={`w-[90vw] py-[1em] px-[1.5em] flex justify-between items-center bg-background text-foreground `}
+        className={`sm:w-[90vw] w-screen sm:py-[1em] sm:px-[1.5em] px-[2em] py-[0.7em] flex justify-between items-center bg-background text-foreground `}
       >
         <Link href={"/"} className="font-bold flex items-center gap-3">
           <Image
@@ -64,40 +70,47 @@ export default function Navbar() {
           Aryan&apos;s Blog
         </Link>
 
-        <div className="flex gap-2 items-center">
-          <Link href={"/"}>
-            <HomeIcon
-              color="foreground"
-              width={35}
-              className="cursor-pointer"
-            />
-          </Link>
-          <Link href={"/allposts"}>
-            <BlogIcon
-              color="foreground"
-              width={35}
-              className="cursor-pointer"
-            />
-          </Link>
+        <div className="flex items-center">
+          <div className="sm:flex hidden gap-2 items-center">
+            <Link href={"/"}>
+              <HomeIcon
+                color="foreground"
+                width={35}
+                className="cursor-pointer"
+              />
+            </Link>
+            <Link href={"/allposts"}>
+              <BlogIcon
+                color="foreground"
+                width={35}
+                className="cursor-pointer"
+              />
+            </Link>
 
-          <Switch
-            defaultSelected
-            color="primary"
-            onValueChange={toggleTheme}
-            thumbIcon={({
-              isSelected,
-              className,
-            }: {
-              isSelected: boolean;
-              className: string;
-            }) =>
-              isSelected ? (
-                <MoonIcon className={className} width={17} fill="foreground" />
-              ) : (
-                <SunIcon className={className} width={17} fill="foreground" />
-              )
-            }
-          />
+            <Switch
+              defaultSelected
+              color="primary"
+              onValueChange={toggleTheme}
+              thumbIcon={({
+                isSelected,
+                className,
+              }: {
+                isSelected: boolean;
+                className: string;
+              }) =>
+                isSelected ? (
+                  <MoonIcon
+                    className={className}
+                    width={17}
+                    fill="foreground"
+                  />
+                ) : (
+                  <SunIcon className={className} width={17} fill="foreground" />
+                )
+              }
+            />
+          </div>
+
           <Input
             radius="full"
             variant="faded"
@@ -107,6 +120,7 @@ export default function Navbar() {
             startContent={<Search01Icon color="foreground" width={"20"} />}
             onKeyDown={handleKeyDown}
             isClearable
+            className="max-w-[150px] sm:max-w-xs"
           />
         </div>
       </div>

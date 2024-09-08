@@ -91,14 +91,13 @@ export default function AddPost() {
     }, 300),
     []
   );
-useEffect(() => {
-  calculateEstimatedTime(markdown);
+  useEffect(() => {
+    calculateEstimatedTime(markdown);
 
-  return () => {
-    calculateEstimatedTime.cancel();
-  };
-}, [markdown, calculateEstimatedTime]);
-
+    return () => {
+      calculateEstimatedTime.cancel();
+    };
+  }, [markdown, calculateEstimatedTime]);
 
   useEffect(() => {
     setPostID(title.replace(/\s+/g, "_").replace(/[^\w]/g, "").slice(0, 35));
@@ -147,7 +146,7 @@ useEffect(() => {
   };
 
   return (
-    <main className="flex min-h-screen h-fit flex-col gap-3 px-24 pt-20 pb-24">
+    <main className="flex min-h-screen h-fit flex-col gap-7 sm:px-24 sm:pt-20 sm:pb-24 p-[2em]">
       {passwordCorrect ? (
         <>
           <span className="text-nowrap font-semibold text-4xl">Add Post</span>

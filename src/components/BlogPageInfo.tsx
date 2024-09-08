@@ -14,12 +14,12 @@ export default function BlogPageInfo({ post }: { post: Post }) {
   const startComponentRef = useRef(null);
   return (
     <div
-      className="flex flex-row px-24 pt-10 justify-between"
+      className="flex min-h-screen h-fit sm:gap-7 sm:px-24 sm:pr-0 sm:pt-20 sm:pb-24 p-[2em] flex-row"
       ref={startComponentRef}
     >
       <main className="flex h-fit flex-col gap-7 relative w-full">
         <div className="flex flex-col gap-3">
-          <div className="flex items-center w-full justify-between">
+          <div className="flex sm:items-center items-start w-full justify-between sm:flex-row flex-col gap-2 sm:gap-0">
             <div className="flex items-center gap-3">
               <Image
                 src={"https://github.com/aryanranderiya.png"}
@@ -30,11 +30,13 @@ export default function BlogPageInfo({ post }: { post: Post }) {
 
               <div className="flex flex-col">
                 <span className="text-md font-semibold">Aryan Randeriya</span>
-                <div className="flex gap-2">
+                <div className="flex sm:gap-2 sm:flex-row flex-col">
                   <span className="text-foreground-500 text-sm">
                     {post.date}
                   </span>
-                  <span className="text-foreground text-sm">/</span>
+                  <span className="text-foreground text-sm sm:flex hidden">
+                    /
+                  </span>
                   <span className="text-foreground-400 text-sm">
                     Reading Time:&nbsp;
                     {post.estimated_read_time}
@@ -84,7 +86,9 @@ export default function BlogPageInfo({ post }: { post: Post }) {
           <ScrollToTop scrollTriggerRef={startComponentRef} />
         </div>
       </main>
-      <ContentsSidebar post={post} />
+      <div className="sm:min-w-[280px] w-0">
+        <ContentsSidebar post={post} />
+      </div>
     </div>
   );
 }
