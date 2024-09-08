@@ -32,7 +32,10 @@ export default function Main({ children }: { children: React.ReactNode }) {
             setIsSidebarOpen={setIsSidebarOpen}
             isSidebarOpen={isSidebarOpen}
           />
-          <ScrollArea className="w-full">{children}</ScrollArea>
+
+          <ScrollArea onClick={() => setIsSidebarOpen(true)}>
+            {children}
+          </ScrollArea>
         </div>
       </div>
       <Toaster />

@@ -6,24 +6,19 @@ import {
   BlogIcon,
   CloseIcon,
   FeatherIcon,
+  HomeIcon,
+  MoonIcon,
+  SunIcon,
 } from "@/components/icons";
 import Nextjs from "@/components/nextjs.svg";
 import Vercel from "@/components/Vercel.png";
-import {
-  Accordion,
-  AccordionItem,
-  Button,
-  Chip,
-  Switch,
-} from "@nextui-org/react";
-import { HomeIcon, MoonIcon, PanelRightOpen, SunIcon } from "lucide-react";
+import { useTheme } from "@/contexts/ThemeContext";
+import { Accordion, AccordionItem, Chip, Switch } from "@nextui-org/react";
 import Image from "next/image";
+import Link from "next/link";
 import useSWR from "swr";
 import { ScrollArea } from "./shadcn/scroll-area";
 import { SidebarItem } from "./SidebarItem";
-import Link from "next/link";
-import { useTheme } from "@/contexts/ThemeContext";
-
 interface Item {
   id: number;
   key: string;
@@ -59,7 +54,7 @@ export default function Sidebar({
   isSidebarOpen: boolean;
 }) {
   const { data, error } = useSWR("/api/posts/titles", fetcher);
-  const { isDark, toggleTheme } = useTheme();
+  const { toggleTheme } = useTheme();
 
   if (!data)
     return (
@@ -71,7 +66,7 @@ export default function Sidebar({
 
   return (
     <div
-      className={`flex overflow-hidden pb-[90px] border-r-1 border-foreground-200 flex-col text-foreground 
+      className={`flex overflow-hidden sm:min-w-[300px] sm:w-[300px] sm:pb-[90px] sm:p-[1em] border-r-1 border-foreground-200 flex-col text-foreground 
       ${isSidebarOpen ? "w-0 p-0" : "min-w-[300px] w-[300px] p-[1em] "}`}
     >
       {/* <div className="w-full justify-end flex sm:hidden pb-5">
@@ -85,7 +80,7 @@ export default function Sidebar({
         </Button>
       </div> */}
 
-      <div className="sm:flex hidden gap-2 items-center">
+      <div className="sm:hidden flex gap-2 items-center w-full justify-between pb-3 mb-3 border-b-1 border-b-foreground-300">
         <Link href={"/"}>
           <HomeIcon color="foreground" width={35} className="cursor-pointer" />
         </Link>
@@ -118,8 +113,7 @@ export default function Sidebar({
           showDivider={false}
           isCompact
           selectionMode="multiple"
-          defaultExpandedKeys={["1", "2"]}
-          disallowEmptySelection
+          defaultExpandedKeys={["1"]}
         >
           <AccordionItem
             key="1"

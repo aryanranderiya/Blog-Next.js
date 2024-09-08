@@ -59,32 +59,16 @@ export default function Navbar({
       <div
         className={`sm:w-[90vw] w-screen sm:py-[1em] sm:px-[1.5em] px-[1em] py-[0.7em] flex justify-between items-center bg-background text-foreground `}
       >
-        <div className="flex items-center gap-2">
-          <Button
-            isIconOnly
-            size="sm"
-            variant="light"
-            onPress={() => setIsSidebarOpen((prev: boolean) => !prev)}
-            className="sm:hidden flex"
-          >
-            {isSidebarOpen ? (
-              <PanelRightClose color="gray" width={35} />
-            ) : (
-              <PanelRightOpen color="gray" width={35} />
-            )}
-          </Button>
-
-          <Link href={"/"} className="font-bold flex items-center gap-3">
-            <Image
-              src="https://github.com/aryanranderiya.png"
-              alt="Blog Logo"
-              className="w-[30px]"
-              width={30}
-              height={30}
-            />
-            Aryan&apos;s Blog
-          </Link>
-        </div>
+        <Link href={"/"} className="font-bold flex items-center gap-3 ">
+          <Image
+            src="https://github.com/aryanranderiya.png"
+            alt="Blog Logo"
+            className="w-[30px]"
+            width={30}
+            height={30}
+          />
+          <span className="sm:text-lg text-sm">Aryan&apos;s Blog</span>
+        </Link>
 
         <div className="flex items-center">
           <div className="sm:flex hidden gap-2 items-center">
@@ -126,18 +110,34 @@ export default function Navbar({
               }
             />
           </div>
+          <div className="flex items-center gap-2">
+            <Input
+              radius="full"
+              variant="faded"
+              placeholder="Search"
+              value={searchQuery}
+              onValueChange={setSearchQuery}
+              startContent={<Search01Icon color="foreground" width={"20"} />}
+              onKeyDown={handleKeyDown}
+              isClearable
+              size="sm"
+              className="max-w-[130px] sm:max-w-xs"
+            />
 
-          <Input
-            radius="full"
-            variant="faded"
-            placeholder="Search"
-            value={searchQuery}
-            onValueChange={setSearchQuery}
-            startContent={<Search01Icon color="foreground" width={"20"} />}
-            onKeyDown={handleKeyDown}
-            isClearable
-            className="max-w-[150px] sm:max-w-xs"
-          />
+            <Button
+              isIconOnly
+              size="sm"
+              variant="light"
+              onPress={() => setIsSidebarOpen((prev: boolean) => !prev)}
+              className="sm:hidden flex"
+            >
+              {isSidebarOpen ? (
+                <PanelRightClose color="gray" width={35} />
+              ) : (
+                <PanelRightOpen color="gray" width={35} />
+              )}
+            </Button>
+          </div>
         </div>
       </div>
     </div>
