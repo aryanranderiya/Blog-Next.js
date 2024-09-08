@@ -25,9 +25,11 @@ export function SearchedPosts({ posts }: { posts: Post[] }) {
       {result.length > 0 ? (
         <>
           <Tags posts={posts} isSearch={true} />
-          {result.map((post: Post, index: number) => (
-            <BlogCard post={post} key={index} />
-          ))}
+          <div className="flex flex-row flex-wrap">
+            {result.map((post: Post, index: number) => (
+              <BlogCard post={post} key={index} />
+            ))}
+          </div>
         </>
       ) : (
         <div className="flex gap-1">

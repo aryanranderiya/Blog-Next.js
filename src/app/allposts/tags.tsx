@@ -103,18 +103,16 @@ export function Tags({
       </div>
       {!isSearch && (
         <div className="flex gap-3 flex-wrap pt-4">
-          <div className="flex gap-3 flex-wrap pt-4">
-            {filteredPosts.length === 0 ? (
-              <div className="flex gap-1">
-                <CloseIcon color="#A1AECE" width={19} />
-                <span className="text-foreground-500">No Posts found</span>
-              </div>
-            ) : (
-              filteredPosts.map((post: Post, index: number) => (
-                <BlogCard post={post} key={index} />
-              ))
-            )}
-          </div>
+          {filteredPosts.length === 0 ? (
+            <div className="flex gap-1">
+              <CloseIcon color="#A1AECE" width={19} />
+              <span className="text-foreground-500">No Posts found</span>
+            </div>
+          ) : (
+            filteredPosts.map((post: Post, index: number) => (
+              <BlogCard post={post} key={index} />
+            ))
+          )}
         </div>
       )}
     </div>
