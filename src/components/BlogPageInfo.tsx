@@ -16,11 +16,11 @@ export default function BlogPageInfo({ post }: { post: Post }) {
 
   return (
     <div
-      className="flex min-h-screen h-fit sm:w-full w-screen sm:gap-7 sm:px-24 sm:pr-0 sm:pt-20 sm:pb-24 p-[2em] flex-row"
+      className="flex min-h-screen h-fit sm:w-[calc(86vw-280px)] w-screen sm:gap-7 sm:px-24 sm:pr-0 sm:pt-20 sm:pb-24 p-[2em] flex-row"
       ref={startComponentRef}
     >
       <main
-        className={`flex h-fit flex-col gap-7 relative w-full transition-all ${
+        className={`flex h-fit flex-col gap-7 relative w-full flex-grow transition-all ${
           contentsOpen ? "opacity-25" : "opacity-100"
         }`}
         onClick={() => setContentsOpen(false)}
@@ -40,14 +40,14 @@ export default function BlogPageInfo({ post }: { post: Post }) {
                 <div className="flex sm:gap-2 sm:flex-row flex-col sm:items-center items-start">
                   <span className="text-foreground-500 text-sm flex items-center gap-1">
                     <Calendar width={17} />
-                    {post.date}
+                    {post?.date}
                   </span>
                   <span className="text-foreground text-sm sm:flex hidden">
                     /
                   </span>
                   <div className="text-foreground-400 text-sm flex items-center gap-1">
                     <Clock4 width={17} />
-                    {post.estimated_read_time}
+                    {post?.estimated_read_time}
                   </div>
                 </div>
               </div>
@@ -67,7 +67,7 @@ export default function BlogPageInfo({ post }: { post: Post }) {
           </div>
 
           <div className="flex gap-1 flex-wrap">
-            {!!post.tags &&
+            {!!post?.tags &&
               JSON.parse(post.tags).map((tag: string, index: number) => (
                 <Chip
                   key={index}
@@ -83,12 +83,12 @@ export default function BlogPageInfo({ post }: { post: Post }) {
         </div>
 
         <div className="flex flex-col gap-1">
-          <h1>{post.title}</h1>
-          <span className="text-lg text-foreground-600">{post.excerpt}</span>
+          <h1>{post?.title}</h1>
+          <span className="text-lg text-foreground-600">{post?.excerpt}</span>
         </div>
 
         <div className="flex flex-col markdown-container">
-          <Markdown rehypePlugins={[rehypeSlug]}>{post.content}</Markdown>
+          <Markdown rehypePlugins={[rehypeSlug]}>{post?.content}</Markdown>
         </div>
         <div className="pt-10 pb-7 flex justify-end w-full">
           <ScrollToTop scrollTriggerRef={startComponentRef} />

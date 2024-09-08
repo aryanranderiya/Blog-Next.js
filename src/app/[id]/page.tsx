@@ -9,18 +9,11 @@ interface ErrorResponse {
   };
 }
 
-// export const revalidate = 3600;
-// export const dynamicParams = true;
-
-// export async function generateStaticParams() {
-//   let posts: Post[] = await fetch(
-//     `${process.env.NEXT_PUBLIC_BASE_URL}/api/posts`
-//   ).then((res) => res.json());
-
-//   return posts.map((post) => ({
-//     id: post.postID.toString(),
-//   }));
-// }
+export async function generateStaticParams() {
+  const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/posts`);
+  const posts: Post[] = await response.json();
+  return posts.map((post) => ({ id: post.postID.toString() }));
+}
 
 export default async function BlogPage({ params }: { params: { id: string } }) {
   const response = await fetch(

@@ -58,7 +58,7 @@ export default function ContentsSidebar({
     }
 
     fetchData();
-  }, [post.content]);
+  }, [post?.content]);
 
   const toggleSidebar = () => {
     setContentsOpen((prev: boolean) => !prev);

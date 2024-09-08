@@ -27,11 +27,7 @@ export default function Main({ children }: { children: React.ReactNode }) {
             isDark ? "dark" : ""
           } sm:w-[90vw] w-screen`}
         >
-          <Sidebar
-            isDark={isDark}
-            setIsSidebarOpen={setIsSidebarOpen}
-            isSidebarOpen={isSidebarOpen}
-          />
+          <Sidebar isDark={isDark} isSidebarOpen={isSidebarOpen} />
 
           <ScrollArea onClick={() => setIsSidebarOpen(true)}>
             {children}

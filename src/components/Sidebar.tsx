@@ -46,17 +46,22 @@ const fetcher = (...args: [RequestInfo, RequestInit?]): Promise<any> =>
 
 export default function Sidebar({
   isDark,
-  setIsSidebarOpen,
   isSidebarOpen,
 }: {
   isDark: any;
-  setIsSidebarOpen: any;
   isSidebarOpen: boolean;
 }) {
-  const { data, error } = useSWR("/api/posts/titles", fetcher);
+  const { data, error } = useSWR("/api/posts", fetcher);
   const { toggleTheme } = useTheme();
 
-  if (!data)
+  const titles = data?.map(
+    ({ postID, title }: { postID: string; title: string }) => ({
+      postID,
+      title,
+    })
+  );
+
+  if (!titles)
     return (
       <div className="flex w-[300px] pb-[90px] min-w-[300px] border-r-1 border-foreground-200 p-[1em] flex-col bg-background text-foreground">
         Loading...
@@ -69,17 +74,6 @@ export default function Sidebar({
       className={`flex overflow-hidden sm:min-w-[300px] sm:w-[300px] sm:pb-[90px] sm:p-[1em] border-r-1 border-foreground-200 flex-col text-foreground 
       ${isSidebarOpen ? "w-0 p-0" : "min-w-[300px] w-[300px] p-[1em] "}`}
     >
-      {/* <div className="w-full justify-end flex sm:hidden pb-5">
-        <Button
-          isIconOnly
-          size="sm"
-          variant="light"
-          onPress={() => setIsSidebarOpen((prev: boolean) => !prev)}
-        >
-          <PanelRightOpen color="gray" width={35} />
-        </Button>
-      </div> */}
-
       <div className="sm:hidden flex gap-2 items-center w-full justify-between pb-3 mb-3 border-b-1 border-b-foreground-300">
         <Link href={"/"}>
           <HomeIcon color="foreground" width={35} className="cursor-pointer" />
@@ -132,8 +126,8 @@ export default function Sidebar({
             title={<span className="font-semibold">Posts</span>}
             startContent={<FeatherIcon color="#00bbff" width={18} />}
           >
-            {data.length !== 0 ? (
-              data.map(
+            {titles.length !== 0 ? (
+              titles.map(
                 (item: { title: string; postID: string }, index: number) => (
                   <SidebarItem
                     label={item.title}

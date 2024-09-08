@@ -4,11 +4,12 @@ import { Post } from "@/components/BlogCard";
 import HoveredChip from "@/components/HoveredChip";
 import { CloseIcon } from "@/components/icons";
 import { migrate } from "@/app/api/migrations";
-import { apiGet } from "@/app/api/database";
 
 export async function generateStaticParams() {
-  const query = "SELECT * FROM blogposts";
-  const posts = (await apiGet(query)) as Post[];
+  const posts = (await (
+    await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/posts`)
+  ).json()) as Post[];
+
   return posts.map((post) => ({ id: post.postID.toString() }));
 }
 
