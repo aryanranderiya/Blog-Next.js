@@ -148,6 +148,16 @@ export default function BlogPageInfo({ post }: { post: Post }) {
         }`}
         onClick={() => setContentsOpen(false)}
       >
+        <div className="min-h-[200px] max-h-[200px] sm:w-[40vw] w-full overflow-hidden rounded-xl bg-foreground-300 sm:my-3">
+          <Image
+            src={post.image}
+            alt={post.title}
+            height={150}
+            width={500}
+            className={`w-full min-h-[200px] max-h-[200px] object-cover`}
+          />
+        </div>
+
         <div className="flex flex-col gap-3">
           <div className="flex sm:items-center items-start w-full justify-between flex-row gap-2 sm:gap-0">
             <div className="flex items-center gap-3 flex-1">
@@ -176,20 +186,20 @@ export default function BlogPageInfo({ post }: { post: Post }) {
               </div>
             </div>
 
-            <div className="flex gap-4 sm:flex-row flex-col">
+            <div className="flex sm:gap-4 gap-0 sm:flex-row flex-col items-end">
               <div className="flex gap-1 text-lg items-center">
                 <Eye />
-                <span className="text-gray-500">{views}</span>
+                <span className="text-gray-500 min-w-3">{views}</span>
               </div>
 
               <Button
-                className="flex gap-1 text-lg items-center p-0"
+                className="flex gap-1 text-lg items-center p-0 w-fit justify-end"
                 variant="light"
                 color="danger"
                 onPress={toggleLike}
               >
                 <Heart fill={hasLiked ? "red" : "transparent"} color="red" />
-                <span className="text-gray-500">{likes}</span>
+                <span className="text-gray-500 min-w-3">{likes}</span>
               </Button>
             </div>
           </div>
