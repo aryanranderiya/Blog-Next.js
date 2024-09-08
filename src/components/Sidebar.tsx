@@ -1,17 +1,28 @@
 "use client";
 
-import Vercel from "@/components/Vercel.png";
 import GithubIcon from "@/components/github.webp";
-import { AnnouncementIcon, CloseIcon, FeatherIcon } from "@/components/icons";
+import {
+  AnnouncementIcon,
+  BlogIcon,
+  CloseIcon,
+  FeatherIcon,
+} from "@/components/icons";
 import Nextjs from "@/components/nextjs.svg";
-import { useTheme } from "@/contexts/ThemeContext";
-import { Accordion, AccordionItem, Button, Chip } from "@nextui-org/react";
+import Vercel from "@/components/Vercel.png";
+import {
+  Accordion,
+  AccordionItem,
+  Button,
+  Chip,
+  Switch,
+} from "@nextui-org/react";
+import { HomeIcon, MoonIcon, PanelRightOpen, SunIcon } from "lucide-react";
 import Image from "next/image";
+import useSWR from "swr";
 import { ScrollArea } from "./shadcn/scroll-area";
 import { SidebarItem } from "./SidebarItem";
-import useSWR from "swr";
-import { Menu } from "lucide-react";
-import { useState } from "react";
+import Link from "next/link";
+import { useTheme } from "@/contexts/ThemeContext";
 
 interface Item {
   id: number;
@@ -48,6 +59,7 @@ export default function Sidebar({
   isSidebarOpen: boolean;
 }) {
   const { data, error } = useSWR("/api/posts/titles", fetcher);
+  const { isDark, toggleTheme } = useTheme();
 
   if (!data)
     return (
@@ -60,13 +72,45 @@ export default function Sidebar({
   return (
     <div
       className={`flex overflow-hidden pb-[90px] border-r-1 border-foreground-200 flex-col text-foreground 
-
       ${isSidebarOpen ? "w-0 p-0" : "min-w-[300px] w-[300px] p-[1em] "}`}
     >
-      <div className="w-full justify-end flex pb-4">
-        <Button isIconOnly size="sm" variant="bordered">
-          <Menu color="gray" width={18} />
+      {/* <div className="w-full justify-end flex sm:hidden pb-5">
+        <Button
+          isIconOnly
+          size="sm"
+          variant="light"
+          onPress={() => setIsSidebarOpen((prev: boolean) => !prev)}
+        >
+          <PanelRightOpen color="gray" width={35} />
         </Button>
+      </div> */}
+
+      <div className="sm:flex hidden gap-2 items-center">
+        <Link href={"/"}>
+          <HomeIcon color="foreground" width={35} className="cursor-pointer" />
+        </Link>
+        <Link href={"/allposts"}>
+          <BlogIcon color="foreground" width={35} className="cursor-pointer" />
+        </Link>
+
+        <Switch
+          defaultSelected
+          color="primary"
+          onValueChange={toggleTheme}
+          thumbIcon={({
+            isSelected,
+            className,
+          }: {
+            isSelected: boolean;
+            className: string;
+          }) =>
+            isSelected ? (
+              <MoonIcon className={className} width={17} fill="foreground" />
+            ) : (
+              <SunIcon className={className} width={17} fill="foreground" />
+            )
+          }
+        />
       </div>
 
       <ScrollArea>

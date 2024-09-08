@@ -1,20 +1,20 @@
 "use client";
 
-import { Input } from "@nextui-org/react";
 import {
+  BlogIcon,
+  HomeIcon,
+  MoonIcon,
   Search01Icon,
   SunIcon,
-  MoonIcon,
-  HomeIcon,
-  BlogIcon,
 } from "@/components/icons";
-import { Switch } from "@nextui-org/switch";
 import { useTheme } from "@/contexts/ThemeContext";
+import { Button, Input } from "@nextui-org/react";
+import { Switch } from "@nextui-org/switch";
+import { PanelRightClose, PanelRightOpen } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import React, { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
-import { EnterIcon } from "@/components/icons";
+import { useEffect, useRef, useState } from "react";
 
 export default function Navbar({
   setIsSidebarOpen,
@@ -57,18 +57,34 @@ export default function Navbar({
       } bg-background border-b-1 border-foreground-200`}
     >
       <div
-        className={`sm:w-[90vw] w-screen sm:py-[1em] sm:px-[1.5em] px-[2em] py-[0.7em] flex justify-between items-center bg-background text-foreground `}
+        className={`sm:w-[90vw] w-screen sm:py-[1em] sm:px-[1.5em] px-[1em] py-[0.7em] flex justify-between items-center bg-background text-foreground `}
       >
-        <Link href={"/"} className="font-bold flex items-center gap-3">
-          <Image
-            src="https://github.com/aryanranderiya.png"
-            alt="Blog Logo"
-            className="w-[30px]"
-            width={30}
-            height={30}
-          />
-          Aryan&apos;s Blog
-        </Link>
+        <div className="flex items-center gap-2">
+          <Button
+            isIconOnly
+            size="sm"
+            variant="light"
+            onPress={() => setIsSidebarOpen((prev: boolean) => !prev)}
+            className="sm:hidden flex"
+          >
+            {isSidebarOpen ? (
+              <PanelRightClose color="gray" width={35} />
+            ) : (
+              <PanelRightOpen color="gray" width={35} />
+            )}
+          </Button>
+
+          <Link href={"/"} className="font-bold flex items-center gap-3">
+            <Image
+              src="https://github.com/aryanranderiya.png"
+              alt="Blog Logo"
+              className="w-[30px]"
+              width={30}
+              height={30}
+            />
+            Aryan&apos;s Blog
+          </Link>
+        </div>
 
         <div className="flex items-center">
           <div className="sm:flex hidden gap-2 items-center">
