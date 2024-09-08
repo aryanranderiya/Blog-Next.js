@@ -1,7 +1,5 @@
-import BlogCard from "@/components/BlogCard";
 import { Post } from "@/components/BlogCard";
 import { Tags } from "./tags";
-import { CloseIcon } from "@/components/icons";
 
 export default async function AllPosts() {
   const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/posts`);

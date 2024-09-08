@@ -3,17 +3,13 @@ import Image from "next/image";
 import { Post } from "@/components/BlogCard";
 import HoveredChip from "@/components/HoveredChip";
 import { CloseIcon } from "@/components/icons";
-import { migrate } from "./api/migrations";
+import { migrate } from "@/app/api/migrations";
+import { apiGet } from "@/app/api/database";
 
 export async function generateStaticParams() {
-  let posts: Post[] = await fetch(
-    `${process.env.NEXT_PUBLIC_BASE_URL}/api/posts`
-  ).then((res) => res.json());
-
-  return posts.map((post) => {
-    console.log("Processing post:", post);
-    return { id: post.postID.toString() };
-  });
+  const query = "SELECT * FROM blogposts";
+  const posts = (await apiGet(query)) as Post[];
+  return posts.map((post) => ({ id: post.postID.toString() }));
 }
 
 export default function Home() {
