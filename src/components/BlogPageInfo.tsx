@@ -1,14 +1,39 @@
 "use client";
 
-import { Post } from "./BlogCard";
-import Image from "next/image";
 import ContentsSidebar from "@/components/ContentsSidebar";
 import { Button, Chip } from "@nextui-org/react";
+import { Calendar, Clock4, Eye, Heart } from "lucide-react";
+import Image from "next/image";
+import { useEffect, useRef, useState } from "react";
 import Markdown from "react-markdown";
 import rehypeSlug from "rehype-slug";
-import { Calendar, Clock4, Eye, Heart } from "lucide-react";
-import ScrollToTop from "@/components/ScrollToTop";
-import { useEffect, useRef, useState } from "react";
+import { Post } from "./BlogCard";
+
+export function formatDate(dateString: string) {
+  const date: any = new Date(dateString);
+  const now: any = new Date();
+  const diffInSeconds = Math.floor((now - date) / 1000);
+
+  const secondsInMinute = 60;
+  const secondsInHour = 3600;
+  const secondsInDay = 86400;
+
+  if (isNaN(date.getTime())) return "";
+
+  if (diffInSeconds < secondsInMinute) return "Just Now";
+  else if (diffInSeconds < secondsInHour) {
+    const minutes = Math.floor(diffInSeconds / secondsInMinute);
+    return `${minutes} Minute${minutes > 1 ? "s" : ""} ago`;
+  } else if (diffInSeconds < secondsInDay) {
+    const hours = Math.floor(diffInSeconds / secondsInHour);
+    return `${hours} Hour${hours > 1 ? "s" : ""} ago`;
+  } else {
+    const days = Math.floor(diffInSeconds / secondsInDay);
+    if (days === 0) return "Today";
+    else if (days === 1) return "Uesterday";
+    else return `${days} Day${days > 1 ? "s" : ""} ago`;
+  }
+}
 
 export default function BlogPageInfo({ post }: { post: Post }) {
   const startComponentRef = useRef(null);
@@ -111,32 +136,6 @@ export default function BlogPageInfo({ post }: { post: Post }) {
     fetchPostData();
   }, [post.postID]);
 
-  function formatDate(dateString: string) {
-    const date: any = new Date(dateString);
-    const now: any = new Date();
-    const diffInSeconds = Math.floor((now - date) / 1000);
-
-    const secondsInMinute = 60;
-    const secondsInHour = 3600;
-    const secondsInDay = 86400;
-
-    if (isNaN(date.getTime())) return "";
-
-    if (diffInSeconds < secondsInMinute) return "Just Now";
-    else if (diffInSeconds < secondsInHour) {
-      const minutes = Math.floor(diffInSeconds / secondsInMinute);
-      return `${minutes} Minute${minutes > 1 ? "s" : ""} ago`;
-    } else if (diffInSeconds < secondsInDay) {
-      const hours = Math.floor(diffInSeconds / secondsInHour);
-      return `${hours} Hour${hours > 1 ? "s" : ""} ago`;
-    } else {
-      const days = Math.floor(diffInSeconds / secondsInDay);
-      if (days === 0) return "Today";
-      else if (days === 1) return "Uesterday";
-      else return `${days} Day${days > 1 ? "s" : ""} ago`;
-    }
-  }
-
   return (
     <div
       className="flex min-h-screen h-fit sm:w-[calc(86vw-280px)] w-screen sm:gap-7 sm:px-24 sm:pr-0 sm:pt-20 sm:pb-24 p-[2em] flex-row"
@@ -186,17 +185,18 @@ export default function BlogPageInfo({ post }: { post: Post }) {
               </div>
             </div>
 
-            <div className="flex sm:gap-4 gap-0 sm:flex-row flex-col items-end">
+            <div className="flex sm:gap-3 gap-0 sm:flex-row flex-col sm:items-center items-end">
               <div className="flex gap-1 text-lg items-center">
                 <Eye />
                 <span className="text-gray-500 min-w-3">{views}</span>
               </div>
 
               <Button
-                className="flex gap-1 text-lg items-center p-0 w-fit justify-end"
+                className="flex gap-1 text-lg items-center p-0 w-fit sm:justify-center justify-end"
                 variant="light"
                 color="danger"
                 onPress={toggleLike}
+                size="sm"
               >
                 <Heart fill={hasLiked ? "red" : "transparent"} color="red" />
                 <span className="text-gray-500 min-w-3">{likes}</span>

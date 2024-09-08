@@ -1,14 +1,11 @@
 "use client";
 
-import { Chip } from "@nextui-org/react";
-import { useState } from "react";
-import { ArrowUpRight } from "./icons";
-import { ScrollArea } from "./shadcn/scroll-area";
+import { Chip, ScrollShadow } from "@nextui-org/react";
 import Image from "next/image";
 import Link from "next/link";
-import { Button } from "@nextui-org/react";
-import { useRouter } from "next/navigation";
-import { ScrollShadow } from "@nextui-org/react";
+import { useState } from "react";
+import { formatDate } from "./BlogPageInfo";
+import { ArrowUpRight } from "./icons";
 
 export interface Post {
   id: number;
@@ -26,7 +23,6 @@ export interface Post {
 
 export default function BlogCard({ post }: { post: Post }) {
   const [isHovered, setIsHovered] = useState(false);
-  const router = useRouter();
 
   const handleMouseOver = () => {
     setIsHovered(true);
@@ -72,7 +68,9 @@ export default function BlogCard({ post }: { post: Post }) {
       </Chip>
 
       <div className="py-[0.5em] px-[0.3em] flex flex-col gap-1 overflow-hidden">
-        <span className="text-xs text-foreground-500 pt-1">{post.date}</span>
+        <span className="text-xs text-foreground-500 pt-1">
+          {formatDate(post.date)}
+        </span>
         <div className="flex flex-wrap py-1 gap-1">
           {Array.isArray(post.tags)
             ? post.tags
