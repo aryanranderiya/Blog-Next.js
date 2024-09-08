@@ -38,7 +38,7 @@ export default function BlogCard({ post }: { post: Post }) {
     <Link
       className="flex w-[300px] min-h-[390px] max-h-[390px] bg-foreground-100 rounded-xl p-[10px] relative flex-col cursor-pointer hover:-tran  ate-y-2 hover:bg-foreground-200 transition-all"
       onMouseOut={handleMouseOut}
-      href={post.postID.toString()}
+      href={post?.postID?.toString()}
       onMouseOver={handleMouseOver}
     >
       <div className="min-h-[130px] max-h-[130px] overflow-hidden  rounded-xl bg-foreground-300 ">
