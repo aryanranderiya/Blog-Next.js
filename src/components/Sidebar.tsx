@@ -54,12 +54,12 @@ export default function Sidebar({
   const { data, error } = useSWR("/api/posts", fetcher);
   const { toggleTheme } = useTheme();
 
-  const titles = data?.map(
-    ({ postID, title }: { postID: string; title: string }) => ({
-      postID,
-      title,
-    })
-  );
+  const titles = !!data
+    ? data?.map(({ postID, title }: { postID: string; title: string }) => ({
+        postID,
+        title,
+      }))
+    : [];
 
   if (!titles)
     return (
@@ -107,7 +107,7 @@ export default function Sidebar({
           showDivider={false}
           isCompact
           selectionMode="multiple"
-          defaultExpandedKeys={["1"]}
+          defaultExpandedKeys={["1", "2"]}
         >
           <AccordionItem
             key="1"

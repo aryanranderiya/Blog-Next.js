@@ -3,16 +3,113 @@
 import { Post } from "./BlogCard";
 import Image from "next/image";
 import ContentsSidebar from "@/components/ContentsSidebar";
-import { Chip } from "@nextui-org/react";
+import { Button, Chip } from "@nextui-org/react";
 import Markdown from "react-markdown";
 import rehypeSlug from "rehype-slug";
 import { Calendar, Clock4, Eye, Heart } from "lucide-react";
 import ScrollToTop from "@/components/ScrollToTop";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 export default function BlogPageInfo({ post }: { post: Post }) {
   const startComponentRef = useRef(null);
   const [contentsOpen, setContentsOpen] = useState(false);
+  const [likes, setLikes] = useState(post.likes);
+  const [views, setViews] = useState(post.page_views);
+  const [hasLiked, setHasLiked] = useState(false);
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const hasLikedPost = !!localStorage.getItem(`hasLiked-${post.postID}`);
+      setHasLiked(hasLikedPost);
+    }
+  }, [post.postID]);
+
+  const toggleLike = async () => {
+    try {
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_BASE_URL}/api/post/update/like`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            postID: post.postID,
+            like: !hasLiked,
+          }),
+        }
+      );
+      const data = await response.json();
+      if (data.success) {
+        setHasLiked(!hasLiked);
+        setLikes((prev) => (hasLiked ? prev - 1 : prev + 1));
+        localStorage.setItem(
+          `hasLiked-${post.postID}`,
+          !hasLiked ? "true" : ""
+        );
+      } else {
+        console.error("Failed to update likes on the server:", data.message);
+      }
+    } catch (error) {
+      console.error("Failed to update likes:", error);
+    }
+  };
+
+  useEffect(() => {
+    const incrementView = async () => {
+      if (typeof window !== "undefined") {
+        const hasViewedPost = !!sessionStorage.getItem(
+          `hasViewed-${post.postID}`
+        );
+        if (!hasViewedPost) {
+          try {
+            await fetch(
+              `${process.env.NEXT_PUBLIC_BASE_URL}/api/post/update/view`,
+              {
+                method: "POST",
+                headers: {
+                  "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                  postID: post.postID,
+                }),
+              }
+            );
+            sessionStorage.setItem(`hasViewed-${post.postID}`, "true");
+          } catch (error) {
+            console.error("Failed to update views:", error);
+          }
+        }
+      }
+    };
+
+    incrementView();
+
+    const fetchPostData = async () => {
+      try {
+        const [likesRes, viewsRes] = await Promise.all([
+          fetch(
+            `${process.env.NEXT_PUBLIC_BASE_URL}/api/post/${post.postID}/like`
+          ),
+          fetch(
+            `${process.env.NEXT_PUBLIC_BASE_URL}/api/post/${post.postID}/views`
+          ),
+        ]);
+
+        const [likesData, viewsData] = await Promise.all([
+          likesRes.json(),
+          viewsRes.json(),
+        ]);
+
+        setLikes(likesData.likes);
+        setViews(viewsData.page_views);
+      } catch (error) {
+        console.error("Failed to fetch post data:", error);
+      }
+    };
+
+    fetchPostData();
+  }, [post.postID]);
 
   return (
     <div
@@ -56,13 +153,18 @@ export default function BlogPageInfo({ post }: { post: Post }) {
             <div className="flex gap-4 sm:flex-row flex-col">
               <div className="flex gap-1 text-lg items-center">
                 <Eye />
-                <span className="text-gray-500">100</span>
+                <span className="text-gray-500">{views}</span>
               </div>
 
-              <div className="flex gap-1 text-lg items-center">
-                <Heart fill="red" color="red" />
-                <span className="text-gray-500">100</span>
-              </div>
+              <Button
+                className="flex gap-1 text-lg items-center p-0"
+                variant="light"
+                color="danger"
+                onPress={toggleLike}
+              >
+                <Heart fill={hasLiked ? "red" : "transparent"} color="red" />
+                <span className="text-gray-500">{likes}</span>
+              </Button>
             </div>
           </div>
 

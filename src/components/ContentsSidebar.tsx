@@ -50,7 +50,6 @@ export default function ContentsSidebar({
       try {
         const html = await convertMarkdownToHtml(post.content);
         const headings = extractHeadings(html);
-        console.log(headings);
         setHeadings(headings);
       } catch (error) {
         console.error("Error processing Markdown:", error);

@@ -87,13 +87,7 @@ export function Tags({
         })
       );
     }
-
-    console.log(posts);
   }, [selectedTags, posts]);
-
-  useEffect(() => {
-    console.log(filteredPosts);
-  }, [filteredPosts]);
 
   return (
     <div>

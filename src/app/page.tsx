@@ -5,6 +5,8 @@ import HoveredChip from "@/components/HoveredChip";
 import { CloseIcon } from "@/components/icons";
 import { migrate } from "@/app/api/migrations";
 
+export const revalidate = 3600;
+
 export async function generateStaticParams() {
   const posts: Post[] = await fetch(
     `${process.env.NEXT_PUBLIC_BASE_URL}/api/posts`
@@ -17,15 +19,16 @@ export default function Home() {
   migrate();
   return (
     <main className="flex w-screen min-h-screen h-fit flex-col gap-7 sm:px-24 sm:pt-20 sm:pb-24 p-[2em]">
-      <div className="font-semibold sm:text-4xl text-2xl flex sm:gap-3 gap-1 items-center flex-wrap">
+      <div className="font-semibold sm:text-4xl text-2xl flex sm:gap-3 gap-1 items-center flex-wrap sm:w-[50vw]">
         <span className="text-nowrap">Welcome to my Blog!</span>
+        <span className="text-nowrap">I&apos;m</span>
         <Image
           src="https://github.com/aryanranderiya.png"
           alt="Aryan randeriya image"
           width={32}
           height={32}
         />
-        <span className="text-nowrap">I&apos;m Aryan Randeriya,</span>
+        <span>Aryan Randeriya,</span>
         <span className="text-wrap">
           a Software Developer & Designer from India.
         </span>

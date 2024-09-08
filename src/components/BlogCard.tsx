@@ -20,6 +20,8 @@ export interface Post {
   image: string;
   content: string;
   estimated_read_time: string;
+  likes: number;
+  page_views: number;
 }
 
 export default function BlogCard({ post }: { post: Post }) {

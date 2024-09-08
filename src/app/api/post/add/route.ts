@@ -15,8 +15,6 @@ export async function POST(request: Request) {
       estimated_read_time,
     } = body;
 
-    console.log(body);
-
     if (
       !postID ||
       !title ||

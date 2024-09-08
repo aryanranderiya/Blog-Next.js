@@ -15,7 +15,9 @@ export const migrate = () => {
         tags TEXT NOT NULL, -- Storing tags as a JSON string
         image TEXT NOT NULL,
         content TEXT NOT NULL,
-        estimated_read_time TEXT NOT NULL
+        estimated_read_time TEXT NOT NULL,
+        likes INTEGER NOT NULL DEFAULT 1,
+        page_views INTEGER NOT NULL DEFAULT 1 
       )
     `,
       (err: Error) => {

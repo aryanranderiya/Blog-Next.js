@@ -146,7 +146,7 @@ export default function AddPost() {
   };
 
   return (
-    <main className="flex min-h-screen h-fit flex-col gap-7 sm:px-24 sm:pt-20 sm:pb-24 p-[2em]">
+    <main className="flex min-h-screen h-fit flex-col gap-7 sm:w-[calc(86vw-280px)] w-screen sm:px-24 sm:pt-20 sm:pb-24 p-[2em]">
       {passwordCorrect ? (
         <>
           <span className="text-nowrap font-semibold text-4xl">Add Post</span>
