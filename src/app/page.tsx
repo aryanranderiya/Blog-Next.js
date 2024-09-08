@@ -10,9 +10,10 @@ export async function generateStaticParams() {
     `${process.env.NEXT_PUBLIC_BASE_URL}/api/posts`
   ).then((res) => res.json());
 
-  return posts.map((post) => ({
-    id: post.postID.toString(),
-  }));
+  return posts.map((post) => {
+    console.log("Processing post:", post);
+    return { id: post.postID.toString() };
+  });
 }
 
 export default function Home() {
