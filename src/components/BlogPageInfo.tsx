@@ -138,7 +138,7 @@ export default function BlogPageInfo({ post }: { post: Post }) {
 
   return (
     <div
-      className="flex min-h-screen h-fit sm:w-[calc(86vw-280px)] w-screen sm:gap-7 sm:px-24 sm:pr-0 sm:pt-20 sm:pb-24 p-[2em] flex-row"
+      className="flex min-h-[calc(100vh-80px)] h-fit sm:w-[calc(86vw-280px)] w-screen sm:gap-7 sm:px-24 sm:pr-0 sm:pt-20 sm:pb-24 p-[2em] flex-row"
       ref={startComponentRef}
     >
       <main
@@ -147,7 +147,7 @@ export default function BlogPageInfo({ post }: { post: Post }) {
         }`}
         onClick={() => setContentsOpen(false)}
       >
-        <div className="min-h-[200px] max-h-[200px] sm:w-[40vw] w-full overflow-hidden rounded-xl bg-foreground-300 sm:my-3">
+        <div className="min-h-[200px] max-h-[200px] sm:w-[40vw] w-full overflow-hidden rounded-xl bg-foreground-300 sm:my-3 outline outline-2 outline-foreground-200">
           <Image
             src={post.image}
             alt={post.title}
