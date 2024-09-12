@@ -7,7 +7,7 @@ function NotFoundPage() {
   const router = useRouter();
 
   return (
-    <div className="w-[70vw] flex-col flex justify-center h-[90vh] items-center">
+    <div className="sm:w-[70vw] w-screen flex-col flex justify-center h-[90vh] items-center">
       <div className="flex flex-col gap-2">
         <div className="flex gap-4 items-center">
           <span className="font-bold text-2xl">404</span>

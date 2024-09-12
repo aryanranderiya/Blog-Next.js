@@ -69,7 +69,7 @@ export default function ContentsSidebar({
   return (
     <div className="flex h-full flex-col p-4 gap-4 sm:min-w-[250px] sm:max-w-[250px] w-0">
       <div
-        className="rounded-full w-[45px] h-[45px] absolute right-6 sm:hidden bottom-6 bg-foreground-50 flex border-foreground-400 border items-center justify-center z-10"
+        className="rounded-full w-[45px] h-[45px] absolute right-6 sm:hidden bottom-6 bg-foreground-50 flex border-foreground-400 border items-center justify-center z-[9]"
         onClick={toggleSidebar}
       >
         {contentsOpen ? (

@@ -9,7 +9,7 @@ export default async function SearchPosts() {
   }));
 
   return (
-    <main className="flex min-h-screen h-fit flex-col gap-7 sm:px-24 sm:pt-20 sm:pb-24 p-[2em]">
+    <main className="flex min-h-[100dvh] h-fit flex-col gap-7 sm:px-24 sm:pt-20 sm:pb-24 p-[2em]">
       <div className="flex gap-3 flex-wrap flex-col">
         <span className="text-nowrap font-semibold text-4xl">
           Search Result

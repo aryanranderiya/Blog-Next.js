@@ -54,7 +54,7 @@ export default function Navbar({
     <div
       className={`flex justify-center w-screen ${
         isDark ? "dark" : ""
-      } bg-background border-b-1 border-foreground-200`}
+      } bg-background border-b-1 border-foreground-200 z-10`}
     >
       <div
         className={`sm:w-[90vw] w-screen sm:py-[1em] sm:px-[1.5em] px-[1em] py-[0.7em] flex justify-between items-center bg-background text-foreground `}
@@ -128,7 +128,7 @@ export default function Navbar({
               isIconOnly
               size="sm"
               variant="light"
-              onPress={() => setIsSidebarOpen((prev: boolean) => !prev)}
+              onClick={() => setIsSidebarOpen((prev: boolean) => !prev)}
               className="sm:hidden flex"
             >
               {isSidebarOpen ? (

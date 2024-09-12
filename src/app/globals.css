@@ -184,3 +184,7 @@ menu {
 .markdown-container > * {
   all: revert;
 }
+
+/* body {
+  cursor: none;
+} */
