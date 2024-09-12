@@ -8,14 +8,12 @@ const useDeviceType = () => {
   const [deviceType, setDeviceType] = useState(getDeviceType);
 
   function getDeviceType() {
-    if (window.matchMedia(`(max-width: ${PHONE_BREAKPOINT}px)`).matches) {
-      return "phone";
-    } else if (
-      window.matchMedia(`(max-width: ${TABLET_BREAKPOINT}px)`).matches
-    ) {
-      return "tablet";
-    } else {
-      return "desktop";
+    if (typeof window !== "undefined") {
+      if (window.matchMedia(`(max-width: ${PHONE_BREAKPOINT}px)`).matches)
+        return "phone";
+      else if (window.matchMedia(`(max-width: ${TABLET_BREAKPOINT}px)`).matches)
+        return "tablet";
+      else return "desktop";
     }
   }
 
@@ -24,13 +22,15 @@ const useDeviceType = () => {
       setDeviceType(getDeviceType());
     };
 
-    window.addEventListener("resize", handleResize);
+    if (typeof window !== "undefined")
+      window.addEventListener("resize", handleResize);
 
     // Initial check
     handleResize();
 
     return () => {
-      window.removeEventListener("resize", handleResize);
+      if (typeof window !== "undefined")
+        window.removeEventListener("resize", handleResize);
     };
   }, []);
 
