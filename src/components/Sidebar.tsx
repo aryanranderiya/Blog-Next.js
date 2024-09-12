@@ -73,9 +73,6 @@ const Sidebar = forwardRef<HTMLDivElement, SidebarProps>(
       );
     if (error) return <div>Failed to load</div>;
 
-    //  ${
-    // isSidebarOpen ? "translate-x-[-100%]" : "translate-x-0"
-    // }
     return (
       <div
         className={`flex overflow-hidden md:min-w-[300px] md:w-[300px] md:pb-[90px] p-[1em] flex-col text-foreground md:relative absolute bg-background z-10 min-w-[70vw] max-w-[300px] h-screen transition-all`}
@@ -216,4 +213,5 @@ const Sidebar = forwardRef<HTMLDivElement, SidebarProps>(
   }
 );
 
+Sidebar.displayName = "Sidebar";
 export default Sidebar;
