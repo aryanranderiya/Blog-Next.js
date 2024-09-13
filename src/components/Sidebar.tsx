@@ -205,7 +205,6 @@ const Sidebar = forwardRef<HTMLDivElement, SidebarProps>(
             >
               Built using Next.js | Vercel
             </Chip>
-            {/*  using Next.js */}
           </div>
         </ScrollArea>
       </div>

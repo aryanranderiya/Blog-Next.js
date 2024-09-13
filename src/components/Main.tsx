@@ -15,7 +15,7 @@ export default function Main({ children }: { children: React.ReactNode }) {
   const [translatePercent, setTranslatePercent] = useState(100);
   const [touchStart, setTouchStart] = useState<number | null>(null);
   const [touchStartY, setTouchStartY] = useState<number | null>(null);
-  const swipeThreshold = 10;
+  const swipeThreshold = 5;
 
   const onTouchStart = (e: React.TouchEvent) => {
     setTouchStart(e.targetTouches[0].clientX);
@@ -25,14 +25,11 @@ export default function Main({ children }: { children: React.ReactNode }) {
   const onTouchMove = (e: React.TouchEvent) => {
     if (touchStart === null || touchStartY === null || !sidebarRef.current)
       return;
-
     const touchEndX = e.targetTouches[0].clientX;
     const touchEndY = e.targetTouches[0].clientY;
     const sidebarWidth = sidebarRef.current.offsetWidth;
-
     const horizontalDistance = touchStart - touchEndX;
     const verticalDistance = touchStartY - touchEndY;
-
     if (
       Math.abs(horizontalDistance) > Math.abs(verticalDistance) &&
       Math.abs(horizontalDistance) > swipeThreshold
@@ -42,7 +39,8 @@ export default function Main({ children }: { children: React.ReactNode }) {
         Math.min((horizontalDistance / sidebarWidth) * 100, 100)
       );
 
-      setTranslatePercent(percentage);
+      const finalPercentage = percentage < 30 ? 0 : 100;
+      setTranslatePercent(finalPercentage);
     }
   };
 
@@ -56,13 +54,12 @@ export default function Main({ children }: { children: React.ReactNode }) {
 
   React.useEffect(() => {
     isSidebarOpen ? setTranslatePercent(100) : setTranslatePercent(0);
-    // translatePercent === 100 ? setIsSidebarOpen(true) : setIsSidebarOpen(false);
   }, [isSidebarOpen]);
 
   return (
     <NextUIProvider>
       <div
-        className={`flex flex-col items-center max-h-[100dvh] min-h-[100dvh] overflow-hidden text-foreground bg-background ${
+        className={`flex flex-col items-center min-h-[100dvh] overflow-hidden text-foreground bg-background ${
           isDark ? "dark" : ""
         }`}
       >
@@ -71,7 +68,7 @@ export default function Main({ children }: { children: React.ReactNode }) {
           isSidebarOpen={translatePercent === 100}
         />
         <div
-          className={`flex flex-row h-[calc(100vh-80px)] ${
+          className={`flex flex-row h-[calc(100dvh-55px)] ${
             isDark ? "dark" : ""
           } sm:w-[90vw] w-screen`}
           onTouchStart={onTouchStart}

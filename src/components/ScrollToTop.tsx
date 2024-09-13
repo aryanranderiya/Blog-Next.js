@@ -27,6 +27,7 @@ export default function ScrollToTop({
         <div className="flex items-center gap-1">
           <span className="font-semibold">Scroll to Top</span>
           <ArrowUp width={19} />
+          
         </div>
       </Chip>
     </div>
