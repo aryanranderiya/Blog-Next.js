@@ -1,6 +1,8 @@
 import { Post } from "@/components/BlogCard";
 import { Suspense } from "react";
 import { SearchedPosts } from "./searchedPosts";
+import DefaultLayout from "@/layouts/DefaultLayout";
+
 export default async function SearchPosts() {
   const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/posts`);
 
@@ -9,7 +11,7 @@ export default async function SearchPosts() {
   }));
 
   return (
-    <main className="flex min-h-[100dvh] h-fit flex-col gap-7 sm:px-24 sm:pt-20 sm:pb-24 p-[2em]">
+    <DefaultLayout>
       <div className="flex gap-3 flex-wrap flex-col">
         <span className="text-nowrap font-semibold text-4xl">
           Search Result
@@ -20,6 +22,6 @@ export default async function SearchPosts() {
           </Suspense>
         </div>
       </div>
-    </main>
+    </DefaultLayout>
   );
 }

@@ -25,39 +25,29 @@ export default function Navbar({
 }) {
   const { isDark, toggleTheme } = useTheme();
   const [searchQuery, setSearchQuery] = useState("");
-  const prevQueryRef = useRef("");
   const router = useRouter();
-
-  const handleKeyDown = (event: any) => {
-    if (event.key === "Enter" && searchQuery.trim().length !== 0) {
-      event.preventDefault();
-
-      const searchParams = new URLSearchParams({
-        query: searchQuery,
-      }).toString();
-
-      router.push(`/search?${searchParams}`);
-    } else if (searchQuery.trim().length === 0) router.push(`/allposts`);
-  };
+  const prevQueryRef = useRef("");
 
   useEffect(() => {
     if (
       prevQueryRef.current.trim().length > 0 &&
       searchQuery.trim().length === 0
-    ) {
+    )
       router.push(`/allposts`);
-    }
+    else if (searchQuery.trim().length > 0)
+      router.push(`/search?query=${searchQuery}`);
+
     prevQueryRef.current = searchQuery;
-  }, [searchQuery, router]);
+  }, [searchQuery]);
 
   return (
     <div
       className={`flex justify-center w-screen ${
         isDark ? "dark" : ""
-      } bg-background border-b-1 border-foreground-200 z-10`}
+      } bg-background border-b-1 border-foreground-200 z-10 fixed top-0`}
     >
       <div
-        className={`sm:w-[90vw] w-screen sm:py-[1em] sm:px-[1.5em] px-[1em] py-[0.7em] flex justify-between items-center bg-background text-foreground `}
+        className={`sm:w-[80vw] w-screen sm:py-[1em] sm:px-0 px-[1em] py-[0.7em] flex justify-between items-center bg-background text-foreground `}
       >
         <Link href={"/"} className="font-bold flex items-center gap-3 ">
           <Image
@@ -118,7 +108,6 @@ export default function Navbar({
               value={searchQuery}
               onValueChange={setSearchQuery}
               startContent={<Search01Icon color="foreground" width={"20"} />}
-              onKeyDown={handleKeyDown}
               isClearable
               size="sm"
               className="max-w-[130px] sm:max-w-xs"

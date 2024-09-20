@@ -4,22 +4,46 @@ import BlogCard from "@/components/BlogCard";
 import { useSearchParams } from "next/navigation";
 import { CloseIcon } from "@/components/icons";
 import { Tags } from "../allposts/tags";
+import React, { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 
 export function SearchedPosts({ posts }: { posts: Post[] }) {
   const searchParams = useSearchParams();
-  const query = searchParams?.get("query") || "";
+  const [result, setResult] = useState<Post[]>([]);
+  const [query, setQuery] = useState(searchParams?.get("query") || "");
+  const router = useRouter();
 
-  const result = posts.filter((post) => {
-    const inTitle = post.title?.toLowerCase().includes(query.toLowerCase());
-    const inDate = post.date?.toLowerCase().includes(query.toLowerCase());
-    const inContent = post.content?.toLowerCase().includes(query.toLowerCase());
-    const inExcerpt = post.excerpt?.toLowerCase().includes(query.toLowerCase());
-    const inTags = Array.isArray(post.tags)
-      ? post.tags.some((tag) => tag.toLowerCase().includes(query.toLowerCase()))
-      : false;
+  useEffect(() => {
+    const queryParam = searchParams.get("query");
+    setQuery(queryParam || "");
+  }, [searchParams]);
 
-    return inTitle || inDate || inContent || inExcerpt || inTags;
-  });
+  useEffect(() => {
+    if (query.trim().length === 0) {
+      router.push("/allposts");
+      return;
+    }
+
+    setResult(
+      posts.filter((post) => {
+        const inTitle = post.title?.toLowerCase().includes(query.toLowerCase());
+        const inDate = post.date?.toLowerCase().includes(query.toLowerCase());
+        const inContent = post.content
+          ?.toLowerCase()
+          .includes(query.toLowerCase());
+        const inExcerpt = post.excerpt
+          ?.toLowerCase()
+          .includes(query.toLowerCase());
+
+        const inTags = JSON.parse(post.tags).some((tag: string) =>
+          tag.toLowerCase().includes(query.toLowerCase())
+        );
+
+        return inTitle || inDate || inContent || inExcerpt || inTags;
+      })
+    );
+  }, [query]);
+
   return (
     <>
       {result.length > 0 ? (

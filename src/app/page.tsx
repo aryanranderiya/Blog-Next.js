@@ -4,6 +4,7 @@ import { Post } from "@/components/BlogCard";
 import HoveredChip from "@/components/HoveredChip";
 import { CloseIcon } from "@/components/icons";
 import { migrate } from "@/app/api/migrations";
+import DefaultLayout from "@/layouts/DefaultLayout";
 
 export const revalidate = 3600;
 
@@ -18,9 +19,9 @@ export async function generateStaticParams() {
 export default function Home() {
   migrate();
   return (
-    <main className="flex w-screen min-h-[calc(100vh-80px)] h-fit flex-col gap-7 sm:px-24 sm:pt-20 sm:pb-24 p-[2em]">
-      <div className="font-semibold sm:text-4xl text-2xl flex sm:gap-3 gap-1 items-center flex-wrap sm:w-[50vw]">
-        <span className="text-nowrap">Welcome to my Blog!</span>
+    <DefaultLayout>
+      <div className="font-semibold sm:text-4xl text-2xl flex sm:gap-3 gap-1 items-center flex-wrap sm:w-[80%] w-full">
+        <span className="text-nowrap w-full">Welcome to my Blog!</span>
         <span className="text-nowrap">I&apos;m</span>
         <Image
           src="https://github.com/aryanranderiya.png"
@@ -34,7 +35,7 @@ export default function Home() {
         </span>
       </div>
 
-      <div className="flex gap-2 flex-wrap">
+      <div className="flex gap-2 flex-wrap pt-6">
         <a href="https://aryanranderiya.com" target="_blank">
           <HoveredChip
             text={"View my Portfolio"}
@@ -53,7 +54,7 @@ export default function Home() {
 
       <FeaturedPosts />
       <LatestPosts />
-    </main>
+    </DefaultLayout>
   );
 }
 

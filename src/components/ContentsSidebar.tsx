@@ -39,12 +39,10 @@ export default function ContentsSidebar({
   post,
   setContentsOpen,
   contentsOpen,
-  startComponentRef,
 }: {
   post: Post;
   contentsOpen: boolean;
   setContentsOpen: any;
-  startComponentRef: any;
 }) {
   const [headings, setHeadings] = useState<{ id: string; text: string }[]>([]);
 
@@ -102,10 +100,6 @@ export default function ContentsSidebar({
                 {heading.text}
               </a>
             ))}
-          </div>
-
-          <div className="pt-10 pb-7 flex justify-center w-full">
-            <ScrollToTop scrollTriggerRef={startComponentRef} />
           </div>
         </div>
       )}

@@ -9,6 +9,8 @@ import Markdown from "react-markdown";
 import rehypeSlug from "rehype-slug";
 import { Post } from "./BlogCard";
 import Head from "next/head";
+import DefaultLayout from "@/layouts/DefaultLayout";
+import ScrollToTop from "./ScrollToTop";
 
 export function formatDate(dateString: string) {
   const date: any = new Date(dateString);
@@ -139,40 +141,12 @@ export default function BlogPageInfo({ post }: { post: Post }) {
 
   return (
     <>
-      {post && (
-        <Head>
-          <title>Aryans Blog | {post.title}</title>
-
-          <meta name="description" content={post.excerpt} />
-          <meta
-            name="keywords"
-            content={
-              "Aryan Randeriya Blog, Blog Website, Aryan, Randeriya, Blog, Next.js" +
-              JSON.parse(post.tags).toString()
-            }
-          />
-          <meta property="og:title" content={post.title} />
-          <meta property="og:description" content={post.excerpt} />
-          <meta property="og:image" content={post.image} />
-          <meta
-            property="og:url"
-            content={`https://blog.aryanranderiya.com/${post.postID}`}
-          />
-          <meta
-            property="canonical"
-            content={`https://blog.aryanranderiya.com/${post.postID}`}
-          />
-        </Head>
-      )}
-
-      <div
-        className="flex min-h-[calc(100dvh-80px)] h-fit md:w-[calc(86vw-280px)] min-w-screen sm:gap-7 sm:px-24 sm:pr-0 sm:pt-20 sm:pb-24 p-[2em] flex-row"
-        ref={startComponentRef}
-      >
+      <DefaultLayout>
         <main
           className={`flex h-fit flex-col gap-7 relative w-full flex-grow transition-all ${
             contentsOpen ? "opacity-25" : "opacity-100"
           }`}
+          ref={startComponentRef}
           onClick={() => setContentsOpen(false)}
         >
           <div className="min-h-[200px] max-h-[200px] sm:w-[40vw] w-full overflow-hidden rounded-xl bg-foreground-300 sm:my-3 outline outline-2 outline-foreground-200">
@@ -253,20 +227,49 @@ export default function BlogPageInfo({ post }: { post: Post }) {
             <span className="text-lg text-foreground-600">{post?.excerpt}</span>
           </div>
 
-          <div className="flex flex-col markdown-container">
+          <div className="flex flex-col markdown-container sm:w-[70%] w-full flex-wrap pb-14">
             <Markdown rehypePlugins={[rehypeSlug]}>{post?.content}</Markdown>
           </div>
-        </main>
 
+          {/* <ScrollToTop scrollTriggerRef={startComponentRef} /> */}
+        </main>
+        {/* 
         <div className="sm:min-w-[280px] w-0">
           <ContentsSidebar
             post={post}
             contentsOpen={contentsOpen}
             setContentsOpen={setContentsOpen}
-            startComponentRef={startComponentRef}
           />
-        </div>
-      </div>
+        </div> */}
+      </DefaultLayout>
     </>
   );
+}
+
+//   {post && (
+// <Head>
+{
+  /* <title>Aryans Blog | {post.title}</title>
+
+          <meta name="description" content={post.excerpt} />
+          <meta
+            name="keywords"
+            content={
+              "Aryan Randeriya Blog, Blog Website, Aryan, Randeriya, Blog, Next.js" +
+              JSON.parse(post.tags).toString()
+            }
+          />
+          <meta property="og:title" content={post.title} />
+          <meta property="og:description" content={post.excerpt} />
+          <meta property="og:image" content={post.image} />
+          <meta
+            property="og:url"
+            content={`https://blog.aryanranderiya.com/${post.postID}`}
+          />
+          <meta
+            property="canonical"
+            content={`https://blog.aryanranderiya.com/${post.postID}`}
+          />
+        </Head>
+      )} */
 }

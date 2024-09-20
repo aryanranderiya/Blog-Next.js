@@ -184,6 +184,9 @@ menu {
 .markdown-container > * {
   all: revert;
 }
+.markdown-container {
+  overflow: hidden;
+}
 
 /* body {
   cursor: none;

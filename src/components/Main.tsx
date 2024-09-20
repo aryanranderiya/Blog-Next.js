@@ -58,40 +58,46 @@ export default function Main({ children }: { children: React.ReactNode }) {
 
   return (
     <NextUIProvider>
-      <div
-        className={`flex flex-col items-center min-h-[100dvh] overflow-hidden text-foreground bg-background ${
-          isDark ? "dark" : ""
-        }`}
-      >
-        <Navbar
-          setIsSidebarOpen={setIsSidebarOpen}
-          isSidebarOpen={translatePercent === 100}
-        />
+      <div className="flex justify-center w-full">
         <div
-          className={`flex flex-row h-[calc(100dvh-55px)] ${
+          className={`flex flex-col items-center overflow-hidden text-foreground bg-background ${
             isDark ? "dark" : ""
-          } sm:w-[90vw] w-screen`}
-          onTouchStart={onTouchStart}
-          onTouchMove={onTouchMove}
-          onTouchEnd={onTouchEnd}
+          }`}
         >
-          <Sidebar
-            isDark={isDark}
-            translateX={-translatePercent}
-            ref={sidebarRef}
+          <Navbar
+            setIsSidebarOpen={setIsSidebarOpen}
+            isSidebarOpen={translatePercent === 100}
           />
           <div
-            className={`bg-black w-screen h-screen z-[9] fixed top-0 left-0 bg-opacity-50 transition-all backdrop-blur-sm ${
-              translatePercent === 100
-                ? "opacity-0 pointer-events-none"
-                : "opacity-100"
-            }`}
-            onClick={() => setTranslatePercent(100)}
-          />
+            className={`flex sm:pt-[65px] pt-[50px] sm:w-[calc(80vw)] w-screen ${
+              isDark ? "dark" : ""
+            } `}
+            onTouchStart={onTouchStart}
+            onTouchMove={onTouchMove}
+            onTouchEnd={onTouchEnd}
+          >
+            <Sidebar
+              isDark={isDark}
+              translateX={-translatePercent}
+              ref={sidebarRef}
+            />
 
-          <ScrollArea onClick={() => setTranslatePercent(100)}>
-            {children}
-          </ScrollArea>
+            <div
+              className={`bg-black w-screen h-screen z-[9] fixed top-0 left-0 bg-opacity-50 transition-all backdrop-blur-sm ${
+                translatePercent === 100
+                  ? "opacity-0 pointer-events-none"
+                  : "opacity-100"
+              }`}
+              onClick={() => setTranslatePercent(100)}
+            />
+
+            <ScrollArea
+              onClick={() => setTranslatePercent(100)}
+              className="sm:w-[80%] w-full"
+            >
+              {children}
+            </ScrollArea>
+          </div>
         </div>
       </div>
       <Toaster />
