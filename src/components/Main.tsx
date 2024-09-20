@@ -58,12 +58,12 @@ export default function Main({ children }: { children: React.ReactNode }) {
 
   return (
     <NextUIProvider>
-      <div className="flex justify-center w-full">
-        <div
-          className={`flex flex-col items-center overflow-hidden text-foreground bg-background ${
-            isDark ? "dark" : ""
-          }`}
-        >
+      <div
+        className={`flex justify-center w-full text-foreground bg-background ${
+          isDark ? "dark" : ""
+        }`}
+      >
+        <div className={`flex flex-col items-center overflow-hidden `}>
           <Navbar
             setIsSidebarOpen={setIsSidebarOpen}
             isSidebarOpen={translatePercent === 100}
