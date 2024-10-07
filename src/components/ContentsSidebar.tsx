@@ -1,15 +1,12 @@
-"use client";
-
 import * as cheerio from "cheerio";
-import { useEffect, useState } from "react";
+import { TableOfContents, X } from "lucide-react";
+import { forwardRef, Ref, RefObject, useEffect, useState } from "react";
 import rehypeSlug from "rehype-slug";
 import rehypeStringify from "rehype-stringify";
 import remarkParse from "remark-parse";
 import remarkRehype from "remark-rehype";
 import { unified } from "unified";
 import { Post } from "./BlogCard";
-import { TableOfContents, X } from "lucide-react";
-import ScrollToTop from "./ScrollToTop";
 
 async function convertMarkdownToHtml(markdown: string) {
   const file = await unified()
@@ -41,8 +38,8 @@ export default function ContentsSidebar({
   contentsOpen,
 }: {
   post: Post;
+  setContentsOpen: React.Dispatch<React.SetStateAction<boolean>>;
   contentsOpen: boolean;
-  setContentsOpen: any;
 }) {
   const [headings, setHeadings] = useState<{ id: string; text: string }[]>([]);
 
@@ -65,9 +62,9 @@ export default function ContentsSidebar({
   };
 
   return (
-    <div className="flex h-full flex-col p-4 gap-4 sm:min-w-[250px] sm:max-w-[250px] w-0">
+    <div className="flex h-full flex-col p-4 gap-4 sm:min-w-[70vh] sm:max-w-[70vh] w-0">
       <div
-        className="rounded-full w-[45px] h-[45px] absolute right-6 sm:hidden bottom-6 bg-foreground-50 flex border-foreground-400 border items-center justify-center z-[9]"
+        className="rounded-full w-[45px] h-[45px] absolute right-6 sm:hidden bottom-6 bg-foreground-50 flex shadow-2xl items-center justify-center z-[9]"
         onClick={toggleSidebar}
       >
         {contentsOpen ? (
@@ -79,7 +76,7 @@ export default function ContentsSidebar({
 
       {headings.length !== 0 && (
         <div
-          className={`w-[240px] border px-1 py-2 rounded-lg border-foreground-400 absolute right-7 sm:top-20 sm:bottom-auto bottom-7 bg-foreground-50 transition-all origin-bottom-right sm:opacity-100 sm:pointer-events-auto overflow-hidden ${
+          className={`w-[240px] h-[50vh] overflow-y-auto shadow-xl border border-foreground-200 px-1 py-2 rounded-lg absolute right-7 sm:top-20 sm:bottom-auto bottom-7 bg-foreground-50 transition-all origin-bottom-right sm:opacity-100 sm:pointer-events-auto ${
             contentsOpen
               ? "opacity-100 h-fit pointer-events-auto"
               : "opacity-0 pointer-events-none"
@@ -95,7 +92,7 @@ export default function ContentsSidebar({
               <a
                 key={heading.id}
                 href={`#${heading.id}`}
-                className="text-foreground text-sm hover:text-gray-400 transition-all"
+                className={`text-foreground text-sm hover:text-gray-400 transition-all`}
               >
                 {heading.text}
               </a>

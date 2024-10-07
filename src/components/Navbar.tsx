@@ -13,7 +13,7 @@ import { Switch } from "@nextui-org/switch";
 import { PanelRightClose, PanelRightOpen } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 
 export default function Navbar({
@@ -23,6 +23,7 @@ export default function Navbar({
   setIsSidebarOpen: any;
   isSidebarOpen: boolean;
 }) {
+  const pathname = usePathname();
   const { isDark, toggleTheme } = useTheme();
   const [searchQuery, setSearchQuery] = useState("");
   const router = useRouter();
@@ -64,14 +65,14 @@ export default function Navbar({
           <div className="sm:flex hidden gap-2 items-center">
             <Link href={"/"}>
               <HomeIcon
-                color="foreground"
+                color={pathname === "/" ? "#00bbff" : "foreground"}
                 width={35}
                 className="cursor-pointer"
               />
             </Link>
             <Link href={"/allposts"}>
               <BlogIcon
-                color="foreground"
+                color={pathname === "/allposts" ? "#00bbff" : "foreground"}
                 width={35}
                 className="cursor-pointer"
               />

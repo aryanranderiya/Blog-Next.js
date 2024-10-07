@@ -181,9 +181,9 @@ menu {
   padding: 0;
 }
 
-.markdown-container > * {
+/* .markdown-container > * {
   all: revert;
-}
+} */
 .markdown-container {
   overflow: hidden;
 }

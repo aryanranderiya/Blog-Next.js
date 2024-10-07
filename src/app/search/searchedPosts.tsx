@@ -49,7 +49,7 @@ export function SearchedPosts({ posts }: { posts: Post[] }) {
       {result.length > 0 ? (
         <>
           <Tags posts={posts} isSearch={true} />
-          <div className="flex flex-row flex-wrap">
+          <div className="flex flex-row flex-wrap gap-3">
             {result.map((post: Post, index: number) => (
               <BlogCard post={post} key={index} />
             ))}

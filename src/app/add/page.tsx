@@ -16,6 +16,7 @@ import { Editable, useEditor } from "@wysimark/react";
 import * as React from "react";
 import { useState, useEffect } from "react";
 import { debounce } from "lodash";
+import DefaultLayout from "@/layouts/DefaultLayout";
 
 type ChipType = {
   label: string;
@@ -119,9 +120,9 @@ export default function AddPost() {
   };
 
   return (
-    <main className="flex min-h-[100dvh] h-fit flex-col gap-7 sm:w-[calc(86vw-280px)] w-screen sm:px-24 sm:pt-20 sm:pb-24 p-[2em]">
+    <>
       {passwordCorrect ? (
-        <>
+        <div className="flex min-h-[90vh] h-fit flex-col w-full sm:gap-7 sm:pr-24 sm:pt-[50px] sm:pb-[300px] p-[2em] gap-5">
           <span className="text-nowrap font-semibold text-4xl">Add Post</span>
 
           <div className="flex gap-3">
@@ -204,8 +205,8 @@ export default function AddPost() {
           </div>
 
           {/* // tags={tags}
-          // 
-          /> */}
+        // 
+        /> */}
 
           <div className="rounded-2xl overflow-hidden outline outline-3 outline-foreground-200">
             <Editable
@@ -219,15 +220,15 @@ export default function AddPost() {
           <Button
             variant="shadow"
             color="primary"
-            className="font-semibold"
+            className="font-semibold min-w-fit"
             onClick={handleSubmit}
           >
             Create new post
           </Button>
-        </>
+        </div>
       ) : (
         <form
-          className="flex h-full w-full flex-1 mt-[-10%] flex-col items-center gap-2 justify-center"
+          className="flex h-screen w-full flex-1 mt-[-10%] flex-col items-center gap-2 justify-center"
           onSubmit={handleSubmitPassword}
         >
           <span className="font-semibold text-lg">Enter Password:</span>
@@ -249,6 +250,6 @@ export default function AddPost() {
           </Button>
         </form>
       )}
-    </main>
+    </>
   );
 }

@@ -17,9 +17,7 @@ export default async function SearchPosts() {
           Search Result
         </span>
         <div className="flex gap-3 flex-wrap flex-col">
-          <Suspense>
-            <SearchedPosts posts={posts} />
-          </Suspense>
+          <SearchedPosts posts={posts} />
         </div>
       </div>
     </DefaultLayout>
