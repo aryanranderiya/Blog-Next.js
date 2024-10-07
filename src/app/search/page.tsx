@@ -1,7 +1,7 @@
 import { Post } from "@/components/BlogCard";
+import DefaultLayout from "@/layouts/DefaultLayout";
 import { Suspense } from "react";
 import { SearchedPosts } from "./searchedPosts";
-import DefaultLayout from "@/layouts/DefaultLayout";
 
 export default async function SearchPosts() {
   const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/posts`);
@@ -22,6 +22,6 @@ export default async function SearchPosts() {
           </Suspense>
         </div>
       </div>
-  </DefaultLayout>
+    </DefaultLayout>
   );
 }

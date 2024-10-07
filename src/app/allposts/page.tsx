@@ -1,6 +1,6 @@
 import { Post } from "@/components/BlogCard";
-import { Tags } from "./tags";
 import DefaultLayout from "@/layouts/DefaultLayout";
+import { Tags } from "./tags";
 
 export default async function AllPosts() {
   const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/posts`);

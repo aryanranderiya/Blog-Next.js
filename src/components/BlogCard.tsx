@@ -4,12 +4,12 @@ import { Chip, ScrollShadow } from "@nextui-org/react";
 import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
-import { formatDate } from "./BlogPageInfo";
+import { formatDate } from "@/utils/formatDate";
 import { ArrowUpRight } from "./icons";
 
 export interface Post {
   id: number;
-  postID: number;
+  postID: string;
   title: string;
   date: string;
   excerpt: string;
