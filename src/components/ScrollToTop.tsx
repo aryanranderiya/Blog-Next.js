@@ -9,16 +9,17 @@ export default function ScrollToTop({
   scrollTriggerRef: React.RefObject<HTMLDivElement>;
 }) {
   const handleOnClick = () => {
-    scrollTriggerRef.current?.scrollIntoView({
-      behavior: "smooth",
-      block: "start",
-    });
+    if (scrollTriggerRef.current)
+      scrollTriggerRef.current?.scrollIntoView({
+        behavior: "smooth",
+        block: "start",
+      });
   };
 
   return (
     <div onClick={handleOnClick}>
       <Chip
-        className="cursor-pointer gap-1 select-none"
+        className="cursor-pointer gap-1 select-none w-full"
         size="md"
         color="primary"
         variant="bordered"
@@ -27,7 +28,6 @@ export default function ScrollToTop({
         <div className="flex items-center gap-1">
           <span className="font-semibold">Scroll to Top</span>
           <ArrowUp width={19} />
-          
         </div>
       </Chip>
     </div>

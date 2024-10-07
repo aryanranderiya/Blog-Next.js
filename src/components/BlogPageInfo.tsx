@@ -6,51 +6,37 @@ import DefaultLayout from "@/layouts/DefaultLayout";
 import { formatDate } from "@/utils/formatDate";
 import Giscus from "@giscus/react";
 import { BreadcrumbItem, Breadcrumbs } from "@nextui-org/breadcrumbs";
-import {
-  Modal,
-  ModalBody,
-  ModalContent,
-  ModalFooter,
-  ModalHeader,
-  useDisclosure,
-} from "@nextui-org/modal";
+import { useDisclosure } from "@nextui-org/modal";
 import { Button, Chip } from "@nextui-org/react";
 import { Calendar, Clock4 } from "lucide-react";
 import Image from "next/image";
-import { useState } from "react";
-import {
-  EmailIcon,
-  EmailShareButton,
-  FacebookIcon,
-  FacebookShareButton,
-  LinkedinIcon,
-  LinkedinShareButton,
-  RedditIcon,
-  RedditShareButton,
-  TwitterIcon,
-  TwitterShareButton,
-  WhatsappIcon,
-  WhatsappShareButton,
-} from "react-share";
+import { useRef, useState } from "react";
 import { Post } from "./BlogCard";
 import BlogMarkdown from "./BlogMarkdown";
-import { ClipboardDoneIcon, ClipboardIcon, ShareIcon } from "./icons";
+import { ShareIcon } from "./icons";
+import ScrollToTop from "./ScrollToTop";
 import SharePopup from "./SharePopup";
 
 export default function BlogPageInfo({ post }: { post: Post }) {
   const [contentsOpen, setContentsOpen] = useState(false);
   const { isDark } = useTheme();
+  const scrollTriggerRef = useRef<HTMLDivElement | null>(null);
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   return (
     <>
       <DefaultLayout>
-        <Breadcrumbs size="md" underline="hover" variant="solid" radius="full">
+        <Breadcrumbs
+          size="md"
+          underline="hover"
+          variant="solid"
+          radius="full"
+          ref={scrollTriggerRef}
+        >
           <BreadcrumbItem href="/">Home</BreadcrumbItem>
           <BreadcrumbItem href="/allposts">All Posts</BreadcrumbItem>
           <BreadcrumbItem href={`/${post.postID}`}>{post.title}</BreadcrumbItem>
         </Breadcrumbs>
-
         <main
           className={`flex h-fit flex-col gap-7 relative w-full flex-grow transition-all ${
             contentsOpen ? "opacity-25" : "opacity-100"
@@ -128,7 +114,10 @@ export default function BlogPageInfo({ post }: { post: Post }) {
             <BlogMarkdown content={post?.content} />
           </div>
 
+          <ScrollToTop scrollTriggerRef={scrollTriggerRef} />
+
           <hr />
+
           <h1>Comments</h1>
           <Giscus
             id="comments"
@@ -145,17 +134,17 @@ export default function BlogPageInfo({ post }: { post: Post }) {
             lang="en"
           />
         </main>
-
-        <div className="sm:min-w-[280px] w-0">
-          <ContentsSidebar
-            post={post}
-            contentsOpen={contentsOpen}
-            setContentsOpen={setContentsOpen}
-          />
-        </div>
-
-        <SharePopup onClose={onClose} isOpen={isOpen} postID={post.postID} />
       </DefaultLayout>
+
+      <div className="sm:min-w-[280px] w-0">
+        <ContentsSidebar
+          post={post}
+          contentsOpen={contentsOpen}
+          setContentsOpen={setContentsOpen}
+        />
+      </div>
+
+      <SharePopup onClose={onClose} isOpen={isOpen} postID={post.postID} />
     </>
   );
 }

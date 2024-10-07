@@ -58,7 +58,7 @@ const Sidebar = forwardRef<HTMLDivElement, SidebarProps>(
     const { data, error } = useSWR("/api/posts", fetcher);
     const { toggleTheme } = useTheme();
 
-    const titles = !!data
+    const titles = data
       ? data?.map(({ postID, title }: { postID: string; title: string }) => ({
           postID,
           title,
