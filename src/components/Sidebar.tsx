@@ -75,7 +75,7 @@ const Sidebar = forwardRef<HTMLDivElement, SidebarProps>(
 
     return (
       <div
-        className={`flex overflow-hidden md:min-w-[300px] md:w-[300px] md:pb-[90px] sm:pl-0 p-[1em] flex-col text-foreground bg-background z-10 sm:relative fixed max-w-[300px] h-full transition-all`}
+        className={`flex overflow-hidden md:min-w-[300px] md:w-[300px] md:pb-[90px] sm:pl-0 p-[1em] flex-col text-foreground bg-background z-10 sm:relative fixed max-w-[300px] h-full transition-all left-0`}
         ref={ref}
         style={{
           transform:

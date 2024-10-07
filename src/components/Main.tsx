@@ -15,7 +15,7 @@ export default function Main({ children }: { children: React.ReactNode }) {
   const [translatePercent, setTranslatePercent] = useState(100);
   const [touchStart, setTouchStart] = useState<number | null>(null);
   const [touchStartY, setTouchStartY] = useState<number | null>(null);
-  const swipeThreshold = 5;
+  const swipeThreshold = 1;
 
   const onTouchStart = (e: React.TouchEvent) => {
     setTouchStart(e.targetTouches[0].clientX);
@@ -30,23 +30,27 @@ export default function Main({ children }: { children: React.ReactNode }) {
     const sidebarWidth = sidebarRef.current.offsetWidth;
     const horizontalDistance = touchStart - touchEndX;
     const verticalDistance = touchStartY - touchEndY;
-    if (
-      Math.abs(horizontalDistance) > Math.abs(verticalDistance) &&
-      Math.abs(horizontalDistance) > swipeThreshold
-    ) {
-      const percentage = Math.max(
-        0,
-        Math.min((horizontalDistance / sidebarWidth) * 100, 100)
-      );
 
-      const finalPercentage = percentage < 30 ? 0 : 100;
-      setTranslatePercent(finalPercentage);
-    }
+    if (
+      !(
+        Math.abs(horizontalDistance) > Math.abs(verticalDistance) &&
+        Math.abs(horizontalDistance) > swipeThreshold
+      )
+    )
+      return;
+
+    const percentage = Math.max(
+      0,
+      Math.min((horizontalDistance / sidebarWidth) * 100, 100)
+    );
+
+    const finalPercentage = percentage < 10 ? 0 : 100;
+    setTranslatePercent(finalPercentage);
   };
 
   const onTouchEnd = () => {
     if (touchStart === null || !sidebarRef.current) return;
-    const finalPercentage = translatePercent < 30 ? 0 : 100;
+    const finalPercentage = translatePercent < 10 ? 0 : 100;
     setTranslatePercent(finalPercentage);
     setTouchStart(null);
     setTouchStartY(null);
@@ -69,7 +73,7 @@ export default function Main({ children }: { children: React.ReactNode }) {
           isSidebarOpen={translatePercent === 100}
         />
         <div
-          className={`flex sm:pt-[65px] pt-[56px] sm:w-[calc(80vw)] w-screen ${
+          className={`flex sm:pt-[65px] pt-[54px] sm:w-[calc(80vw)] w-screen ${
             isDark ? "dark" : ""
           } `}
           onTouchStart={onTouchStart}

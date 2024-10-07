@@ -188,6 +188,15 @@ menu {
   overflow: hidden;
 }
 
-/* body {
-  cursor: none;
-} */
+.container_main {
+  padding-top: 70px;
+  padding-bottom: 70px;
+  padding-left: 1em;
+  padding-right: 6rem;
+}
+
+@media screen and (max-width: 600px) {
+  .container_main {
+    padding: 1em;
+  }
+}

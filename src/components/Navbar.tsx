@@ -45,8 +45,9 @@ export default function Navbar({
     <div
       className={`flex justify-center w-screen ${
         isDark ? "dark" : ""
-      } bg-background border-b-1 border-foreground-200 z-10 fixed top-0`}
+      } bg-background bg-opacity-25 z-10 fixed top-0`}
     >
+      {/* border-b-1 border-foreground-200  */}
       <div
         className={`sm:w-[80vw] w-screen sm:py-[1em] sm:px-0 px-[1em] py-[0.7em] flex justify-between items-center bg-background text-foreground `}
       >

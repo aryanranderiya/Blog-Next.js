@@ -22,6 +22,6 @@ export default async function SearchPosts() {
           </Suspense>
         </div>
       </div>
-    </DefaultLayout>
+  </DefaultLayout>
   );
 }

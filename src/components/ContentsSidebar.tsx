@@ -64,7 +64,7 @@ export default function ContentsSidebar({
   return (
     <div className="flex h-full flex-col p-4 gap-4 sm:min-w-[70vh] sm:max-w-[70vh] w-0">
       <div
-        className="rounded-full w-[45px] h-[45px] absolute right-6 sm:hidden bottom-6 bg-foreground-50 flex shadow-2xl items-center justify-center z-[9]"
+        className="rounded-full w-[45px] outline outline-1 outline-foreground-300 h-[45px] absolute right-6 sm:hidden bottom-6 bg-foreground-50 flex shadow-2xl items-center justify-center z-[9]"
         onClick={toggleSidebar}
       >
         {contentsOpen ? (
@@ -76,7 +76,7 @@ export default function ContentsSidebar({
 
       {headings.length !== 0 && (
         <div
-          className={`w-[240px] h-[50vh] overflow-y-auto shadow-xl border border-foreground-200 px-1 py-2 rounded-lg absolute right-7 sm:top-20 sm:bottom-auto bottom-7 bg-foreground-50 transition-all origin-bottom-right sm:opacity-100 sm:pointer-events-auto ${
+          className={`w-[240px] h-[30vh] overflow-y-auto shadow-xl border border-foreground-200 px-1 py-2 rounded-lg absolute right-7 sm:top-20 sm:bottom-auto bottom-7 bg-foreground-50 transition-all origin-bottom-right sm:opacity-100 sm:pointer-events-auto ${
             contentsOpen
               ? "opacity-100 h-fit pointer-events-auto"
               : "opacity-0 pointer-events-none"

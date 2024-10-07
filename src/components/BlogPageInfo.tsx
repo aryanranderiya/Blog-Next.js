@@ -14,6 +14,7 @@ import rehypeSlug from "rehype-slug";
 import remarkGfm from "remark-gfm";
 import { Post } from "./BlogCard";
 import { ClipboardDoneIcon, ClipboardIcon } from "./icons";
+import { useTheme } from "@/contexts/ThemeContext";
 
 export function formatDate(dateString: string) {
   const date: any = new Date(dateString);
@@ -99,6 +100,7 @@ export default function BlogPageInfo({ post }: { post: Post }) {
   const [likes, setLikes] = useState(post.likes);
   const [views, setViews] = useState(post.page_views);
   const [hasLiked, setHasLiked] = useState(false);
+  const { isDark } = useTheme();
 
   useEffect(() => {
     if (typeof window !== "undefined") {
@@ -244,7 +246,7 @@ export default function BlogPageInfo({ post }: { post: Post }) {
                 </div>
               </div>
             </div>
-
+            {/* 
             <div className="flex sm:gap-3 gap-0 sm:flex-row flex-col sm:items-center items-end">
               <div className="flex gap-1 text-lg items-center">
                 <Eye />
@@ -261,7 +263,7 @@ export default function BlogPageInfo({ post }: { post: Post }) {
                 <Heart fill={hasLiked ? "red" : "transparent"} color="red" />
                 <span className="text-gray-500 min-w-3">{likes}</span>
               </Button>
-            </div>
+            </div> */}
           </div>
 
           <div className="flex gap-1 flex-wrap">
@@ -358,6 +360,23 @@ export default function BlogPageInfo({ post }: { post: Post }) {
           </Markdown>
         </div>
 
+        <hr />
+        <h1>Comments</h1>
+        <Giscus
+          id="comments"
+          repo="aryanranderiya/aryansblog"
+          repoId="R_kgDOMqD_Fg"
+          category="Announcements"
+          categoryId="DIC_kwDOMqD_Fs4CjI8C"
+          mapping="pathname"
+          term="Welcome to @giscus/react component!"
+          reactionsEnabled="1"
+          emitMetadata="0"
+          inputPosition="top"
+          theme={isDark ? "dark" : "light"}
+          lang="en"
+        />
+
         {/* <ScrollToTop scrollTriggerRef={startComponentRef} /> */}
       </main>
 
@@ -374,22 +393,6 @@ export default function BlogPageInfo({ post }: { post: Post }) {
           setContentsOpen={setContentsOpen}
         />
       </div>
-
-      <Giscus
-        id="comments"
-        repo="giscus/giscus-component"
-        repoId="MDEwOlJlcG9zaXRvcnkzOTEzMTMwMjA="
-        category="Announcements"
-        categoryId="DIC_kwDOF1L2fM4B-hVS"
-        mapping="specific"
-        term="Welcome to @giscus/react component!"
-        reactionsEnabled="1"
-        emitMetadata="0"
-        inputPosition="top"
-        theme="light"
-        lang="en"
-        loading="lazy"
-      />
     </DefaultLayout>
   );
 }
