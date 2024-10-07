@@ -42,8 +42,7 @@ export function SearchedPosts({ posts }: { posts: Post[] }) {
         return inTitle || inDate || inContent || inExcerpt || inTags;
       })
     );
-  }, [query]);
-
+  }, [query, posts, router]);
   return (
     <>
       {result.length > 0 ? (

@@ -1,10 +1,9 @@
 "use client";
 
-import { useEffect, useState } from "react";
 import BlogCard, { Post } from "@/components/BlogCard";
-import { Chip } from "@nextui-org/react";
-import { SearchedPosts } from "../search/searchedPosts";
 import { CloseIcon } from "@/components/icons";
+import { Chip } from "@nextui-org/react";
+import { useEffect, useState } from "react";
 
 function SelectChip({
   title,

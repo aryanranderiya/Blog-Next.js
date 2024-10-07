@@ -39,7 +39,7 @@ export default function Navbar({
       router.push(`/search?query=${searchQuery}`);
 
     prevQueryRef.current = searchQuery;
-  }, [searchQuery]);
+  }, [searchQuery, router]);
 
   return (
     <div

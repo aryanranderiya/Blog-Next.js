@@ -6,14 +6,13 @@ import Giscus from "@giscus/react";
 import { Button, Chip } from "@nextui-org/react";
 import { Calendar, Clock4, Eye, Heart } from "lucide-react";
 import Image from "next/image";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import Markdown from "react-markdown";
-import rehypeSlug from "rehype-slug";
-import { Post } from "./BlogCard";
-import remarkGfm from "remark-gfm";
-import { Metadata } from "next";
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
 import { vscDarkPlus } from "react-syntax-highlighter/dist/esm/styles/prism";
+import rehypeSlug from "rehype-slug";
+import remarkGfm from "remark-gfm";
+import { Post } from "./BlogCard";
 import { ClipboardDoneIcon, ClipboardIcon } from "./icons";
 
 export function formatDate(dateString: string) {
@@ -325,7 +324,11 @@ export default function BlogPageInfo({ post }: { post: Post }) {
                 />
               ),
               img: ({ node, ...props }) => (
-                <img className="max-w-full h-auto my-2 rounded-lg" {...props} />
+                <img
+                  className="max-w-full h-auto my-2 rounded-lg"
+                  {...props}
+                  alt="Image"
+                />
               ),
               table: ({ node, ...props }) => (
                 <div className="overflow-x-auto">
