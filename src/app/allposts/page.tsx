@@ -11,7 +11,7 @@ export default async function AllPosts() {
 
   return (
     <DefaultLayout>
-      <div className="flex gap-3 flex-wrap flex-col">
+      <div className="flex gap-3 flex-wrap flex-col h-full">
         <span className="text-nowrap font-semibold text-4xl">All Posts</span>
         <Tags posts={posts} isSearch={false} />
       </div>

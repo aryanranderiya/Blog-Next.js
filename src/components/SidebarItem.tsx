@@ -23,7 +23,7 @@ export function SidebarItem({ label, href }: { label: string; href: string }) {
 
   return (
     <Link
-      className="flex justify-between py-[6px] pr-[13px] cursor-pointer"
+      className="flex justify-between py-[3px] pr-[13px] cursor-pointer max-w-[280px]"
       onMouseOver={HandleMouseOver}
       href={href}
       onMouseOut={HandleMouseOut}
@@ -31,14 +31,16 @@ export function SidebarItem({ label, href }: { label: string; href: string }) {
       <span
         className={`${
           isHovered || isActive ? "text-[#00bbff]" : "text-foreground-500"
-        } transition-colors text-md ${isActive ? "font-semibold" : ""}`}
+        } whitespace-nowrap overflow-hidden text-ellipsis transition-colors text-md ${
+          isActive ? "font-semibold" : ""
+        }`}
       >
         {label}
       </span>
       <ArrowUpRight
         color={isHovered || isActive ? "#00bbff" : "foreground"}
         width={18}
-        className={`transition-all ${
+        className={`transition-all min-w-[18px] ${
           isHovered || isActive
             ? "opacity-100 translate-x-0"
             : "opacity-0 -translate-x-4"

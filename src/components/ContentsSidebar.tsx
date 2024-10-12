@@ -1,5 +1,5 @@
 import * as cheerio from "cheerio";
-import { TableOfContents, X } from "lucide-react";
+import { Speech, TableOfContents, X } from "lucide-react";
 import { MutableRefObject, useEffect, useRef, useState } from "react";
 import rehypeSlug from "rehype-slug";
 import rehypeStringify from "rehype-stringify";
@@ -37,23 +37,22 @@ export default function ContentsSidebar({
   post,
   setContentsOpen,
   contentsOpen,
-  scrollTriggerRef,
 }: {
   post: Post;
   setContentsOpen: React.Dispatch<React.SetStateAction<boolean>>;
   contentsOpen: boolean;
-  scrollTriggerRef: MutableRefObject<HTMLDivElement | null>;
 }) {
   const [headings, setHeadings] = useState<{ id: string; text: string }[]>([]);
   const [activeId, setActiveId] = useState<string | null>(null);
   const observer = useRef<IntersectionObserver | null>(null);
+  const tocRef = useRef<HTMLDivElement | null>(null); // Ref to the Table of Contents container
 
   useEffect(() => {
     async function fetchData() {
       try {
         const html = await convertMarkdownToHtml(post.content);
         const headings = extractHeadings(html);
-        setHeadings(headings);
+        setHeadings([...headings, { id: "comments", text: "Comments" }]);
       } catch (error) {
         console.error("Error processing Markdown:", error);
       }
@@ -67,8 +66,7 @@ export default function ContentsSidebar({
 
     const options = {
       root: null,
-      rootMargin: "0px 0px -70% 0px",
-      // threshold: [0, 1],
+      rootMargin: "0px 0px -40% 0px",
       threshold: 1,
     };
 
@@ -91,6 +89,32 @@ export default function ContentsSidebar({
     };
   }, [headings]);
 
+  useEffect(() => {
+    // Scroll the TOC container if the active heading is out of view
+    if (activeId && tocRef.current) {
+      const activeElement = tocRef.current.querySelector(
+        `a[href="#${activeId}"]`
+      );
+
+      if (activeElement) {
+        const containerBounds = tocRef.current.getBoundingClientRect();
+        const activeBounds = activeElement.getBoundingClientRect();
+
+        // Check if the active element is outside the container's view
+        if (
+          activeBounds.bottom > containerBounds.bottom ||
+          activeBounds.top < containerBounds.top
+        ) {
+          // Scroll the container to make the active element visible
+          tocRef.current.scrollTo({
+            top: activeElement.offsetTop - containerBounds.top,
+            behavior: "smooth",
+          });
+        }
+      }
+    }
+  }, [activeId]);
+
   const toggleSidebar = () => {
     setContentsOpen((prev: boolean) => !prev);
   };
@@ -110,7 +134,7 @@ export default function ContentsSidebar({
 
       {headings.length !== 0 && (
         <div
-          className={`w-[240px] h-fit max-h-[60vh] overflow-y-auto shadow-xl border border-foreground-200 px-1 py-2 rounded-xl absolute right-7 sm:top-5 sm:bottom-auto bottom-7 bg-foreground-50 transition-all origin-bottom-right sm:opacity-100 sm:pointer-events-auto ${
+          className={`w-[240px] h-fit max-h-[60vh] overflow-hidden shadow-xl border border-foreground-200 px-1 py-2 rounded-xl absolute right-7 sm:top-5 sm:bottom-auto bottom-7 bg-foreground-50 transition-all origin-bottom-right sm:opacity-100 sm:pointer-events-auto ${
             contentsOpen
               ? "opacity-100 h-fit pointer-events-auto"
               : "opacity-0 pointer-events-none"
@@ -121,7 +145,7 @@ export default function ContentsSidebar({
             itemClasses={{
               base: "p-0",
               content: "p-0",
-              trigger: "py-1 pb-3",
+              trigger: "py-1",
               title: "font-bold text-xs text-muted-foreground",
             }}
             defaultExpandedKeys={["1"]}
@@ -132,19 +156,22 @@ export default function ContentsSidebar({
               className="!py-0 my-0"
               title="Table of Contents"
             >
-              <div className="flex flex-col px-2">
+              <div
+                className="flex flex-col px-2 pt-2 overflow-y-auto max-h-[50vh] h-fit"
+                ref={tocRef}
+              >
                 {headings.map((heading) => (
                   <a
                     key={heading.id}
                     href={`#${heading.id}`}
-                    className={`text-foreground relative text-sm py-1 px-2 hover:text-gray-400 transition-colors rounded-sm overflow-hidden ${
+                    className={`text-foreground min-h-fit relative text-sm py-1 px-2 hover:text-gray-400 transition-opacity   rounded-sm overflow-hidden  ${
                       heading.id === activeId
-                        ? "font-semibold bg-[#00bbff] bg-opacity-15 border-l-1 border-l-[#0bbff]"
+                        ? "font-semibold bg-[#00bbff] bg-opacity-15 "
                         : ""
                     }`}
                   >
                     <div
-                      className={`absolute transition-opacity top-0 left-0 h-full bg-[#00bbff] w-[2px] rounded-full ${
+                      className={`absolute transition-opacity top-0 left-0 h-full bg-[#00bbff] w-[3px] rounded-full ${
                         heading.id === activeId ? "opacity-100" : "opacity-0"
                       }`}
                     />

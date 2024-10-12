@@ -198,5 +198,6 @@ menu {
 @media screen and (max-width: 600px) {
   .container_main {
     padding: 1.5em;
+    padding-bottom: 0;
   }
 }

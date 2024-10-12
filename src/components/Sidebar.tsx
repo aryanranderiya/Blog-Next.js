@@ -144,7 +144,12 @@ const Sidebar = forwardRef<HTMLDivElement, SidebarProps>(
               title={<span className="font-semibold">Posts</span>}
               startContent={<FeatherIcon color="#00bbff" width={18} />}
             >
-              {titles.length !== 0 ? (
+              {titles.length === 0 ? (
+                <div className="flex gap-1">
+                  <CloseIcon color="#A1AECE" width={19} />
+                  <span className="text-foreground-500">No Posts found</span>
+                </div>
+              ) : (
                 titles.map(
                   (item: { title: string; postID: string }, index: number) => (
                     <SidebarItem
@@ -154,11 +159,6 @@ const Sidebar = forwardRef<HTMLDivElement, SidebarProps>(
                     />
                   )
                 )
-              ) : (
-                <div className="flex gap-1">
-                  <CloseIcon color="#A1AECE" width={19} />
-                  <span className="text-foreground-500">No Posts found</span>
-                </div>
               )}
             </AccordionItem>
           </Accordion>

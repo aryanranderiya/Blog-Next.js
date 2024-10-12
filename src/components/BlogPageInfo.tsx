@@ -59,6 +59,48 @@ export default function BlogPageInfo({ post }: { post: Post }) {
 
             <span className="text-lg text-foreground-600">{post?.excerpt}</span>
 
+            <div className="mt-3 flex flex-col gap-3 sm:w-fit w-full rounded-full pl-2 pr-4 py-1 bg-foreground-100 ">
+              <div className="flex sm:items-center items-start w-full justify-between flex-row gap-2 sm:gap-0">
+                <div className="flex items-center gap-3 flex-1">
+                  <Image
+                    src={"https://github.com/aryanranderiya.png"}
+                    alt="Profile Picture"
+                    width={40}
+                    height={40}
+                    className="min-h-[40px] max-h-[40px] aspect-square"
+                  />
+
+                  <div className="flex flex-row items-center gap-10 w-full justify-between">
+                    <div className="flex flex-col">
+                      <span className="text-md font-semibold">
+                        by Aryan Randeriya
+                      </span>
+                      <div className="flex flex-col items-start sm:flex-row sm:gap-4">
+                        <span className="text-foreground-500 text-sm flex items-center gap-1">
+                          <Calendar width={17} />
+                          {formatDate(post?.date)}
+                        </span>
+                        <div className="text-foreground-500 text-sm flex items-center gap-1">
+                          <Clock4 width={17} />
+                          Read Time: &nbsp;
+                          {post?.estimated_read_time}
+                        </div>
+                      </div>
+                    </div>
+
+                    <Button
+                      onPress={onOpen}
+                      isIconOnly
+                      color="primary"
+                      radius="full"
+                    >
+                      <ShareIcon color="white" />
+                    </Button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
             <div className="flex gap-1 flex-wrap mt-2">
               {!!post?.tags &&
                 JSON.parse(post.tags).map((tag: string, index: number) => (
@@ -75,48 +117,6 @@ export default function BlogPageInfo({ post }: { post: Post }) {
             </div>
           </div>
 
-          <div className="flex flex-col gap-3 sm:w-fit w-full sm:rounded-full rounded-2xl pl-2 pr-4 py-1 bg-foreground-100 ">
-            <div className="flex sm:items-center items-start w-full justify-between flex-row gap-2 sm:gap-0">
-              <div className="flex items-center gap-3 flex-1">
-                <Image
-                  src={"https://github.com/aryanranderiya.png"}
-                  alt="Profile Picture"
-                  width={40}
-                  height={40}
-                  className="min-h-[40px] max-h-[40px] aspect-square"
-                />
-
-                <div className="flex flex-wrap flex-row items-center gap-10 w-full">
-                  <div className="flex flex-col">
-                    <span className="text-md font-semibold">
-                      by Aryan Randeriya
-                    </span>
-                    <div className="flex flex-col items-start sm:flex-row sm:gap-4">
-                      <span className="text-foreground-500 text-sm flex items-center gap-1">
-                        <Calendar width={17} />
-                        {formatDate(post?.date)}
-                      </span>
-                      <div className="text-foreground-500 text-sm flex items-center gap-1">
-                        <Clock4 width={17} />
-                        Estimated Read Time: &nbsp;
-                        {post?.estimated_read_time}
-                      </div>
-                    </div>
-                  </div>
-
-                  <Button
-                    onPress={onOpen}
-                    isIconOnly
-                    color="primary"
-                    radius="full"
-                  >
-                    <ShareIcon color="white" />
-                  </Button>
-                </div>
-              </div>
-            </div>
-          </div>
-
           <hr />
 
           <div className="flex flex-col markdown-container sm:w-[84%] w-full flex-wrap pb-14">
@@ -127,7 +127,9 @@ export default function BlogPageInfo({ post }: { post: Post }) {
 
           <hr />
 
-          <h1>Comments</h1>
+          <h1 className="comments" id="comments">
+            Comments
+          </h1>
           <Giscus
             id="comments"
             repo="aryanranderiya/aryansblog"
@@ -150,7 +152,6 @@ export default function BlogPageInfo({ post }: { post: Post }) {
           post={post}
           contentsOpen={contentsOpen}
           setContentsOpen={setContentsOpen}
-          scrollTriggerRef={scrollTriggerRef}
         />
       </div>
 

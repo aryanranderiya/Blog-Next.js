@@ -1,12 +1,14 @@
 "use client";
 
+import { Card, CardContent } from "@/components/ui/card";
+import { formatDate } from "@/utils/formatDate";
 import { Chip, ScrollShadow } from "@nextui-org/react";
+import { Clock } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
-import { formatDate } from "@/utils/formatDate";
 import { ArrowUpRight } from "./icons";
-
+import { Tooltip } from "@nextui-org/react";
 export interface Post {
   id: number;
   postID: string;
@@ -24,76 +26,86 @@ export interface Post {
 export default function BlogCard({ post }: { post: Post }) {
   const [isHovered, setIsHovered] = useState(false);
 
-  const handleMouseOver = () => {
-    setIsHovered(true);
-  };
-
-  const handleMouseOut = () => {
-    setIsHovered(false);
-  };
+  const handleMouseOver = () => setIsHovered(true);
+  const handleMouseOut = () => setIsHovered(false);
 
   return (
-    <Link
-      className="flex w-full bg-foreground-100 rounded-xl p-[10px] justify-start sm:items-center items-stretch gap-2 relative flex-row cursor-pointer hover:-translate-y-2 hover:bg-foreground-200 transition-all"
-      onMouseOut={handleMouseOut}
-      href={post?.postID?.toString() || "/allposts"}
+    <Card
+      className="flex w-full bg-foreground-100 rounded-xl justify-start items-center gap-2 relative flex-row cursor-pointer hover:-translate-y-1 hover:bg-foreground-200 transition-all overflow-hidden border-none"
       onMouseOver={handleMouseOver}
-      prefetch={true}
+      onMouseOut={handleMouseOut}
     >
-      <div className="min-w-[100px] max-w-[100px] sm:min-w-[150px] sm:max-w-[150px] aspect-square overflow-hidden  rounded-xl bg-foreground-300 ">
-        <Image
-          src={post.image}
-          alt={post.title}
-          height={150}
-          width={150}
-          className={`sm:w-[150px] sm:min-w-[150px] sm:max-w-[150px] w-[100px] min-w-[100px] max-w-[100px] h-full aspect-square object-cover transition-all ${
-            isHovered ? "scale-110" : ""
-          }`}
-        />
-      </div>
-
-      <div>
-        <Chip
-          className={`absolute right-[12px] cursor-default top-[12px] sm:visible hidden transition-all ${
-            isHovered ? "opacity-100" : "opacity-0"
-          } `}
-          color="primary"
-          size="lg"
-        >
-          <div className="flex gap-1 items-center">
-            <span className="font-semibold text-[1.1em] text-background">
-              View Post
-            </span>
-            <ArrowUpRight color="background" width={17} />
-          </div>
-        </Chip>
-
-        <div className="py-[0.5em] px-[0.3em] flex flex-col gap-1 overflow-hidden h-full">
-          <span className="sm:text-2xl text-xl font-semibold">
-            {post.title}
-          </span>
-
-          <span className="text-xs text-foreground-500">
-            {formatDate(post.date)}
-          </span>
-
-          <div className="flex flex-wrap py-1 gap-1">
-            {Array.isArray(post.tags)
-              ? post.tags
-              : JSON.parse(post.tags).map((tag: string) => (
-                  <Chip key={tag} size="sm" variant="flat" color="primary">
-                    {tag}
-                  </Chip>
-                ))}
-          </div>
-
-          <ScrollShadow hideScrollBar className=" max-h-[65px]" size={25}>
-            <span className="sm:text-md text-sm text-foreground-500 flex flex-wrap">
-              {post.excerpt}
-            </span>
-          </ScrollShadow>
+      <Link
+        href={post?.postID?.toString() || "/allposts"}
+        prefetch={true}
+        className="flex p-4 gap-4"
+      >
+        <div className="relative w-28 h-28 flex-shrink-0 overflow-hidden rounded-lg ">
+          <Image
+            src={post.image}
+            alt={post.title}
+            layout="fill"
+            objectFit="cover"
+            className={`transition-transform duration-300 ${
+              isHovered ? "scale-110" : ""
+            }`}
+          />
         </div>
-      </div>
-    </Link>
+        <div className="flex flex-col flex-grow">
+          <CardContent className="p-0">
+            <h2 className="text-lg font-semibold line-clamp-2 mb-1">
+              {post.title}
+            </h2>
+            <ScrollShadow className="max-h-[60px]" hideScrollBar>
+              <p className="text-md text-muted-foreground mb-2">
+                {post.excerpt}
+              </p>
+            </ScrollShadow>
+            <div className="flex sm:items-center sm:flex-row flex-col sm:gap-3 gap-0 sm:mb-3 mb-2">
+              <Tooltip content={post.date} showArrow size="sm" delay={300}>
+                <p className="text-sm text-muted-foreground">
+                  {formatDate(post.date)}
+                </p>
+              </Tooltip>
+
+              <Tooltip
+                content="Estimated read time"
+                showArrow
+                size="sm"
+                delay={300}
+              >
+                <div className="flex items-center gap-1">
+                  <Clock className="w-3 h-3 text-muted-foreground" />
+                  <span className="text-sm text-muted-foreground">
+                    {post.estimated_read_time}
+                  </span>
+                </div>
+              </Tooltip>
+            </div>
+            <div className="flex flex-wrap gap-2 mb-2">
+              {(Array.isArray(post.tags)
+                ? post.tags
+                : JSON.parse(post.tags)
+              ).map((tag: string) => (
+                <Chip key={tag} size="sm" variant="flat" color="primary">
+                  {tag}
+                </Chip>
+              ))}
+            </div>
+          </CardContent>
+        </div>
+      </Link>
+      <Chip
+        className={`absolute bottom-2 right-1 text-primary-foreground rounded-full p-2 shadow-lg transition-opacity duration-300 ${
+          isHovered ? "opacity-100" : "opacity-0"
+        }`}
+        color="primary"
+      >
+        <div className="flex flex-row flex-nowrap justify-center items-center font-semibold gap-2">
+          <span className="text-sm">View post</span>
+          <ArrowUpRight className="w-5 h-5" />
+        </div>
+      </Chip>
+    </Card>
   );
 }
