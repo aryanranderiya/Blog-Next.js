@@ -150,6 +150,7 @@ export default function BlogPageInfo({ post }: { post: Post }) {
           post={post}
           contentsOpen={contentsOpen}
           setContentsOpen={setContentsOpen}
+          scrollTriggerRef={scrollTriggerRef}
         />
       </div>
 
