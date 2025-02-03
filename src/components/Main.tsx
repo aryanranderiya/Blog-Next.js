@@ -1,15 +1,18 @@
 "use client";
 import Navbar from "@/components/Navbar";
 import Sidebar from "@/components/Sidebar";
-import { ScrollArea } from "@/components/shadcn/scroll-area";
 import { Toaster } from "@/components/shadcn/toaster";
 import { useTheme } from "@/contexts/ThemeContext";
 import { NextUIProvider } from "@nextui-org/react";
+import { usePathname } from "next/navigation";
 import * as React from "react";
-import { useState, useRef } from "react";
+import { useRef, useState } from "react";
 
 export default function Main({ children }: { children: React.ReactNode }) {
   const { isDark } = useTheme();
+  const pathname = usePathname();
+  console.log(pathname);
+
   const sidebarRef = useRef<HTMLDivElement>(null);
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
   const [translatePercent, setTranslatePercent] = useState(100);
@@ -95,14 +98,18 @@ export default function Main({ children }: { children: React.ReactNode }) {
             onClick={() => setTranslatePercent(100)}
           />
 
-          <ScrollArea
-            onClick={() => setTranslatePercent(100)}
-            className="sm:w-[80%] w-full"
+          <div
+            className={`${
+              pathname == "/allposts" ||
+              pathname == "/" ||
+              pathname.startsWith("/search")
+                ? "overflow-y-auto"
+                : ""
+            } overflow-x-hidden`}
           >
             {children}
-          </ScrollArea>
+          </div>
         </div>
-        {/* </div> */}
       </div>
       <Toaster />
     </NextUIProvider>

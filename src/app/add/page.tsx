@@ -122,7 +122,7 @@ export default function AddPost() {
   return (
     <>
       {passwordCorrect ? (
-        <div className="flex min-h-[90vh] h-fit flex-col w-full sm:gap-7 sm:pr-24 sm:pt-[50px] sm:pb-[300px] p-[2em] gap-5">
+        <div className="flex min-h-[90vh] h-fit flex-col w-full sm:gap-7 sm:pr-24 sm:pt-[50px] sm:pb-[300px] p-[2em] gap-5 min-w-[65vw]">
           <span className="text-nowrap font-semibold text-4xl">Add Post</span>
 
           <div className="flex gap-3">
@@ -228,7 +228,7 @@ export default function AddPost() {
         </div>
       ) : (
         <form
-          className="flex h-screen w-full flex-1 mt-[-10%] flex-col items-center gap-2 justify-center"
+          className="flex h-screen w-full flex-1 mt-[-10%] flex-col items-center gap-2 justify-center min-w-[60vw]"
           onSubmit={handleSubmitPassword}
         >
           <span className="font-semibold text-lg">Enter Password:</span>

@@ -192,12 +192,17 @@ menu {
   padding-top: 30px;
   padding-bottom: 30px;
   padding-left: 1em;
-  padding-right: 6rem;
+  padding-right: 1em;
+  /* padding-right: 6rem; */
 }
 
 @media screen and (max-width: 600px) {
   .container_main {
-    padding: 1.5em;
-    padding-bottom: 0;
+    padding: 1em;
+    /* padding-bottom: 0; */
   }
+}
+
+.gsc-comments {
+  padding: 100px !important;
 }

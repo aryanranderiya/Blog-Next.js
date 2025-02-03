@@ -24,7 +24,7 @@ export default function BlogPageInfo({ post }: { post: Post }) {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   return (
-    <>
+    <div className="w-full flex flex-row justify-start">
       <DefaultLayout>
         <Breadcrumbs
           size="md"
@@ -36,15 +36,17 @@ export default function BlogPageInfo({ post }: { post: Post }) {
         >
           <BreadcrumbItem href="/">Home</BreadcrumbItem>
           <BreadcrumbItem href="/allposts">All Posts</BreadcrumbItem>
-          <BreadcrumbItem href={`/${post.postID}`}>{post.title}</BreadcrumbItem>
+          <BreadcrumbItem href={`/${post.postID}`}>
+            {post.title.slice(0, 35) + (post.title.length >= 35 ? "..." : "")}
+          </BreadcrumbItem>
         </Breadcrumbs>
         <main
-          className={`flex h-fit flex-col gap-7 relative w-full flex-grow transition-all ${
+          className={`flex h-fit flex-col gap-7 relative w-full flex-grow transition-all overflow-y-scroll ] px-1 ${
             contentsOpen ? "opacity-25" : "opacity-100"
           }`}
           onClick={() => setContentsOpen(false)}
         >
-          <div className="min-h-[200px] max-h-[200px] sm:w-[40vw] w-full overflow-hidden rounded-xl bg-foreground-300 sm:my-3 outline outline-2 outline-foreground-200">
+          <div className="min-h-[200px] max-h-[200px] sm:w-[40vw w-full overflow-hidden rounded-xl bg-foreground-300 sm:my-3 outline outline-2 outline-foreground-200">
             <Image
               src={post.image}
               alt={post.title}
@@ -54,33 +56,33 @@ export default function BlogPageInfo({ post }: { post: Post }) {
             />
           </div>
 
-          <div className="flex flex-col gap-1 sm:w-[84%] w-full">
+          <div className="flex flex-col gap-1 sm:w-[95%] w-full">
             <span className="font-bold text-4xl">{post?.title}</span>
 
             <span className="text-lg text-foreground-600">{post?.excerpt}</span>
 
-            <div className="mt-3 flex flex-col gap-3 sm:w-fit w-full rounded-full pl-2 pr-4 py-1 bg-foreground-100 ">
+            <div className="mt-3 flex flex-col gap-3 sm:w-fit w-full sm:rounded-full rounded-2xl pl-2 px-1 sm:py-1 py-2 bg-foreground-100 outline outline-2 outline-[#8f8f8f80]">
               <div className="flex sm:items-center items-start w-full justify-between flex-row gap-2 sm:gap-0">
                 <div className="flex items-center gap-3 flex-1">
                   <Image
                     src={"https://github.com/aryanranderiya.png"}
                     alt="Profile Picture"
-                    width={40}
-                    height={40}
-                    className="min-h-[40px] max-h-[40px] aspect-square"
+                    width={35}
+                    height={35}
+                    className="min-h-[35px] max-h-[35px] aspect-square"
                   />
 
                   <div className="flex flex-row items-center gap-10 w-full justify-between">
                     <div className="flex flex-col">
-                      <span className="text-md font-semibold">
+                      <span className="text-sm font-medium">
                         by Aryan Randeriya
                       </span>
                       <div className="flex flex-col items-start sm:flex-row sm:gap-4">
-                        <span className="text-foreground-500 text-sm flex items-center gap-1">
+                        <span className="text-foreground-500 text-xs flex items-center gap-1">
                           <Calendar width={17} />
                           {formatDate(post?.date)}
                         </span>
-                        <div className="text-foreground-500 text-sm flex items-center gap-1">
+                        <div className="text-foreground-500 text-xs flex items-center gap-1">
                           <Clock4 width={17} />
                           Read Time: &nbsp;
                           {post?.estimated_read_time}
@@ -91,22 +93,30 @@ export default function BlogPageInfo({ post }: { post: Post }) {
                     <Button
                       onPress={onOpen}
                       isIconOnly
-                      color="primary"
+                      // color="primary"
                       radius="full"
+                      // variant="faded"
                     >
-                      <ShareIcon color="white" />
+                      <ShareIcon className="text-foreground-500" />
                     </Button>
                   </div>
                 </div>
               </div>
             </div>
+          </div>
+
+          {/* <hr /> */}
+
+          <div className="flex flex-col markdown-container sm:w-[95%] w-full flex-wrap pb-14">
+            <BlogMarkdown content={post?.content} />
+
+            {/* <hr /> */}
 
             <div className="flex gap-1 flex-wrap mt-2">
               {!!post?.tags &&
                 JSON.parse(post.tags).map((tag: string, index: number) => (
                   <Chip
                     key={index}
-                    size="sm"
                     color="primary"
                     variant="flat"
                     className="cursor-default"
@@ -117,19 +127,17 @@ export default function BlogPageInfo({ post }: { post: Post }) {
             </div>
           </div>
 
-          <hr />
-
-          <div className="flex flex-col markdown-container sm:w-[84%] w-full flex-wrap pb-14">
-            <BlogMarkdown content={post?.content} />
-          </div>
-
-          <ScrollToTop scrollTriggerRef={scrollTriggerRef} />
-
-          <hr />
-
-          <h1 className="comments" id="comments">
-            Comments
-          </h1>
+          {/* <div
+            className={` ${
+              isDark ? "bg-white/5" : "bg-black/5"
+            } rounded-xl p-5`}
+            id="comments"
+          > */}
+          {/* <h1
+              className="comments  mt-10 pt-5 border-t border-t-zinc-600"
+            >
+              Comments
+            </h1> */}
           <Giscus
             id="comments"
             repo="aryanranderiya/aryansblog"
@@ -144,6 +152,11 @@ export default function BlogPageInfo({ post }: { post: Post }) {
             theme={isDark ? "dark" : "light"}
             lang="en"
           />
+          {/* </div> */}
+
+          <div className="flex w-full items-center justify-center">
+            <ScrollToTop scrollTriggerRef={scrollTriggerRef} />
+          </div>
         </main>
       </DefaultLayout>
 
@@ -156,7 +169,7 @@ export default function BlogPageInfo({ post }: { post: Post }) {
       </div>
 
       <SharePopup onClose={onClose} isOpen={isOpen} postID={post.postID} />
-    </>
+    </div>
   );
 }
 

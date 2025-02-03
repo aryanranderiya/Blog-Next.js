@@ -1,6 +1,5 @@
 "use client";
 
-import GithubIcon from "@/components/github.webp";
 import {
   AnnouncementIcon,
   BlogIcon,
@@ -10,8 +9,6 @@ import {
   MoonIcon,
   SunIcon,
 } from "@/components/icons";
-import Nextjs from "@/components/nextjs.svg";
-import Vercel from "@/components/Vercel.png";
 import { useTheme } from "@/contexts/ThemeContext";
 import { Accordion, AccordionItem, Chip, Switch } from "@nextui-org/react";
 import Image from "next/image";
@@ -154,7 +151,7 @@ const Sidebar = forwardRef<HTMLDivElement, SidebarProps>(
                   (item: { title: string; postID: string }, index: number) => (
                     <SidebarItem
                       label={item.title}
-                      href={"/" + item.postID}
+                      href={`/${item.postID}`}
                       key={index}
                     />
                   )
@@ -170,10 +167,10 @@ const Sidebar = forwardRef<HTMLDivElement, SidebarProps>(
               color="primary"
               startContent={
                 <Image
-                  src={GithubIcon}
+                  src={"/github.webp"}
                   width={20}
                   height={20}
-                  className={(isDark ? "invert" : "") + " transition-all"}
+                  className={`${isDark ? "invert" : ""} transition-all`}
                   alt="Picture of the author"
                 />
               }
@@ -186,7 +183,7 @@ const Sidebar = forwardRef<HTMLDivElement, SidebarProps>(
               color="default"
               startContent={
                 <Image
-                  src={Nextjs}
+                  src={"/nextjs.svg"}
                   width={17}
                   height={17}
                   className={(isDark ? "invert" : "") + " transition-all"}
@@ -195,7 +192,7 @@ const Sidebar = forwardRef<HTMLDivElement, SidebarProps>(
               }
               endContent={
                 <Image
-                  src={Vercel}
+                  src={"/vercel.png"}
                   width={17}
                   height={17}
                   className={(isDark ? "invert" : "") + " transition-all"}

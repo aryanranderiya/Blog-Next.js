@@ -44,31 +44,34 @@ export default function BlogCard({ post }: { post: Post }) {
           <Image
             src={post.image}
             alt={post.title}
-            layout="fill"
-            objectFit="cover"
-            className={`transition-transform duration-300 ${
+            width={500}
+            height={500}
+            // placeholder="blur"
+            // layout="fill"
+            // objectFit="cover"
+            className={`transition-transform duration-300 object-cover  w-28 h-28 ${
               isHovered ? "scale-110" : ""
             }`}
           />
         </div>
         <div className="flex flex-col flex-grow">
           <CardContent className="p-0">
-            <h2 className="text-lg font-semibold line-clamp-2 mb-1">
+            <h2 className="text-lg font-semibold mb- truncate max-w-[200px]">
               {post.title}
             </h2>
-            <ScrollShadow className="max-h-[60px]" hideScrollBar>
+            <ScrollShadow className="max-h-[55px]" hideScrollBar>
               <p className="text-md text-muted-foreground mb-2">
                 {post.excerpt}
               </p>
             </ScrollShadow>
-            <div className="flex sm:items-center sm:flex-row flex-col sm:gap-3 gap-0 sm:mb-3 mb-2">
+            <div className="flex sm:items-center flex-row sm:mb-3 mb-2 gap-3">
               <Tooltip content={post.date} showArrow size="sm" delay={300}>
                 <p className="text-sm text-muted-foreground">
                   {formatDate(post.date)}
                 </p>
               </Tooltip>
 
-              <Tooltip
+              {/* <Tooltip
                 content="Estimated read time"
                 showArrow
                 size="sm"
@@ -80,9 +83,9 @@ export default function BlogCard({ post }: { post: Post }) {
                     {post.estimated_read_time}
                   </span>
                 </div>
-              </Tooltip>
+              </Tooltip> */}
             </div>
-            <div className="flex flex-wrap gap-2 mb-2">
+            {/* <div className="flex flex-wrap gap-2 mb-2">
               {(Array.isArray(post.tags)
                 ? post.tags
                 : JSON.parse(post.tags)
@@ -91,7 +94,7 @@ export default function BlogCard({ post }: { post: Post }) {
                   {tag}
                 </Chip>
               ))}
-            </div>
+            </div> */}
           </CardContent>
         </div>
       </Link>
@@ -101,7 +104,7 @@ export default function BlogCard({ post }: { post: Post }) {
         }`}
         color="primary"
       >
-        <div className="flex flex-row flex-nowrap justify-center items-center font-semibold gap-2">
+        <div className="flex flex-row flex-nowrap justify-center items-center font-medium gap-2">
           <span className="text-sm">View post</span>
           <ArrowUpRight className="w-5 h-5" />
         </div>

@@ -1,5 +1,6 @@
 "use client";
 import { ArrowUpRight } from "@/components/icons";
+import { Tooltip } from "@nextui-org/react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -21,7 +22,7 @@ export function SidebarItem({ label, href }: { label: string; href: string }) {
     setIsHovered(false);
   };
 
-  return (
+  const children = (
     <Link
       className="flex justify-between py-[3px] pr-[13px] cursor-pointer max-w-[280px]"
       onMouseOver={HandleMouseOver}
@@ -48,4 +49,17 @@ export function SidebarItem({ label, href }: { label: string; href: string }) {
       />
     </Link>
   );
+
+  if (label.length > 20)
+    return (
+      <Tooltip
+        content={label}
+        placement="top-start"
+        className="max-w-56 h-fit"
+        color="primary"
+      >
+        {children}
+      </Tooltip>
+    );
+  else return children;
 }
