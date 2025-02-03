@@ -161,47 +161,57 @@ const Sidebar = forwardRef<HTMLDivElement, SidebarProps>(
           </Accordion>
 
           <div className="flex w-full gap-2 items-center mt-6 flex-col">
-            <Chip
-              variant="flat"
-              className="cursor-default"
-              color="primary"
-              startContent={
-                <Image
-                  src={"/github.webp"}
-                  width={20}
-                  height={20}
-                  className={`${isDark ? "invert" : ""} transition-all`}
-                  alt="Picture of the author"
-                />
-              }
+            <a
+              href="https://github.com/aryanranderiya"
+              target="_blank"
+              className="cursor-pointer"
             >
-              Built by Aryan Randeriya
-            </Chip>
-            <Chip
-              className="cursor-default"
-              variant="flat"
-              color="default"
-              startContent={
-                <Image
-                  src={"/nextjs.svg"}
-                  width={17}
-                  height={17}
-                  className={(isDark ? "invert" : "") + " transition-all"}
-                  alt="Picture of the author"
-                />
-              }
-              endContent={
-                <Image
-                  src={"/vercel.png"}
-                  width={17}
-                  height={17}
-                  className={(isDark ? "invert" : "") + " transition-all"}
-                  alt="Picture of the author"
-                />
-              }
+              <Chip
+                variant="flat"
+                color="primary"
+                startContent={
+                  <Image
+                    src={"/github.webp"}
+                    width={20}
+                    height={20}
+                    className={`${isDark ? "invert" : ""} transition-all`}
+                    alt="Picture of the author"
+                  />
+                }
+              >
+                Built by Aryan Randeriya
+              </Chip>
+            </a>
+            <a
+              href="https://nextjs.org/"
+              target="_blank"
+              className="cursor-pointer"
             >
-              Built using Next.js | Vercel
-            </Chip>
+              <Chip
+                variant="flat"
+                color="default"
+                startContent={
+                  <Image
+                    src={"/nextjs.svg"}
+                    width={17}
+                    height={17}
+                    className={(isDark ? "invert" : "") + " transition-all"}
+                    alt="Picture of the author"
+                  />
+                }
+                endContent={
+                  <Image
+                    src={"/vercel.png"}
+                    width={17}
+                    height={17}
+                    className={(isDark ? "invert" : "") + " transition-all"}
+                    alt="Picture of the author"
+                  />
+                }
+              >
+                Built using Next.js | Vercel
+              </Chip>
+            </a>
           </div>
         </ScrollArea>
       </div>

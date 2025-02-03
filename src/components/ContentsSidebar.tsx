@@ -100,6 +100,9 @@ export default function ContentsSidebar({
         const containerBounds = tocRef.current.getBoundingClientRect();
         const activeBounds = activeElement.getBoundingClientRect();
 
+        // Typecast activeElement to HTMLElement to access offsetTop
+        const activeHTMLElement = activeElement as HTMLElement;
+
         // Check if the active element is outside the container's view
         if (
           activeBounds.bottom > containerBounds.bottom ||
@@ -107,7 +110,7 @@ export default function ContentsSidebar({
         ) {
           // Scroll the container to make the active element visible
           tocRef.current.scrollTo({
-            top: activeElement.offsetTop - containerBounds.top,
+            top: activeHTMLElement.offsetTop - containerBounds.top,
             behavior: "smooth",
           });
         }
@@ -132,7 +135,8 @@ export default function ContentsSidebar({
           <TableOfContents width={30} color="gray" />
         )}
       </div>
-      {headings.length !== 0 && (
+      {/* 1 because we're adding the comments heading by default */}
+      {headings.length !== 1 && (
         <div
           className={`w-[240px] h-fit max-h-[60vh] overflow-hidden shadow-xl border border-foreground-200 px-1 py-2 rounded-xl  right-7 sm:top-5 sm:bottom-auto bottom-7 bg-foreground-50 transition-all origin-bottom-right sm:opacity-100 sm:pointer-events-auto ${
             contentsOpen

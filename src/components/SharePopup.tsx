@@ -37,7 +37,7 @@ export default function SharePopup({
   const [shareClipboardWrite, setShareClipboardWrite] = useState(false);
 
   return (
-    <Modal isOpen={isOpen} onClose={onClose} backdrop="blur">
+    <Modal isOpen={isOpen} onClose={onClose} backdrop="blur" >
       <ModalContent>
         {(onClose) => (
           <>

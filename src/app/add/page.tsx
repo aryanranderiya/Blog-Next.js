@@ -193,7 +193,7 @@ export default function AddPost() {
               onValueChange={setImageUrl}
               value={imageUrl}
               variant="faded"
-              placeholder="https://github.com/aryanranderiya.png"
+              placeholder="https://aryanranderiya.com/media/wallpaper1.png"
               isClearable
               label="Enter URL for Post Banner image"
             />
