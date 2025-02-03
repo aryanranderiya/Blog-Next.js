@@ -140,9 +140,9 @@ export default function BlogPageInfo({ post }: { post: Post }) {
             </h1> */}
           <Giscus
             id="comments"
-            repo="aryanranderiya/aryansblog"
+            repo="aryanranderiya/Blog-Next.js"
             repoId="R_kgDOMqD_Fg"
-            category="Announcements"
+            category="General"
             categoryId="DIC_kwDOMqD_Fs4CjI8C"
             mapping="pathname"
             term="Welcome to @giscus/react component!"
